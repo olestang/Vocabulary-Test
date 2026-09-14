@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#dceff8">
+  <title>Submission · VG1 Vocabulary Test</title>
+  <link rel="icon" href="../assets/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../styles/main.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="brand"><img src="../assets/logo.svg" alt=""><span>Vocabulary Test Submission</span></div>
+  <div class="header-meta"><span id="current-pupil"></span><a href="../history/">My results</a></div>
+</header>
+<main id="main" class="shell">
+  <section id="no-submission" class="card narrow" hidden>
+    <p class="eyebrow">Submission</p>
+    <h1>No submitted attempt was found</h1>
+    <p class="lead">Finish and submit a vocabulary test first. Your most recent submitted attempt will then be available on this page.</p>
+    <div class="actions"><a class="btn" href="../">Go to test code</a></div>
+  </section>
+
+  <section id="submission-screen" class="card narrow" hidden>
+    <p class="eyebrow">Finished</p>
+    <h1 id="finished-test-label"></h1>
+    <div id="finished-before-confirm">
+      <p class="lead">Copy the generated link and submit it in Teams. Do not change the link.</p>
+      <div class="form-row"><label for="submission-url">Teacher submission link</label><textarea id="submission-url" readonly></textarea></div>
+      <p>Receipt: <span id="receipt-code" class="receipt"></span></p>
+      <p id="copy-status" class="status" hidden></p>
+      <div class="actions">
+        <button id="copy-url" class="btn" type="button">Copy link</button>
+        <button id="verify-url" class="btn btn-secondary" type="button">Verify link</button>
+        <button id="confirm-handin" class="btn btn-success" type="button">I have submitted the link</button>
+      </div>
+    </div>
+    <div id="finished-after-confirm" hidden>
+      <div class="callout"><strong>Submitted.</strong> Keep this page open. The green screen lets the teacher see that you are finished.</div>
+      <div class="actions">
+        <button id="practice-button" class="btn btn-success" type="button">Practice next week’s words</button>
+        <button id="new-test-button" class="btn btn-secondary" type="button">Enter another test code</button>
+      </div>
+      <hr>
+      <h2>Estimated results release</h2>
+      <p>When the teacher gives you a signed release token, paste it below. The estimate is not the final corrected result.</p>
+      <div class="form-row"><label for="release-token">Teacher release token</label><textarea id="release-token" spellcheck="false"></textarea></div>
+      <div class="actions"><button id="release-button" class="btn" type="button">Open estimated results</button></div>
+      <p id="release-status" class="status" hidden></p>
+      <div id="estimated-results" hidden><p id="estimated-summary" class="callout"></p><div id="estimated-list"></div></div>
+    </div>
+  </section>
+
+  <section id="practice-screen" class="card practice-shell" hidden>
+    <p class="eyebrow">Finished pupil practice</p>
+    <h1 id="practice-title"></h1>
+    <p id="practice-progress" class="muted"></p><p>Current word mastery: <strong id="practice-mastery">New</strong></p>
+    <div id="practice-card">
+      <div id="practice-direction" class="direction"></div>
+      <h2 id="practice-prompt" class="prompt"></h2>
+      <div class="form-row"><label for="practice-answer">Answer</label><input id="practice-answer" class="input-large" autocomplete="off" spellcheck="false"></div>
+      <div id="practice-feedback" class="feedback" hidden></div>
+      <div class="actions"><button id="practice-check" class="btn" type="button">Check answer</button><button id="practice-next" class="btn btn-secondary" type="button">Next practice word</button><button id="practice-back" class="btn btn-link" type="button">Back to submission</button></div>
+    </div>
+    <div id="practice-complete" class="center" hidden><h2>Practice round complete</h2><p>You answered every weak word correctly twice in this round.</p><button id="practice-complete-back" class="btn btn-success" type="button">Back to submission</button></div>
+  </section>
+</main>
+<footer class="footer">Submission details are stored locally on this browser</footer>
+<script type="module" src="../scripts/page-submit.js"></script>
+<script type="module" src="../scripts/register-service-worker.js"></script>
+<script type="module" src="../scripts/header.js"></script>
+</body>
+</html>

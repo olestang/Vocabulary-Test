@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#dceff8"><title>Diagnostics · VG1 Vocabulary Test</title><link rel="icon" href="../assets/logo.svg" type="image/svg+xml"><link rel="stylesheet" href="../styles/main.css"></head>
+<body>
+<header class="site-header"><div class="brand"><img src="../assets/logo.svg" alt=""><span>Deployment Diagnostics</span></div><div class="header-meta"><a href="../">Pupil site</a><a href="../teacher/">Teacher dashboard</a></div></header>
+<main class="shell"><section class="card narrow"><p class="eyebrow">Development / deployment check</p><h1>Static-site diagnostics</h1><p class="lead">Run these checks after changing configuration or publishing to GitHub Pages.</p><div class="callout callout-warning">This page checks loading, encoding, Web Crypto, localStorage, and grading basics after configuration or deployment changes.</div><div class="actions"><button id="run-diagnostics" class="btn" type="button">Run diagnostics</button></div><p id="diagnostic-status" class="status" hidden></p><ul id="diagnostic-list" class="diag-list"></ul></section></main>
+<footer class="footer">Safe to remove from a production deployment if you prefer; it contains no private key</footer>
+<script type="module" src="../scripts/page-diagnostics.js"></script><script type="module" src="../scripts/register-service-worker.js"></script>
+<script type="module" src="../scripts/header.js"></script>
+</body>
+</html>

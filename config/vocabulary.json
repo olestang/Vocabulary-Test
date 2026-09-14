@@ -1,0 +1,543 @@
+{
+  "version": 1,
+  "items": [
+    {
+      "id": 0,
+      "en": "nurse",
+      "no": "sykepleier",
+      "synonymsEn": [
+        "nursing professional"
+      ],
+      "synonymsNo": [
+        "sjukepleiar"
+      ],
+      "definition": "A trained health worker who cares for people and supports treatment."
+    },
+    {
+      "id": 1,
+      "en": "patient",
+      "no": "pasient",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "A person who receives care or treatment from health services."
+    },
+    {
+      "id": 2,
+      "en": "wound",
+      "no": "sår",
+      "synonymsEn": [
+        "injury"
+      ],
+      "synonymsNo": [],
+      "definition": "Damage to body tissue, often involving a cut or broken skin."
+    },
+    {
+      "id": 3,
+      "en": "bandage",
+      "no": "bandasje",
+      "synonymsEn": [
+        "dressing"
+      ],
+      "synonymsNo": [],
+      "definition": "Material wrapped around a body part to protect damaged tissue."
+    },
+    {
+      "id": 4,
+      "en": "blood",
+      "no": "blod",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "The red fluid that carries oxygen and nutrients around the body."
+    },
+    {
+      "id": 5,
+      "en": "heart",
+      "no": "hjerte",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "The organ that pumps blood through the body."
+    },
+    {
+      "id": 6,
+      "en": "lungs",
+      "no": "lunger",
+      "synonymsEn": [
+        "lung"
+      ],
+      "synonymsNo": [
+        "lunge"
+      ],
+      "definition": "The organs in the chest used to take oxygen into the body."
+    },
+    {
+      "id": 7,
+      "en": "breathing",
+      "no": "pust",
+      "synonymsEn": [
+        "respiration"
+      ],
+      "synonymsNo": [
+        "pusting"
+      ],
+      "definition": "The process of taking air into and out of the body."
+    },
+    {
+      "id": 8,
+      "en": "pain",
+      "no": "smerte",
+      "synonymsEn": [
+        "ache"
+      ],
+      "synonymsNo": [
+        "vondt"
+      ],
+      "definition": "An unpleasant physical feeling that can signal damage or illness."
+    },
+    {
+      "id": 9,
+      "en": "fever",
+      "no": "feber",
+      "synonymsEn": [
+        "high temperature"
+      ],
+      "synonymsNo": [],
+      "definition": "A body temperature that is higher than normal, often during illness."
+    },
+    {
+      "id": 10,
+      "en": "infection",
+      "no": "infeksjon",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "When harmful microorganisms enter the body and multiply."
+    },
+    {
+      "id": 11,
+      "en": "medicine",
+      "no": "medisin",
+      "synonymsEn": [
+        "medication"
+      ],
+      "synonymsNo": [
+        "legemiddel"
+      ],
+      "definition": "A substance used to prevent, relieve, or treat disease."
+    },
+    {
+      "id": 12,
+      "en": "care",
+      "no": "omsorg",
+      "synonymsEn": [
+        "supportive care"
+      ],
+      "synonymsNo": [
+        "pleie"
+      ],
+      "definition": "Practical and emotional help given to meet a person’s needs."
+    },
+    {
+      "id": 13,
+      "en": "hygiene",
+      "no": "hygiene",
+      "synonymsEn": [
+        "cleanliness"
+      ],
+      "synonymsNo": [
+        "renhold"
+      ],
+      "definition": "Practices that help keep the body and surroundings clean and reduce spread of disease."
+    },
+    {
+      "id": 14,
+      "en": "exercise",
+      "no": "trening",
+      "synonymsEn": [
+        "physical activity"
+      ],
+      "synonymsNo": [
+        "mosjon"
+      ],
+      "definition": "Movement of the body done to improve or maintain physical condition."
+    },
+    {
+      "id": 15,
+      "en": "nutrition",
+      "no": "ernæring",
+      "synonymsEn": [
+        "dietary health"
+      ],
+      "synonymsNo": [
+        "kosthold"
+      ],
+      "definition": "How food and nutrients support the body’s growth, energy, and health."
+    },
+    {
+      "id": 16,
+      "en": "sleep",
+      "no": "søvn",
+      "synonymsEn": [
+        "rest"
+      ],
+      "synonymsNo": [],
+      "definition": "The natural state of reduced awareness that lets the body and mind recover."
+    },
+    {
+      "id": 17,
+      "en": "stress",
+      "no": "stress",
+      "synonymsEn": [
+        "pressure"
+      ],
+      "synonymsNo": [
+        "belastning"
+      ],
+      "definition": "A physical or emotional response to demands or difficult situations."
+    },
+    {
+      "id": 18,
+      "en": "safety",
+      "no": "sikkerhet",
+      "synonymsEn": [
+        "security"
+      ],
+      "synonymsNo": [
+        "trygghet"
+      ],
+      "definition": "Conditions and actions that reduce the risk of harm."
+    },
+    {
+      "id": 19,
+      "en": "emergency",
+      "no": "nødsituasjon",
+      "synonymsEn": [
+        "urgent situation"
+      ],
+      "synonymsNo": [
+        "krisesituasjon"
+      ],
+      "definition": "A serious unexpected situation that requires immediate action."
+    },
+    {
+      "id": 20,
+      "en": "allergy",
+      "no": "allergi",
+      "synonymsEn": [
+        "allergic reaction"
+      ],
+      "synonymsNo": [],
+      "definition": "An immune response to a substance that is normally harmless to many people."
+    },
+    {
+      "id": 21,
+      "en": "healthy",
+      "no": "sunn",
+      "synonymsEn": [
+        "well"
+      ],
+      "synonymsNo": [
+        "frisk"
+      ],
+      "definition": "In a condition that supports good physical or mental functioning."
+    },
+    {
+      "id": 22,
+      "en": "illness",
+      "no": "sykdom",
+      "synonymsEn": [
+        "disease"
+      ],
+      "synonymsNo": [],
+      "definition": "A condition in which the body or mind is not functioning normally."
+    },
+    {
+      "id": 23,
+      "en": "injury",
+      "no": "skade",
+      "synonymsEn": [
+        "harm"
+      ],
+      "synonymsNo": [],
+      "definition": "Physical damage caused by an accident, impact, or other event."
+    },
+    {
+      "id": 24,
+      "en": "recovery",
+      "no": "bedring",
+      "synonymsEn": [
+        "healing"
+      ],
+      "synonymsNo": [
+        "tilfriskning"
+      ],
+      "definition": "The process of becoming stronger or returning to normal after a problem."
+    },
+    {
+      "id": 25,
+      "en": "pulse",
+      "no": "puls",
+      "synonymsEn": [
+        "heart rate"
+      ],
+      "synonymsNo": [],
+      "definition": "The regular beat that can be felt in an artery as the heart pumps."
+    },
+    {
+      "id": 26,
+      "en": "skin",
+      "no": "hud",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "The outer covering of the body that protects tissues underneath."
+    },
+    {
+      "id": 27,
+      "en": "bone",
+      "no": "knokkel",
+      "synonymsEn": [
+        "skeleton part"
+      ],
+      "synonymsNo": [
+        "bein"
+      ],
+      "definition": "A hard part of the body that forms the skeleton."
+    },
+    {
+      "id": 28,
+      "en": "muscle",
+      "no": "muskel",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "Body tissue that contracts to create movement or maintain posture."
+    },
+    {
+      "id": 29,
+      "en": "joint",
+      "no": "ledd",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "A place where two or more bones meet and movement may occur."
+    },
+    {
+      "id": 30,
+      "en": "stomach",
+      "no": "mage",
+      "synonymsEn": [
+        "abdomen"
+      ],
+      "synonymsNo": [
+        "magesekk"
+      ],
+      "definition": "A part of the digestive system where food is mixed and broken down."
+    },
+    {
+      "id": 31,
+      "en": "head",
+      "no": "hode",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "The upper part of the body containing the brain, eyes, ears, nose, and mouth."
+    },
+    {
+      "id": 32,
+      "en": "throat",
+      "no": "hals",
+      "synonymsEn": [
+        "pharynx"
+      ],
+      "synonymsNo": [],
+      "definition": "The passage behind the mouth that connects toward the airways and digestive tract."
+    },
+    {
+      "id": 33,
+      "en": "cough",
+      "no": "hoste",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "A sudden action that pushes air out of the airways to clear irritation."
+    },
+    {
+      "id": 34,
+      "en": "dizzy",
+      "no": "svimmel",
+      "synonymsEn": [
+        "light-headed"
+      ],
+      "synonymsNo": [],
+      "definition": "Feeling as if you or the surroundings are moving or unsteady."
+    },
+    {
+      "id": 35,
+      "en": "tired",
+      "no": "sliten",
+      "synonymsEn": [
+        "fatigued"
+      ],
+      "synonymsNo": [
+        "trøtt"
+      ],
+      "definition": "Having little energy and needing rest."
+    },
+    {
+      "id": 36,
+      "en": "appointment",
+      "no": "timeavtale",
+      "synonymsEn": [
+        "scheduled visit"
+      ],
+      "synonymsNo": [
+        "avtale"
+      ],
+      "definition": "A planned time to meet a professional or attend a service."
+    },
+    {
+      "id": 37,
+      "en": "consent",
+      "no": "samtykke",
+      "synonymsEn": [
+        "permission"
+      ],
+      "synonymsNo": [
+        "godkjenning"
+      ],
+      "definition": "A voluntary agreement given after receiving enough relevant information."
+    },
+    {
+      "id": 38,
+      "en": "privacy",
+      "no": "personvern",
+      "synonymsEn": [
+        "confidentiality"
+      ],
+      "synonymsNo": [
+        "privatliv"
+      ],
+      "definition": "Protection of personal information and a person’s private sphere."
+    },
+    {
+      "id": 39,
+      "en": "support",
+      "no": "støtte",
+      "synonymsEn": [
+        "help"
+      ],
+      "synonymsNo": [
+        "hjelp"
+      ],
+      "definition": "Assistance that makes it easier for someone to manage a situation or task."
+    },
+    {
+      "id": 40,
+      "en": "respect",
+      "no": "respekt",
+      "synonymsEn": [
+        "consideration"
+      ],
+      "synonymsNo": [
+        "aktelse"
+      ],
+      "definition": "Treating another person as having value, rights, and dignity."
+    },
+    {
+      "id": 41,
+      "en": "communication",
+      "no": "kommunikasjon",
+      "synonymsEn": [
+        "interaction"
+      ],
+      "synonymsNo": [
+        "formidling"
+      ],
+      "definition": "The exchange of information, ideas, feelings, or messages between people."
+    },
+    {
+      "id": 42,
+      "en": "colleague",
+      "no": "kollega",
+      "synonymsEn": [
+        "coworker"
+      ],
+      "synonymsNo": [
+        "medarbeider"
+      ],
+      "definition": "A person you work with in the same workplace or profession."
+    },
+    {
+      "id": 43,
+      "en": "workplace",
+      "no": "arbeidsplass",
+      "synonymsEn": [
+        "place of work"
+      ],
+      "synonymsNo": [
+        "jobb"
+      ],
+      "definition": "The setting where a person performs their job."
+    },
+    {
+      "id": 44,
+      "en": "childcare",
+      "no": "barneomsorg",
+      "synonymsEn": [
+        "care of children"
+      ],
+      "synonymsNo": [
+        "barnepass"
+      ],
+      "definition": "Work and services that look after children and support their development."
+    },
+    {
+      "id": 45,
+      "en": "elderly person",
+      "no": "eldre person",
+      "synonymsEn": [
+        "older adult"
+      ],
+      "synonymsNo": [
+        "eldre"
+      ],
+      "definition": "An adult in a later stage of life who may have age-related needs."
+    },
+    {
+      "id": 46,
+      "en": "mental health",
+      "no": "psykisk helse",
+      "synonymsEn": [
+        "emotional wellbeing"
+      ],
+      "synonymsNo": [
+        "mental helse"
+      ],
+      "definition": "How a person thinks, feels, copes, and functions psychologically."
+    },
+    {
+      "id": 47,
+      "en": "first aid",
+      "no": "førstehjelp",
+      "synonymsEn": [
+        "emergency aid"
+      ],
+      "synonymsNo": [],
+      "definition": "Immediate basic help given before professional medical treatment is available."
+    },
+    {
+      "id": 48,
+      "en": "blood pressure",
+      "no": "blodtrykk",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "The force of circulating blood against the walls of the arteries."
+    },
+    {
+      "id": 49,
+      "en": "temperature",
+      "no": "temperatur",
+      "synonymsEn": [
+        "body temperature"
+      ],
+      "synonymsNo": [
+        "kroppstemperatur"
+      ],
+      "definition": "A measurement of how warm or cold the body or environment is."
+    }
+  ]
+}

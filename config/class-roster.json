@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "classLabel": "VG1 Helse og oppvekst",
+  "pupils": [
+    {
+      "id": 0,
+      "name": "Ole",
+      "active": true
+    },
+    {
+      "id": 1,
+      "name": "Kari",
+      "active": true
+    },
+    {
+      "id": 2,
+      "name": "Balto",
+      "active": true
+    }
+  ]
+}

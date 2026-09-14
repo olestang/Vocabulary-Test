@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#dceff8"><title>My Results · VG1 Vocabulary Test</title><link rel="icon" href="../assets/logo.svg" type="image/svg+xml"><link rel="stylesheet" href="../styles/main.css"></head>
+<body>
+<header class="site-header"><div class="brand"><img src="../assets/logo.svg" alt=""><span>My Vocabulary Results</span></div><div class="header-meta"><a href="../">Back to test site</a></div></header>
+<main class="shell">
+  <section id="pupil-dashboard-warning" class="card narrow" hidden><h1>No pupil identity is saved</h1><p>Register on the pupil site first.</p><a class="btn" href="../">Go to pupil site</a></section>
+  <div id="pupil-dashboard-main">
+    <section class="card"><p class="eyebrow">Personal local history</p><h1 id="pupil-dashboard-name"></h1><p class="lead">These are final results that were successfully unlocked and saved on this browser.</p><div class="actions"><button id="export-history" class="btn btn-secondary" type="button">Export my history</button><label class="btn btn-secondary" for="import-history-file">Import my history</label><input id="import-history-file" type="file" accept="application/json,.json" hidden></div><p id="history-status" class="status" hidden></p><div id="history-list" class="history-list"></div></section>
+    <section id="history-detail" class="card" hidden><h2 id="history-detail-title"></h2><div id="history-detail-list"></div></section>
+  </div>
+</main>
+<footer class="footer">Result history is stored only in this browser unless you export/transfer it in a future extension</footer>
+<script type="module" src="../scripts/page-history.js"></script><script type="module" src="../scripts/register-service-worker.js"></script>
+<script type="module" src="../scripts/header.js"></script>
+</body>
+</html>

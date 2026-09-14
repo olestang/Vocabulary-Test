@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#dceff8">
+  <title>VG1 Vocabulary Test</title>
+  <link rel="icon" href="./assets/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles/main.css">
+  <script src="./scripts/submission-router.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="brand"><img src="./assets/logo.svg" alt=""><span>VG1 Vocabulary Test</span></div>
+  <div class="header-meta"><span id="current-pupil"></span><a href="./submit/">Last submission</a><a href="./history/">My results</a></div>
+</header>
+<main id="main" class="shell">
+  <section id="screen-registration" class="card narrow" hidden>
+    <p class="eyebrow">First use on this browser</p>
+    <h1>Choose your pupil name</h1>
+    <p class="lead">Your identity is saved locally on this browser so you do not need to type your name for every test.</p>
+    <div class="form-row"><label for="pupil-select">Pupil</label><select id="pupil-select"></select></div>
+    <div class="actions"><button id="register-button" class="btn" type="button">Save pupil</button></div>
+  </section>
+
+  <section id="screen-code" class="card narrow" hidden>
+    <p class="eyebrow">Vocabulary test</p>
+    <h1>Enter today’s test code</h1>
+    <p class="lead">Use the code given by your teacher.</p>
+    <form id="code-form">
+      <div class="form-row"><label for="test-code">Test code</label><input id="test-code" class="input-large" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="20" required></div>
+      <p id="code-status" class="status" hidden></p>
+      <div class="actions"><button class="btn" type="submit">Continue</button><button id="reset-pupil" class="btn btn-link" type="button">This is not me / reset pupil</button></div>
+    </form>
+  </section>
+
+  <section id="screen-rules" class="card narrow" hidden>
+    <p class="eyebrow">Before you start</p>
+    <h1 id="rules-test-label"></h1>
+    <div class="callout"><strong id="opening-countdown">Checking opening time…</strong></div>
+    <ul class="rules">
+      <li>You will answer <strong id="rules-count"></strong> vocabulary questions, one at a time.</li>
+      <li id="rules-fullscreen"></li>
+      <li>Stay on this page until you have submitted your generated link in Teams.</li>
+      <li>Do not switch tabs/windows or leave full-screen. An integrity event can lock the test and require teacher intervention.</li>
+      <li>Pasting into the answer field is disabled.</li>
+      <li>You may go back only to the immediately previous word.</li>
+    </ul>
+    <div class="callout"><strong>Display accommodations</strong><div class="actions"><label><input id="access-large-text" type="checkbox" style="width:auto"> Larger text</label><label><input id="access-high-contrast" type="checkbox" style="width:auto"> Higher contrast</label></div><small class="muted">These change presentation only; they do not change questions, scoring, or timing.</small></div>
+    <div class="actions"><button id="start-test" class="btn" type="button" disabled>Start test</button></div>
+  </section>
+
+  <section id="screen-test" class="question-shell" hidden>
+    <div class="test-topline"><span id="question-progress">1 of 20</span><span id="violation-pill" class="pill">0 integrity events</span></div>
+    <div class="question-card">
+      <div id="question-direction" class="direction"></div>
+      <h1 id="question-prompt" class="prompt"></h1>
+      <div class="form-row answer-box"><label class="sr-only" for="answer-input">Your answer</label><input id="answer-input" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="Type your answer"></div>
+      <button id="definition-toggle" class="btn btn-link" type="button">Show definition</button>
+      <p id="definition-wrap" class="definition" hidden><span id="definition-text"></span></p>
+      <p id="test-status" class="status" hidden></p>
+      <div class="question-nav"><button id="back-button" class="btn btn-secondary" type="button">Back one</button><button id="next-button" class="btn" type="button">Next</button></div>
+    </div>
+  </section>
+
+  <section id="screen-submit" class="card narrow" hidden>
+    <p class="eyebrow">Final submission</p>
+    <h1>Submit your attempt</h1>
+    <p id="submit-test-label" class="lead"></p>
+    <div class="metrics"><div class="metric"><strong id="submit-answer-count"></strong><span>Answers</span></div><div class="metric"><strong id="submit-duration"></strong><span>Time used</span></div></div>
+    <p>No estimated score is shown before submission.</p>
+    <div class="form-row"><label for="pin-code">Choose a four-digit result code</label><input id="pin-code" class="input-large" inputmode="numeric" maxlength="4" pattern="\d{4}" autocomplete="off" placeholder="1234"><small class="muted">Remember these four digits. You will use them later to unlock your final result.</small></div>
+    <p id="submit-status" class="status" hidden></p>
+    <div class="actions"><button id="back-to-last-question" class="btn btn-secondary" type="button">Back to last question</button><button id="submit-final" class="btn btn-success" type="button">Submit results</button></div>
+  </section>
+
+  <section id="screen-finished" class="card narrow finished-card" hidden>
+    <p class="eyebrow">Finished</p>
+    <h1 id="finished-test-label"></h1>
+    <div id="finished-before-confirm">
+      <p class="lead">Copy the generated link and submit it in Teams. Do not change the link.</p>
+      <div class="form-row"><label for="submission-url">Teacher submission link</label><textarea id="submission-url" readonly></textarea></div>
+      <p>Receipt: <span id="receipt-code" class="receipt"></span></p>
+      <p id="copy-status" class="status" hidden></p>
+      <div class="actions"><button id="copy-url" class="btn" type="button">Copy link</button><button id="verify-url" class="btn btn-secondary" type="button">Verify copied link</button><button id="confirm-handin" class="btn btn-success" type="button">I have submitted the link</button></div>
+    </div>
+    <div id="finished-after-confirm" hidden>
+      <div class="callout"><strong>Submitted.</strong> Keep this page open. The green screen lets the teacher see that you are finished.</div>
+      <div class="actions"><button id="practice-button" class="btn btn-success" type="button">Practice next week’s words</button><button id="new-test-button" class="btn btn-secondary" type="button">Enter another test code</button></div>
+      <hr>
+      <h2>Estimated results release</h2>
+      <p>When the teacher gives you a signed release token, paste it below. The estimate is not the final corrected result.</p>
+      <div class="form-row"><label for="release-token">Teacher release token</label><textarea id="release-token" spellcheck="false"></textarea></div>
+      <div class="actions"><button id="release-button" class="btn" type="button">Open estimated results</button></div>
+      <p id="release-status" class="status" hidden></p>
+      <div id="estimated-results" hidden><p id="estimated-summary" class="callout"></p><div id="estimated-list"></div></div>
+    </div>
+  </section>
+
+  <section id="screen-practice" class="card practice-shell" hidden>
+    <p class="eyebrow">Finished pupil practice</p>
+    <h1 id="practice-title"></h1>
+    <p id="practice-progress" class="muted"></p><p>Current word mastery: <strong id="practice-mastery">New</strong></p>
+    <div id="practice-card">
+      <div id="practice-direction" class="direction"></div>
+      <h2 id="practice-prompt" class="prompt"></h2>
+      <div class="form-row"><label for="practice-answer">Answer</label><input id="practice-answer" class="input-large" autocomplete="off" spellcheck="false"></div>
+      <div id="practice-feedback" class="feedback" hidden></div>
+      <div class="actions"><button id="practice-check" class="btn" type="button">Check answer</button><button id="practice-next" class="btn btn-secondary" type="button">Next practice word</button><button id="practice-back" class="btn btn-link" type="button">Back to finished screen</button></div>
+    </div>
+    <div id="practice-complete" class="center" hidden><h2>Practice round complete</h2><p>You answered every weak word correctly twice in this round.</p><button id="practice-complete-back" class="btn btn-success" type="button">Back to finished screen</button></div>
+  </section>
+</main>
+
+<div id="blank-dialog" class="overlay" hidden role="dialog" aria-modal="true" aria-labelledby="blank-title">
+  <div class="overlay-card"><h2 id="blank-title">Leave this answer blank?</h2><p>You have not entered an answer. Do you want to submit this word as blank?</p><div class="actions"><button id="blank-cancel" class="btn btn-secondary" type="button">Go back and answer</button><button id="blank-confirm" class="btn btn-danger" type="button">Submit blank</button></div></div>
+</div>
+
+<div id="lock-screen" class="lock-screen" hidden role="dialog" aria-modal="true" aria-labelledby="lock-title">
+  <div class="lock-card"><p class="eyebrow">Teacher intervention required</p><h2 id="lock-title">Test locked</h2><p>The page detected a tab/window/full-screen event. This attempt now has <strong id="lock-count"></strong> recorded integrity event(s).</p><p>Tell your teacher this five-letter request:</p><p id="unlock-request" class="unlock-big-code"></p><div class="form-row"><label for="unlock-token">Five-letter teacher unlock code</label><input id="unlock-token" class="unlock-code-input" maxlength="5" autocomplete="off" autocapitalize="characters" spellcheck="false"></div><p id="unlock-status" class="status" hidden></p><div class="actions"><button id="unlock-button" class="btn btn-danger" type="button">Unlock test</button></div></div>
+</div>
+
+<footer class="footer">Static client-side assessment tool · no server or database</footer>
+<script type="module" src="./scripts/page-test.js"></script>
+<script type="module" src="./scripts/register-service-worker.js"></script>
+<script type="module" src="./scripts/header.js"></script>
+</body>
+</html>

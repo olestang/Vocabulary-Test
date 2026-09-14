@@ -1,4 +1,4 @@
-const CACHE = 'vg1-vocab-static-v5';
+const CACHE = 'vg1-vocab-static-v6';
 const ASSETS = [
   './', './index.html', './become-teacher/', './become-teacher/index.html', './submit/', './submit/index.html', './teacher/', './teacher/index.html', './results/', './results/index.html', './history/', './history/index.html', './diagnostics/', './diagnostics/index.html',
   './styles/main.css', './assets/logo.svg',

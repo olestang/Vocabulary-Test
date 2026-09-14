@@ -359,10 +359,39 @@ function installIntegrityMonitors() {
     if (!state.monitorActive || !record || !fullscreenRequired || document.fullscreenElement) return;
     addViolation('fullscreen-exit', true);
   });
+  // Losing browser focus during a protected session is treated as a lock event.
+  // A short delay avoids locking on transient focus changes caused by browser UI,
+  // while still catching Alt+Tab / switching applications reliably.
   window.addEventListener('blur', () => {
+    if (!state.monitorActive) return;
+    window.setTimeout(() => {
+      const record = currentGuardRecord();
+      if (!state.monitorActive || !record || record.locked || record.submitted) return;
+      if (!document.hasFocus()) addViolation('window-blur', true);
+    }, 150);
+  });
+
+  // If the page becomes visible/focused again with a persisted locked state,
+  // force the red lock overlay back on screen immediately.
+  window.addEventListener('focus', () => {
     const record = currentGuardRecord();
-    if (!state.monitorActive || !record || record.locked) return;
-    addViolation('window-blur', false);
+    if (state.monitorActive && record?.locked) showLock();
+  });
+
+  window.addEventListener('pageshow', () => {
+    const record = currentGuardRecord();
+    if (state.monitorActive && record?.locked) showLock();
+  });
+
+  window.addEventListener('pagehide', () => {
+    const record = currentGuardRecord();
+    if (!state.monitorActive || !record || record.submitted || record.locked) return;
+    const now = Date.now();
+    record.violationCount = (record.violationCount || 0) + 1;
+    record.violationEvents ||= [];
+    record.violationEvents.push({ type: 'page-hidden-or-left', at: now, lockEligible: true });
+    record.locked = true;
+    persistGuardRecord(record);
   });
   window.addEventListener('beforeunload', event => {
     const record = currentGuardRecord();

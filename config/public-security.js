@@ -7,10 +7,10 @@ export const PUBLIC_SECURITY = Object.freeze({
       "verify"
     ],
     "kty": "EC",
-    "x": "0cyKxJrSL5QuWWZCBmB84HDTaBNzsQDChpXBDatlhCE",
-    "y": "bSmjoIBOjt_H-fiiVj20QdKOjXj7C27bNEW4PnWaaG8"
+    "x": "EDXjwqi8ECuJd63t8Hg7a3jvbcFkW2p3Udm3PZdjIYM",
+    "y": "4zKFBkU0ZrKjRtaE6LRj9pormrYnuY552odG4Q80P3Y"
   }),
-  publicKeySha256: '486a4c45bdfa442dc711660d4752f0a0f767a9985b9e360a77fdbb4927bc1ae3',
+  publicKeySha256: 'b999b73eae6f38cfe1b997a0bea8afa476db6e5c44cef10ab78b096b3d350949',
   classUnlockKey: 'AZKBGUXWV3W7GH85Q5AX',
   hashedValues: Object.freeze({})
 });

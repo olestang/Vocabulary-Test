@@ -4,7 +4,7 @@ import { gradeAnswer } from './grading.js';
 import { encodeCheckedPayload, decodeCheckedPayload, verifySignedToken, encryptForPin, decryptForPin } from './cryptography.js';
 import { $, setStatus } from './utilities.js';
 
-const DIAGNOSTIC_SIGNED_TOKEN = 'eyJraW5kIjoiZGlhZ25vc3RpYyIsIm1lc3NhZ2UiOiJ2ZzEtdm9jYWIta2V5LWNoZWNrIiwidiI6MX0.Aqu4LtLA1PXLE9AnCDqRrz6BaYPNoH4zoSkz1DTShoMFJY-K_FZtYsRi-TNE8Ufo9P5RcYLt3QN_fblQ8l_RfA';
+const DIAGNOSTIC_SIGNED_TOKEN = 'eyJraW5kIjoiZGlhZ25vc3RpYyIsIm1lc3NhZ2UiOiJ2ZzEtdm9jYWIta2V5LWNoZWNrIiwidiI6MX0.7wyavTTjdw_NG4cZXdU9AfgA-X0kiQcc0ZziKqDNvw1IZGbjF_Sf4nlFE928uQBX2vl0LAWWJTr9XxmemXPNDQ';
 
 function addResult(name, ok, detail = '') {
   const li = document.createElement('li');

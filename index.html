@@ -24,6 +24,15 @@
     <div class="actions"><button id="register-button" class="btn" type="button">Save pupil</button></div>
   </section>
 
+  <section id="screen-ready" class="card narrow" hidden>
+    <p class="eyebrow">Before you begin</p>
+    <h1>Ready to start a test?</h1>
+    <p class="lead">Once you continue, stay on this test page until you have submitted your result. If you need to stop before finishing, ask your teacher.</p>
+    <div class="callout"><strong>When you continue:</strong> the test session starts before you enter today’s code.</div>
+    <div class="actions"><button id="begin-secure-session" class="btn" type="button">Yes, start my test session</button><button id="reset-pupil" class="btn btn-link" type="button">This is not me / reset pupil</button></div>
+    <p id="ready-status" class="status" hidden></p>
+  </section>
+
   <section id="screen-code" class="card narrow" hidden>
     <p class="eyebrow">Vocabulary test</p>
     <h1>Enter today’s test code</h1>
@@ -31,7 +40,7 @@
     <form id="code-form">
       <div class="form-row"><label for="test-code">Test code</label><input id="test-code" class="input-large" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="20" required></div>
       <p id="code-status" class="status" hidden></p>
-      <div class="actions"><button class="btn" type="submit">Continue</button><button id="reset-pupil" class="btn btn-link" type="button">This is not me / reset pupil</button></div>
+      <div class="actions"><button class="btn" type="submit">Continue</button><button id="request-session-exit" class="btn btn-link" type="button">I need to stop — ask teacher</button></div>
     </form>
   </section>
 
@@ -43,16 +52,17 @@
       <li>You will answer <strong id="rules-count"></strong> vocabulary questions, one at a time.</li>
       <li id="rules-fullscreen"></li>
       <li>Stay on this page until you have submitted your generated link in Teams.</li>
-      <li>Do not switch tabs/windows or leave full-screen. An integrity event can lock the test and require teacher intervention.</li>
+      <li>Stay on this test page and in full-screen until you have submitted. If the test is interrupted, ask your teacher for help.</li>
       <li>Pasting into the answer field is disabled.</li>
       <li>You may go back only to the immediately previous word.</li>
+      <li>You can get full points even if you slightly misspell a word.</li>
     </ul>
     <div class="callout"><strong>Display accommodations</strong><div class="actions"><label><input id="access-large-text" type="checkbox" style="width:auto"> Larger text</label><label><input id="access-high-contrast" type="checkbox" style="width:auto"> Higher contrast</label></div><small class="muted">These change presentation only; they do not change questions, scoring, or timing.</small></div>
     <div class="actions"><button id="start-test" class="btn" type="button" disabled>Start test</button></div>
   </section>
 
   <section id="screen-test" class="question-shell" hidden>
-    <div class="test-topline"><span id="question-progress">1 of 20</span><span id="violation-pill" class="pill">0 integrity events</span></div>
+    <div class="test-topline"><span id="question-progress">1 of 20</span><span id="violation-pill" class="pill">0 interruptions</span></div>
     <div class="question-card">
       <div id="question-direction" class="direction"></div>
       <h1 id="question-prompt" class="prompt"></h1>
@@ -90,8 +100,8 @@
       <div class="actions"><button id="practice-button" class="btn btn-success" type="button">Practice next week’s words</button><button id="new-test-button" class="btn btn-secondary" type="button">Enter another test code</button></div>
       <hr>
       <h2>Estimated results release</h2>
-      <p>When the teacher gives you a signed release token, paste it below. The estimate is not the final corrected result.</p>
-      <div class="form-row"><label for="release-token">Teacher release token</label><textarea id="release-token" spellcheck="false"></textarea></div>
+      <p>When your teacher gives you a results release code, enter it below. The estimate is not the final corrected result.</p>
+      <div class="form-row"><label for="release-token">Teacher results release code</label><textarea id="release-token" spellcheck="false"></textarea></div>
       <div class="actions"><button id="release-button" class="btn" type="button">Open estimated results</button></div>
       <p id="release-status" class="status" hidden></p>
       <div id="estimated-results" hidden><p id="estimated-summary" class="callout"></p><div id="estimated-list"></div></div>
@@ -118,10 +128,10 @@
 </div>
 
 <div id="lock-screen" class="lock-screen" hidden role="dialog" aria-modal="true" aria-labelledby="lock-title">
-  <div class="lock-card"><p class="eyebrow">Teacher intervention required</p><h2 id="lock-title">Test locked</h2><p>The page detected a tab/window/full-screen event. This attempt now has <strong id="lock-count"></strong> recorded integrity event(s).</p><p>Tell your teacher this five-letter request:</p><p id="unlock-request" class="unlock-big-code"></p><div class="form-row"><label for="unlock-token">Five-letter teacher unlock code</label><input id="unlock-token" class="unlock-code-input" maxlength="5" autocomplete="off" autocapitalize="characters" spellcheck="false"></div><p id="unlock-status" class="status" hidden></p><div class="actions"><button id="unlock-button" class="btn btn-danger" type="button">Unlock test</button></div></div>
+  <div class="lock-card"><p class="eyebrow">Teacher help needed</p><h2 id="lock-title">Test paused</h2><p>This test session was interrupted. Ask your teacher before continuing or leaving the session.</p><p>Tell your teacher this five-letter request:</p><p id="unlock-request" class="unlock-big-code"></p><div class="form-row"><label for="unlock-token">Five-letter teacher unlock code</label><input id="unlock-token" class="unlock-code-input" maxlength="5" autocomplete="off" autocapitalize="characters" spellcheck="false"></div><p id="unlock-status" class="status" hidden></p><div class="actions"><button id="unlock-button" class="btn btn-danger" type="button">Unlock test</button></div></div>
 </div>
 
-<footer class="footer">Static client-side assessment tool · no server or database</footer>
+<footer class="footer">VG1 Vocabulary Test</footer>
 <script type="module" src="./scripts/page-test.js"></script>
 <script type="module" src="./scripts/register-service-worker.js"></script>
 <script type="module" src="./scripts/header.js"></script>

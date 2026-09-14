@@ -98,7 +98,7 @@ async function showEstimatedResultsFromRelease() {
   });
   $('#estimated-summary').textContent = `${grading.estimatedCorrect} automatically accepted, ${grading.uncertain} uncertain, ${grading.wrong} likely wrong. This is an estimate until teacher correction is final.`;
   $('#estimated-results').hidden = false;
-  setStatus($('#release-status'), 'Release token verified.', 'success');
+  setStatus($('#release-status'), 'Results release code accepted.', 'success');
 }
 
 function choosePracticeQuestion() {

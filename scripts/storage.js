@@ -20,6 +20,10 @@ export const storage = {
   setPupilIdentity(value) { write('pupilIdentity', value); },
   clearPupilIdentity() { localStorage.removeItem(key('pupilIdentity')); },
 
+  getEntrySession() { return read('entrySession'); },
+  saveEntrySession(value) { write('entrySession', value); },
+  clearEntrySession() { localStorage.removeItem(key('entrySession')); },
+
   getActiveAttempt() { return read('activeAttempt'); },
   saveActiveAttempt(value) { write('activeAttempt', value); },
   clearActiveAttempt() { localStorage.removeItem(key('activeAttempt')); },
@@ -55,5 +59,9 @@ export const storage = {
 
   getTeacherAccessToken() { return localStorage.getItem(key('teacherAccessToken')) || ''; },
   setTeacherAccessToken(token) { localStorage.setItem(key('teacherAccessToken'), token); },
-  clearTeacherAccessToken() { localStorage.removeItem(key('teacherAccessToken')); }
+  clearTeacherAccessToken() { localStorage.removeItem(key('teacherAccessToken')); },
+
+  getTeacherPrivateKey() { return read('teacherPrivateKey'); },
+  setTeacherPrivateKey(value) { write('teacherPrivateKey', value); },
+  clearTeacherPrivateKey() { localStorage.removeItem(key('teacherPrivateKey')); }
 };

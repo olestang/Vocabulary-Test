@@ -14,17 +14,20 @@ const state = {
   test: null,
   canonical: [],
   attempt: null,
+  entrySession: null,
   monitorActive: false,
   countdownTimer: null,
   nextEnabledAt: 0,
   practice: null
 };
 
-const screens = ['registration', 'code', 'rules', 'test', 'submit', 'finished', 'practice'];
+const screens = ['registration', 'ready', 'code', 'rules', 'test', 'submit', 'finished', 'practice'];
 
 function showScreen(name) {
   for (const screen of screens) setHidden($(`#screen-${screen}`), screen !== name);
   document.body.dataset.screen = name;
+  const active = ['code', 'rules', 'test', 'submit'].includes(name) && (!!state.entrySession || !!(state.attempt && !state.attempt.submitted));
+  document.body.classList.toggle('test-session-active', active);
 }
 
 function activePupils() {
@@ -51,6 +54,45 @@ function setPupil(pupil) {
   state.pupil = pupil;
   storage.setPupilIdentity({ id: pupil.id, name: pupil.name, registeredAt: Date.now() });
   $('#current-pupil').textContent = pupil.name;
+}
+
+function showReadyScreen(message = '') {
+  state.monitorActive = false;
+  showScreen('ready');
+  $('#current-pupil').textContent = state.pupil?.name || '';
+  setStatus($('#ready-status'), message, message ? 'info' : '');
+}
+
+function persistEntrySession() {
+  if (state.entrySession) storage.saveEntrySession(state.entrySession);
+}
+
+function createEntrySession() {
+  return {
+    v: 1,
+    sessionId: randomId(10),
+    pupilId: state.pupil.id,
+    startedAt: Date.now(),
+    violationCount: 0,
+    violationEvents: [],
+    locked: false,
+    unlockRequest: null,
+    stage: 'code',
+    testId: null
+  };
+}
+
+async function beginSecureSession() {
+  state.entrySession = createEntrySession();
+  persistEntrySession();
+  showCodeScreen();
+  try {
+    if (!document.fullscreenElement) await document.documentElement.requestFullscreen();
+    state.monitorActive = true;
+  } catch {
+    state.monitorActive = true;
+    addViolation('fullscreen-start-failed', true);
+  }
 }
 
 function showCodeScreen(message = '') {
@@ -104,8 +146,8 @@ function createAttempt() {
     configVersion: state.test.configVersion,
     startTime: Date.now(),
     finishTime: null,
-    violationCount: 0,
-    violationEvents: [],
+    violationCount: state.entrySession?.violationCount || 0,
+    violationEvents: [...(state.entrySession?.violationEvents || [])],
     locked: false,
     answers: Array(state.canonical.length).fill(''),
     answerEdits: Array(state.canonical.length).fill(0),
@@ -138,7 +180,7 @@ function renderQuestion() {
   $('#definition-toggle').hidden = !state.test.allowDefinitions || !question.item.definition;
   $('#back-button').disabled = !(a.position > 0 && a.position === a.furthestPosition);
   $('#next-button').textContent = a.position === a.questionOrder.length - 1 ? 'Review & submit' : 'Next';
-  $('#violation-pill').textContent = `${a.violationCount} integrity event${a.violationCount === 1 ? '' : 's'}`;
+  $('#violation-pill').textContent = `${a.violationCount} interruption${a.violationCount === 1 ? '' : 's'}`;
   state.nextEnabledAt = Date.now() + APP_CONFIG.nextButtonDelayMs;
   $('#next-button').disabled = true;
   setTimeout(() => {
@@ -225,38 +267,41 @@ function handleBack() {
   renderQuestion();
 }
 
+function currentGuardRecord() {
+  if (state.attempt && !state.attempt.submitted) return state.attempt;
+  return state.entrySession;
+}
+
+function persistGuardRecord(record) {
+  if (!record) return;
+  if (record === state.attempt) persistAttempt();
+  else persistEntrySession();
+}
+
 function addViolation(type, lock = true) {
-  if (!state.attempt || state.attempt.submitted) return;
-  if (state.attempt.locked) return;
+  const record = currentGuardRecord();
+  if (!record || record.submitted || record.locked) return;
   const now = Date.now();
-  const last = state.attempt.violationEvents.at(-1);
+  const last = record.violationEvents.at(-1);
   if (last && last.type === type && now - last.at < 800) return;
-  const recentLockIncident = lock && [...state.attempt.violationEvents].reverse().find(ev => ev.lockEligible && now - ev.at < 1500);
+  const recentLockIncident = lock && [...record.violationEvents].reverse().find(ev => ev.lockEligible && now - ev.at < 1500);
   const lockEligible = !!lock && !recentLockIncident;
-  state.attempt.violationCount += 1;
-  state.attempt.violationEvents.push({ type, at: now, lockEligible });
-  if (lockEligible) {
-    const policy = state.test.focusPolicy || 'lockImmediately';
-    const lockEligibleCount = state.attempt.violationEvents.filter(ev => ev.lockEligible).length;
-    if (policy === 'lockImmediately') state.attempt.locked = true;
-    else if (policy === 'warnOnceThenLock' && lockEligibleCount >= 2) state.attempt.locked = true;
-    else if (policy === 'recordOnly') state.attempt.locked = false;
-    if (!state.attempt.locked && policy !== 'recordOnly') {
-      setStatus($('#test-status'), 'An integrity event was recorded. Another event may lock the test.', 'warning');
-    }
-  }
-  persistAttempt();
-  if (state.attempt.locked) showLock();
-  else if ($('#violation-pill')) $('#violation-pill').textContent = `${state.attempt.violationCount} integrity events`;
+  record.violationCount += 1;
+  record.violationEvents.push({ type, at: now, lockEligible });
+  if (lockEligible) record.locked = true;
+  persistGuardRecord(record);
+  if (record.locked) showLock();
+  else if (state.attempt && $('#violation-pill')) $('#violation-pill').textContent = `${record.violationCount} interruptions`;
 }
 
 function showLock() {
-  const a = state.attempt;
-  if (!a) return;
-  $('#lock-count').textContent = String(a.violationCount);
-  a.unlockRequest = a.unlockRequest || makeUnlockRequest(a.attemptId, a.violationCount);
-  persistAttempt();
-  $('#unlock-request').textContent = a.unlockRequest;
+  const record = currentGuardRecord();
+  if (!record) return;
+  $('#lock-count').textContent = String(record.violationCount);
+  const id = record.attemptId || record.sessionId;
+  record.unlockRequest = record.unlockRequest || makeUnlockRequest(id, record.violationCount);
+  persistGuardRecord(record);
+  $('#unlock-request').textContent = record.unlockRequest;
   $('#unlock-token').value = '';
   setStatus($('#unlock-status'), '', '');
   $('#lock-screen').hidden = false;
@@ -269,22 +314,35 @@ function hideLock() {
 }
 
 async function unlockAttempt() {
+  const record = currentGuardRecord();
   const code = normalizeFiveLetters($('#unlock-token').value);
-  if (!state.attempt.unlockRequest || !verifyUnlockCode(state.attempt.unlockRequest, code)) {
-    setStatus($('#unlock-status'), 'That five-letter unlock code is not valid for this lock request.', 'error');
+  if (!record?.unlockRequest || !verifyUnlockCode(record.unlockRequest, code)) {
+    setStatus($('#unlock-status'), 'That five-letter code is not valid for this request.', 'error');
     return;
   }
-  state.attempt.locked = false;
-  state.attempt.violationEvents.push({ type: 'teacher-unlock', at: Date.now(), lockEligible: false });
-  state.attempt.unlockRequest = null;
-  persistAttempt();
+
+  record.locked = false;
+  record.violationEvents.push({ type: 'teacher-unlock', at: Date.now(), lockEligible: false });
+  record.unlockRequest = null;
   hideLock();
-  if (state.test.requireFullscreen && !document.fullscreenElement) {
+
+  if (record === state.entrySession && !state.attempt) {
+    storage.clearEntrySession();
+    state.entrySession = null;
+    state.test = null;
+    state.canonical = [];
+    state.monitorActive = false;
+    if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+    showReadyScreen('Your teacher ended the test session. You can start again when ready.');
+    return;
+  }
+
+  persistAttempt();
+  if (state.test?.requireFullscreen && !document.fullscreenElement) {
     try {
       await document.documentElement.requestFullscreen();
     } catch {
-      addViolation('fullscreen-reentry-denied', false);
-      setStatus($('#test-status'), 'Teacher unlock succeeded, but the browser did not re-enter full-screen. Ask the teacher before continuing.', 'warning');
+      setStatus($('#test-status'), 'The test could not return to full-screen. Ask your teacher before continuing.', 'warning');
     }
   }
   renderQuestion();
@@ -296,22 +354,35 @@ function installIntegrityMonitors() {
     addViolation('tab-or-window-hidden', true);
   });
   document.addEventListener('fullscreenchange', () => {
-    if (!state.monitorActive || !state.test?.requireFullscreen || document.fullscreenElement) return;
+    const record = currentGuardRecord();
+    const fullscreenRequired = !!state.entrySession || !!state.test?.requireFullscreen;
+    if (!state.monitorActive || !record || !fullscreenRequired || document.fullscreenElement) return;
     addViolation('fullscreen-exit', true);
   });
   window.addEventListener('blur', () => {
-    if (!state.monitorActive || !state.attempt || state.attempt.locked) return;
-    // Blur can be caused by browser/OS chrome. Record it, but do not independently lock.
+    const record = currentGuardRecord();
+    if (!state.monitorActive || !record || record.locked) return;
     addViolation('window-blur', false);
   });
-  window.addEventListener('beforeunload', () => {
-    if (state.attempt && !state.attempt.submitted) persistAttempt();
+  window.addEventListener('beforeunload', event => {
+    const record = currentGuardRecord();
+    if (!state.monitorActive || !record || record.submitted || record.locked) return;
+    const now = Date.now();
+    record.violationCount = (record.violationCount || 0) + 1;
+    record.violationEvents ||= [];
+    record.violationEvents.push({ type: 'page-left', at: now, lockEligible: true });
+    record.locked = true;
+    persistGuardRecord(record);
+    event.preventDefault();
+    event.returnValue = '';
   });
 }
 
 async function startTest() {
   clearInterval(state.countdownTimer);
   state.attempt = createAttempt();
+  storage.clearEntrySession();
+  state.entrySession = null;
   persistAttempt();
   showScreen('test');
   if (state.test.requireFullscreen && !document.fullscreenElement) {
@@ -326,7 +397,6 @@ async function startTest() {
 }
 
 function showSubmissionScreen() {
-  state.monitorActive = false;
   recordAnswerFromInput();
   showScreen('submit');
   $('#submit-test-label').textContent = state.test.label;
@@ -334,7 +404,6 @@ function showSubmissionScreen() {
   $('#submit-duration').textContent = formatDuration((Date.now() - state.attempt.startTime) / 1000);
   $('#pin-code').value = '';
   setStatus($('#submit-status'), '', '');
-  if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
 }
 
 async function finalizeSubmission() {
@@ -347,6 +416,8 @@ async function finalizeSubmission() {
   a.finishTime = Date.now();
   a.pin = pin;
   a.submitted = true;
+  state.monitorActive = false;
+  document.body.classList.remove('test-session-active');
   const payload = {
     v: APP_CONFIG.submissionFormatVersion,
     t: a.testId,
@@ -373,6 +444,7 @@ async function finalizeSubmission() {
   a.receipt = await receiptFromToken(token);
   persistAttempt();
   storage.saveCompletedAttempt(a.testId, a);
+  if (document.fullscreenElement) await document.exitFullscreen().catch(() => {});
   location.href = new URL('./submit/', location.href).href;
 }
 
@@ -534,6 +606,7 @@ function checkPracticeAnswer() {
 function resetIdentity() {
   if (!confirm('Reset the pupil identity on this browser? This also clears pupil-local attempts, saved result history, and practice progress on this browser.')) return;
   storage.clearPupilIdentity();
+  storage.clearEntrySession();
   storage.clearActiveAttempt();
   storage.clearCompletedAttempts();
   storage.clearPupilHistory();
@@ -551,7 +624,32 @@ function returnToCodeScreen() {
   document.body.classList.remove('finished-green');
   $('#estimated-results').hidden = true;
   $('#test-code').value = '';
-  showCodeScreen('Ready for another test code.');
+  showReadyScreen('Ready for another test when you are.');
+}
+
+async function restoreEntrySessionIfNeeded() {
+  const saved = storage.getEntrySession();
+  if (!saved || saved.pupilId !== state.pupil.id) return false;
+  state.entrySession = saved;
+  state.entrySession.violationCount = (state.entrySession.violationCount || 0) + 1;
+  state.entrySession.violationEvents ||= [];
+  state.entrySession.violationEvents.push({ type: 'page-reload-or-resume', at: Date.now(), lockEligible: true });
+  state.entrySession.locked = true;
+  persistEntrySession();
+  state.monitorActive = true;
+  if (saved.testId) {
+    state.test = state.data.testById.get(saved.testId) || null;
+    if (state.test) {
+      state.canonical = buildCanonicalQuestions(state.data, state.test);
+      configureRules(state.test);
+    } else {
+      showCodeScreen();
+    }
+  } else {
+    showCodeScreen();
+  }
+  showLock();
+  return true;
 }
 
 async function restoreAttemptIfNeeded() {
@@ -571,9 +669,7 @@ async function restoreAttemptIfNeeded() {
   // Opening the page during an unfinished attempt counts as a refresh/re-entry event.
   state.attempt.violationCount += 1;
   state.attempt.violationEvents.push({ type: 'page-reload-or-resume', at: Date.now(), lockEligible: true });
-  const policy = test.focusPolicy || 'lockImmediately';
-  const eligibleCount = state.attempt.violationEvents.filter(ev => ev.lockEligible).length;
-  state.attempt.locked = policy === 'lockImmediately' || (policy === 'warnOnceThenLock' && eligibleCount >= 2);
+  state.attempt.locked = true;
   persistAttempt();
   showScreen('test');
   state.monitorActive = true;
@@ -588,8 +684,10 @@ function bindEvents() {
     const pupil = state.data.pupilById.get(id);
     if (!pupil?.active) return;
     setPupil(pupil);
-    showCodeScreen();
+    showReadyScreen();
   });
+  $('#begin-secure-session').addEventListener('click', beginSecureSession);
+  $('#request-session-exit').addEventListener('click', () => addViolation('teacher-exit-request', true));
   $('#code-form').addEventListener('submit', event => {
     event.preventDefault();
     const test = findTestByCode(state.data, $('#test-code').value);
@@ -599,6 +697,7 @@ function bindEvents() {
     }
     state.test = test;
     state.canonical = buildCanonicalQuestions(state.data, test);
+    if (state.entrySession) { state.entrySession.stage = 'rules'; state.entrySession.testId = test.id; persistEntrySession(); }
     configureRules(test);
   });
   $('#start-test').addEventListener('click', startTest);
@@ -661,7 +760,8 @@ async function init() {
     state.pupil = pupil;
     $('#current-pupil').textContent = pupil.name;
     if (await restoreAttemptIfNeeded()) return;
-    showCodeScreen();
+    if (await restoreEntrySessionIfNeeded()) return;
+    showReadyScreen();
   } catch (error) {
     document.body.innerHTML = `<main class="fatal"><h1>Could not start the vocabulary site</h1><p>${error.message}</p><p>Serve the site over HTTPS or a local web server; opening index.html directly from the file system can block JSON loading.</p></main>`;
   }

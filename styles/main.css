@@ -220,3 +220,6 @@ hr { border: 0; border-top: 1px solid #d4e3ea; margin: 2rem 0; }
   .dashboard-topbar, .unlock-tool-grid { grid-template-columns: 1fr; }
   .dashboard-tabs { display: grid; grid-template-columns: 1fr 1fr; }
 }
+
+/* During a committed test session, keep pupil navigation focused on the test. */
+.test-session-active .header-meta a { display: none !important; }

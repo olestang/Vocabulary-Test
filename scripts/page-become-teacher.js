@@ -1,9 +1,9 @@
 import { APP_CONFIG } from './config.js';
 import { storage } from './storage.js';
-import { verifySignedToken } from './cryptography.js';
+import { verifySignedToken, privateKeyMatchesPublic } from './cryptography.js';
 import { $, setStatus } from './utilities.js';
 
-async function saveTeacherToken(token, auto = false) {
+async function saveTeacherSetup(token, privateKeyText = '', auto = false) {
   const value = String(token || '').trim();
   if (!value) {
     setStatus($('#teacher-status'), 'Paste a teacher access token first.', 'warning');
@@ -14,8 +14,25 @@ async function saveTeacherToken(token, auto = false) {
     setStatus($('#teacher-status'), result.reason, 'error');
     return false;
   }
+
+  let privateKey = null;
+  if (privateKeyText) {
+    try {
+      privateKey = JSON.parse(privateKeyText);
+    } catch {
+      setStatus($('#teacher-status'), 'The teacher signing key in the setup link could not be read.', 'error');
+      return false;
+    }
+    if (!(await privateKeyMatchesPublic(privateKey))) {
+      setStatus($('#teacher-status'), 'The teacher signing key does not match this site.', 'error');
+      return false;
+    }
+  }
+
   storage.setTeacherAccessToken(value);
-  setStatus($('#teacher-status'), 'Teacher mode is enabled on this browser. Opening the teacher dashboard…', 'success');
+  if (privateKey) storage.setTeacherPrivateKey(privateKey);
+  const signingText = privateKey || storage.getTeacherPrivateKey() ? ' Result signing is also ready.' : '';
+  setStatus($('#teacher-status'), `Teacher mode is enabled on this browser.${signingText} Opening the teacher dashboard…`, 'success');
   const returnTo = new URL(location.href).searchParams.get('return');
   setTimeout(() => { location.href = returnTo || '../teacher/'; }, auto ? 350 : 700);
   return true;
@@ -23,12 +40,13 @@ async function saveTeacherToken(token, auto = false) {
 
 $('#teacher-form').addEventListener('submit', async event => {
   event.preventDefault();
-  await saveTeacherToken($('#teacher-token').value);
+  await saveTeacherSetup($('#teacher-token').value);
 });
 
 const hash = new URLSearchParams(location.hash.slice(1));
 const bootstrapToken = hash.get('teacherToken');
+const bootstrapKey = hash.get('teacherKey');
 if (bootstrapToken) {
   $('#teacher-token').value = bootstrapToken;
-  saveTeacherToken(bootstrapToken, true);
+  saveTeacherSetup(bootstrapToken, bootstrapKey || '', true);
 }

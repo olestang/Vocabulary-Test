@@ -86,11 +86,14 @@ async function beginSecureSession() {
   state.entrySession = createEntrySession();
   persistEntrySession();
   showCodeScreen();
+
+  // Protection starts immediately after the pupil confirms the session,
+  // before the test code is entered.
+  state.monitorActive = true;
+
   try {
     if (!document.fullscreenElement) await document.documentElement.requestFullscreen();
-    state.monitorActive = true;
   } catch {
-    state.monitorActive = true;
     addViolation('fullscreen-start-failed', true);
   }
 }
@@ -297,19 +300,31 @@ function addViolation(type, lock = true) {
 function showLock() {
   const record = currentGuardRecord();
   if (!record) return;
-  $('#lock-count').textContent = String(record.violationCount);
+
+  // Do not let an optional piece of display text prevent the actual lock
+  // overlay from appearing. Older/newer HTML versions may not show a count.
+  const lockCount = $('#lock-count');
+  if (lockCount) lockCount.textContent = String(record.violationCount || 0);
+
   const id = record.attemptId || record.sessionId;
-  record.unlockRequest = record.unlockRequest || makeUnlockRequest(id, record.violationCount);
+  record.unlockRequest = record.unlockRequest || makeUnlockRequest(id, record.violationCount || 0);
   persistGuardRecord(record);
-  $('#unlock-request').textContent = record.unlockRequest;
-  $('#unlock-token').value = '';
+
+  const requestEl = $('#unlock-request');
+  const tokenEl = $('#unlock-token');
+  const lockScreen = $('#lock-screen');
+  if (requestEl) requestEl.textContent = record.unlockRequest;
+  if (tokenEl) tokenEl.value = '';
   setStatus($('#unlock-status'), '', '');
-  $('#lock-screen').hidden = false;
+
+  // The overlay is the important part: show it even if optional lock text is missing.
+  if (lockScreen) lockScreen.hidden = false;
   document.body.classList.add('is-locked');
 }
 
 function hideLock() {
-  $('#lock-screen').hidden = true;
+  const lockScreen = $('#lock-screen');
+  if (lockScreen) lockScreen.hidden = true;
   document.body.classList.remove('is-locked');
 }
 
@@ -792,7 +807,8 @@ async function init() {
     if (await restoreEntrySessionIfNeeded()) return;
     showReadyScreen();
   } catch (error) {
-    document.body.innerHTML = `<main class="fatal"><h1>Could not start the vocabulary site</h1><p>${error.message}</p><p>Serve the site over HTTPS or a local web server; opening index.html directly from the file system can block JSON loading.</p></main>`;
+    console.error('Vocabulary site startup failed:', error);
+    document.body.innerHTML = `<main class="fatal"><h1>Could not start the vocabulary site</h1><p>Please refresh the page. If the problem continues, ask your teacher for help.</p></main>`;
   }
 }
 

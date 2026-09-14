@@ -2,7 +2,7 @@ import { APP_CONFIG } from './config.js';
 import { loadAppData, buildCanonicalQuestions, getPrompt, getDirectionLabel } from './data.js';
 import { gradeAttempt, acceptedAnswers } from './grading.js';
 import { storage } from './storage.js';
-import { decodeCheckedPayload, encodeCheckedPayload, encryptForPin, receiptFromToken, verifySignedToken, signSignedToken, privateKeyMatchesPublic } from './cryptography.js';
+import { decodeCheckedPayload, encodeCheckedPayload, encryptForPin, receiptFromToken, verifySignedToken, signTeacherToken, privateKeyMatchesPublic } from './cryptography.js';
 import { makeUnlockCode, normalizeFiveLetters } from './unlock-codes.js';
 import {
   $, normalizeAnswer, parseHashParams, formatDuration, formatDateTime, setStatus, downloadText, sha256Hex, packBits
@@ -499,22 +499,18 @@ async function generateResultsLink() {
   $('#results-link').value = '';
 
   const privateKey = storage.getTeacherPrivateKey();
-  if (!privateKey) {
-    setStatus($('#results-link-status'), 'This browser has teacher access, but result signing has not been set up. Open the one-click teacher setup link again.', 'warning');
-    return;
-  }
-  if (!(await privateKeyMatchesPublic(privateKey))) {
-    setStatus($('#results-link-status'), 'The saved teacher signing key does not match this site. Open the current one-click teacher setup link again.', 'error');
+  if (!privateKey || !(await privateKeyMatchesPublic(privateKey))) {
+    setStatus($('#results-link-status'), `Package generated with ${entries.length} encrypted pupil record(s), but this browser has no matching teacher signing key. Re-open the one-click teacher setup link on this browser.`, 'warning');
     return;
   }
 
   const bundleHash = await sha256Hex(token);
-  const signatureToken = await signSignedToken({
+  const signatureToken = await signTeacherToken(privateKey, {
     v: 1,
     kind: APP_CONFIG.teacherTokenKinds.resultBundle,
-    bundleHash,
-    issuedAt: Date.now()
-  }, privateKey);
+    issuedAt: Date.now(),
+    bundleHash
+  });
   $('#result-bundle-signature').value = signatureToken;
   await finalizeResultsLink();
 }
@@ -536,7 +532,7 @@ async function finalizeResultsLink() {
     const url = new URL('../results/', location.href);
     url.hash = `r=${encodeURIComponent(bundleToken)}&s=${encodeURIComponent(signatureToken)}`;
     $('#results-link').value = url.href;
-    setStatus($('#results-link-status'), `Class result link is ready for ${bundle.entries.length} pupil record(s).`, 'success');
+    setStatus($('#results-link-status'), `Teacher signature verified. Signed class result link is ready for ${bundle.entries.length} pupil record(s). Four-digit PINs remain a convenience/privacy layer, while the teacher signature protects result integrity.`, 'success');
   } catch (error) {
     setStatus($('#results-link-status'), `Could not finalize result link: ${error.message}`, 'error');
   }

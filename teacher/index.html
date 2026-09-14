@@ -8,657 +8,107 @@
   <link rel="icon" href="../assets/logo.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../styles/main.css">
 </head>
-
 <body>
-
 <header class="site-header">
-  <div class="brand">
-    <img src="../assets/logo.svg" alt="">
-    <span>Teacher Dashboard</span>
-  </div>
-
-  <div class="header-meta">
-    <a href="../">Pupil site</a>
-    <a href="../diagnostics/">Diagnostics</a>
-    <a href="../become-teacher/">Teacher access</a>
-  </div>
+  <div class="brand"><img src="../assets/logo.svg" alt=""><span>Teacher Dashboard</span></div>
+  <div class="header-meta"><a href="../">Pupil site</a><a href="../diagnostics/">Diagnostics</a><a href="../become-teacher/">Teacher access</a></div>
 </header>
-
 <main class="shell">
-
   <section id="teacher-auth" class="card narrow">
     <p class="eyebrow">Teacher access required</p>
-
     <h1>Enable teacher mode first</h1>
-
-    <p class="lead">
-      Teacher access is normally saved once on this browser.
-      You can add or replace it on the dedicated teacher-access page.
-    </p>
-
+    <p class="lead">Teacher access is normally saved once on this browser. You can add or replace it on the dedicated teacher-access page.</p>
     <p id="teacher-auth-status" class="status" hidden></p>
-
-    <div class="actions">
-      <a
-        id="teacher-auth-link"
-        class="btn"
-        href="../become-teacher/"
-      >
-        Open teacher access setup
-      </a>
-    </div>
-
-    <form
-      id="teacher-auth-form"
-      class="sr-only"
-      aria-hidden="true"
-    >
-      <textarea id="teacher-token"></textarea>
-      <button type="submit">Verify</button>
-    </form>
+    <div class="actions"><a id="teacher-auth-link" class="btn" href="../become-teacher/">Open teacher access setup</a></div>
+    <form id="teacher-auth-form" class="sr-only" aria-hidden="true"><textarea id="teacher-token"></textarea><button type="submit">Verify</button></form>
   </section>
 
-
   <div id="teacher-main" hidden>
-
     <section id="import-panel" class="card" hidden>
-      <p class="eyebrow">New pupil submission</p>
-
-      <h2 id="import-title"></h2>
-
-      <div id="import-meta" class="metrics"></div>
-
-      <p id="import-status" class="status" hidden></p>
-
-      <div class="actions">
-        <button
-          id="import-correct"
-          class="btn"
-          type="button"
-        >
-          Correct this submission
-        </button>
-      </div>
+      <p class="eyebrow">New pupil submission</p><h2 id="import-title"></h2><div id="import-meta" class="metrics"></div><p id="import-status" class="status" hidden></p><div class="actions"><button id="import-correct" class="btn" type="button">Correct this submission</button></div>
     </section>
-
 
     <section id="correction-panel" class="card" hidden>
-
-      <p class="eyebrow">
-        Rapid correction · R/right = correct · W/left = wrong · Y = skip
-      </p>
-
-      <div class="actions spread">
-
-        <div>
-          <h1 id="correction-title"></h1>
-          <p id="correction-progress" class="muted"></p>
-        </div>
-
-        <button
-          id="correction-close"
-          class="btn btn-secondary"
-          type="button"
-        >
-          Back to dashboard
-        </button>
-
-      </div>
-
-
+      <p class="eyebrow">Rapid correction · R/right = correct · W/left = wrong · Y = skip</p>
+      <div class="actions spread"><div><h1 id="correction-title"></h1><p id="correction-progress" class="muted"></p></div><button id="correction-close" class="btn btn-secondary" type="button">Back to dashboard</button></div>
       <div class="correction-grid">
-
-        <div>
-          <div
-            id="correction-direction"
-            class="direction"
-          ></div>
-
-          <h2 id="correction-prompt"></h2>
-
-          <p>
-            Accepted answer(s):
-            <strong id="correction-accepted"></strong>
-          </p>
-
-          <p
-            id="correction-band"
-            class="pill"
-          ></p>
-
-          <p
-            id="correction-edits"
-            class="muted"
-          ></p>
-        </div>
-
-
-        <div>
-          <p class="eyebrow">Pupil answer</p>
-
-          <div
-            id="correction-answer"
-            class="correction-answer"
-          ></div>
-
-          <p
-            id="correction-decision"
-            class="muted"
-          ></p>
-        </div>
-
+        <div><div id="correction-direction" class="direction"></div><h2 id="correction-prompt"></h2><p>Accepted answer(s): <strong id="correction-accepted"></strong></p><p id="correction-band" class="pill"></p><p id="correction-edits" class="muted"></p></div>
+        <div><p class="eyebrow">Pupil answer</p><div id="correction-answer" class="correction-answer"></div><p id="correction-decision" class="muted"></p></div>
       </div>
-
-
-      <label>
-        <input
-          id="bulk-identical"
-          type="checkbox"
-          style="width:auto"
-        >
-        Apply the same decision to identical normalized answers for this word
-      </label>
-
-
-      <div class="correction-actions">
-
-        <button
-          id="correction-wrong"
-          class="btn btn-danger"
-          type="button"
-        >
-          Wrong (W / ←)
-        </button>
-
-        <button
-          id="correction-right"
-          class="btn btn-success"
-          type="button"
-        >
-          Right (R / →)
-        </button>
-
-      </div>
-
-
-      <div class="actions">
-
-        <button
-          id="correction-prev"
-          class="btn btn-secondary"
-          type="button"
-        >
-          Previous
-        </button>
-
-        <button
-          id="correction-skip"
-          class="btn btn-secondary"
-          type="button"
-        >
-          Skip (Y)
-        </button>
-
-        <button
-          id="correction-next"
-          class="btn btn-secondary"
-          type="button"
-        >
-          Next
-        </button>
-
-      </div>
-
-
-      <p
-        id="correction-status"
-        class="status"
-        hidden
-      ></p>
-
+      <label><input id="bulk-identical" type="checkbox" style="width:auto"> Apply the same decision to identical normalized answers for this word</label>
+      <div class="correction-actions"><button id="correction-wrong" class="btn btn-danger" type="button">Wrong (W / ←)</button><button id="correction-right" class="btn btn-success" type="button">Right (R / →)</button></div>
+      <div class="actions"><button id="correction-prev" class="btn btn-secondary" type="button">Previous</button><button id="correction-skip" class="btn btn-secondary" type="button">Skip (Y)</button><button id="correction-next" class="btn btn-secondary" type="button">Next</button></div>
+      <p id="correction-status" class="status" hidden></p>
     </section>
 
-
     <div id="dashboard-panel">
-
       <section class="card dashboard-topbar">
-
         <div>
           <p class="eyebrow">Teacher workspace</p>
           <h1>Vocabulary test dashboard</h1>
-          <p class="muted">
-            Choose a test once, then use the tabs below for the task you are doing.
-          </p>
+          <p class="muted">Choose a test once, then use the tabs below for the task you are doing.</p>
         </div>
-
-
-        <div class="form-row compact-select">
-
-          <label for="test-select">
-            Current test
-          </label>
-
-          <select id="test-select"></select>
-
-        </div>
-
+        <div class="form-row compact-select"><label for="test-select">Current test</label><select id="test-select"></select></div>
       </section>
 
-
-      <nav
-        class="dashboard-tabs"
-        aria-label="Teacher dashboard sections"
-      >
-
-        <button
-          class="dashboard-tab active"
-          type="button"
-          data-dashboard-tab="overview"
-        >
-          Overview & pupils
-        </button>
-
-        <button
-          class="dashboard-tab"
-          type="button"
-          data-dashboard-tab="unlock"
-        >
-          Unlock pupil
-        </button>
-
-        <button
-          class="dashboard-tab"
-          type="button"
-          data-dashboard-tab="results"
-        >
-          Results
-        </button>
-
-        <button
-          class="dashboard-tab"
-          type="button"
-          data-dashboard-tab="data"
-        >
-          Data & checks
-        </button>
-
+      <nav class="dashboard-tabs" aria-label="Teacher dashboard sections">
+        <button class="dashboard-tab active" type="button" data-dashboard-tab="overview">Overview & pupils</button>
+        <button class="dashboard-tab" type="button" data-dashboard-tab="unlock">Unlock pupil</button>
+        <button class="dashboard-tab" type="button" data-dashboard-tab="results">Results</button>
+        <button class="dashboard-tab" type="button" data-dashboard-tab="data">Data & checks</button>
       </nav>
 
-
       <div data-dashboard-view="overview">
-
         <section class="card">
-
-          <div class="actions spread">
-
-            <div>
-              <p class="eyebrow">Class status</p>
-              <h2 id="selected-test-title"></h2>
-            </div>
-
-            <button
-              id="clear-teacher-access"
-              class="btn btn-secondary"
-              type="button"
-            >
-              Remove teacher access
-            </button>
-
-          </div>
-
-
-          <div class="metrics">
-
-            <div class="metric">
-              <strong id="stat-submitted"></strong>
-              <span>Submitted</span>
-            </div>
-
-            <div class="metric">
-              <strong id="stat-missing"></strong>
-              <span>Missing</span>
-            </div>
-
-            <div class="metric">
-              <strong id="stat-corrected"></strong>
-              <span>Corrected</span>
-            </div>
-
-          </div>
-
-
-          <div
-            id="test-overview"
-            class="test-overview"
-          ></div>
-
+          <div class="actions spread"><div><p class="eyebrow">Class status</p><h2 id="selected-test-title"></h2></div><button id="clear-teacher-access" class="btn btn-secondary" type="button">Remove teacher access</button></div>
+          <div class="metrics"><div class="metric"><strong id="stat-submitted"></strong><span>Submitted</span></div><div class="metric"><strong id="stat-missing"></strong><span>Missing</span></div><div class="metric"><strong id="stat-corrected"></strong><span>Corrected</span></div></div>
+          <div id="test-overview" class="test-overview"></div>
         </section>
-
-
         <section class="card">
-
-          <p class="eyebrow">Pupils</p>
-          <h2>Submissions and correction</h2>
-
-          <div class="table-wrap">
-
-            <table>
-
-              <thead>
-                <tr>
-                  <th>Pupil</th>
-                  <th>Status</th>
-                  <th>Estimate</th>
-                  <th>Final</th>
-                  <th>Duration</th>
-                  <th>Events</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-
-              <tbody id="pupil-table-body"></tbody>
-
-            </table>
-
-          </div>
-
+          <p class="eyebrow">Pupils</p><h2>Submissions and correction</h2>
+          <div class="table-wrap"><table><thead><tr><th>Pupil</th><th>Status</th><th>Estimate</th><th>Final</th><th>Duration</th><th>Events</th><th>Action</th></tr></thead><tbody id="pupil-table-body"></tbody></table></div>
         </section>
-
       </div>
 
-
-      <div
-        data-dashboard-view="unlock"
-        hidden
-      >
-
+      <div data-dashboard-view="unlock" hidden>
         <section class="card narrow">
-
           <p class="eyebrow">Fast classroom unlock</p>
-
           <h2>Unlock a pupil in two short codes</h2>
-
-          <p class="lead">
-            Ask the pupil for the five-letter request shown on the red screen.
-            Type it here and give the five-letter response back to the pupil.
-          </p>
-
-
+          <p class="lead">Ask the pupil for the five-letter request shown on the red screen. Type it here and give the five-letter response back to the pupil.</p>
           <div class="unlock-tool-grid">
-
-            <div class="form-row">
-
-              <label for="unlock-request-input">
-                Pupil request
-              </label>
-
-              <input
-                id="unlock-request-input"
-                class="unlock-code-input"
-                maxlength="5"
-                autocomplete="off"
-                autocapitalize="characters"
-                spellcheck="false"
-                placeholder="ABCDE"
-              >
-
-            </div>
-
-
-            <div class="form-row">
-
-              <label for="unlock-response-output">
-                Give pupil this code
-              </label>
-
-              <input
-                id="unlock-response-output"
-                class="unlock-code-input"
-                readonly
-                placeholder="-----"
-              >
-
-            </div>
-
+            <div class="form-row"><label for="unlock-request-input">Pupil request</label><input id="unlock-request-input" class="unlock-code-input" maxlength="5" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="ABCDE"></div>
+            <div class="form-row"><label for="unlock-response-output">Give pupil this code</label><input id="unlock-response-output" class="unlock-code-input" readonly placeholder="-----"></div>
           </div>
-
-
-          <div class="actions">
-
-            <button
-              id="unlock-generate"
-              class="btn btn-danger"
-              type="button"
-            >
-              Generate unlock code
-            </button>
-
-          </div>
-
-
-          <p
-            id="unlock-generator-status"
-            class="status"
-            hidden
-          ></p>
-
+          <div class="actions"><button id="unlock-generate" class="btn btn-danger" type="button">Generate unlock code</button></div>
+          <p id="unlock-generator-status" class="status" hidden></p>
         </section>
-
       </div>
 
-
-      <div
-        data-dashboard-view="results"
-        hidden
-      >
-
+      <div data-dashboard-view="results" hidden>
         <section class="card">
-
-          <p class="eyebrow">
-            Final result distribution
-          </p>
-
-          <h2>
-            Build a class result link
-          </h2>
-
-          <p>
-            Only pupils with completed correction are included.
-            Each pupil record is protected with that pupil’s four-digit result code.
-            The result package is signed automatically using the teacher key saved
-            in this browser.
-          </p>
-
-
-          <div class="actions">
-
-            <button
-              id="generate-results"
-              class="btn btn-success"
-              type="button"
-            >
-              Generate signed class result link
-            </button>
-
-            <button
-              id="copy-results-link"
-              class="btn btn-secondary"
-              type="button"
-            >
-              Copy result link
-            </button>
-
-          </div>
-
-
-          <!--
-            These fields are kept because the existing JavaScript may still
-            reference them internally.
-
-            They are hidden because the teacher no longer needs to manually
-            copy a package into a separate signing tool.
-          -->
-          <div hidden>
-
-            <textarea
-              id="result-bundle-token"
-            ></textarea>
-
-            <textarea
-              id="result-bundle-signature"
-            ></textarea>
-
-            <button
-              id="finalize-results-link"
-              type="button"
-            ></button>
-
-          </div>
-
-
-          <div class="form-row">
-
-            <label for="results-link">
-              Class result URL
-            </label>
-
-            <textarea
-              id="results-link"
-              readonly
-            ></textarea>
-
-          </div>
-
-
-          <p
-            id="results-link-status"
-            class="status"
-            hidden
-          ></p>
-
+          <p class="eyebrow">Final result distribution</p><h2>Build a class result link</h2><p>Only pupils with completed correction are included. Each pupil record is protected with that pupil’s four-digit result code. If this browser was set up with the one-click teacher link, the package is signed automatically.</p>
+          <div class="actions"><button id="generate-results" class="btn" type="button">Generate signed class result link</button></div>
+          <div hidden><textarea id="result-bundle-token" readonly></textarea><textarea id="result-bundle-signature"></textarea><button id="finalize-results-link" type="button">Build class result link</button></div>
+          <div class="actions"><button id="copy-results-link" class="btn btn-secondary" type="button">Copy result link</button></div>
+          <div class="form-row"><label for="results-link">Class result URL</label><textarea id="results-link" readonly></textarea></div><p id="results-link-status" class="status" hidden></p>
         </section>
-
       </div>
 
-
-      <div
-        data-dashboard-view="data"
-        hidden
-      >
-
+      <div data-dashboard-view="data" hidden>
         <section class="card">
-
-          <p class="eyebrow">
-            Backup
-          </p>
-
-          <h2>
-            Teacher data
-          </h2>
-
-          <p>
-            Submissions and corrections live in this browser.
-            Export a backup if you want to move to another computer
-            or protect against browser data loss.
-          </p>
-
-
-          <div class="actions">
-
-            <button
-              id="export-backup"
-              class="btn"
-              type="button"
-            >
-              Export full backup
-            </button>
-
-            <button
-              id="export-results-only"
-              class="btn btn-secondary"
-              type="button"
-            >
-              Export results only
-            </button>
-
-            <label
-              class="btn btn-secondary"
-              for="import-backup-file"
-            >
-              Import backup
-            </label>
-
-            <input
-              id="import-backup-file"
-              type="file"
-              accept="application/json,.json"
-              hidden
-            >
-
-            <button
-              id="purge-details"
-              class="btn btn-danger"
-              type="button"
-            >
-              Purge corrected raw answers
-            </button>
-
-          </div>
-
-
-          <p
-            id="backup-status"
-            class="status"
-            hidden
-          ></p>
-
+          <p class="eyebrow">Backup</p><h2>Teacher data</h2><p>Submissions and corrections live in this browser. Export a backup if you want to move to another computer or protect against browser data loss.</p>
+          <div class="actions"><button id="export-backup" class="btn" type="button">Export full backup</button><button id="export-results-only" class="btn btn-secondary" type="button">Export results only</button><label class="btn btn-secondary" for="import-backup-file">Import backup</label><input id="import-backup-file" type="file" accept="application/json,.json" hidden><button id="purge-details" class="btn btn-danger" type="button">Purge corrected raw answers</button></div><p id="backup-status" class="status" hidden></p>
         </section>
-
-
         <section class="card">
-
-          <p class="eyebrow">
-            Configuration preflight
-          </p>
-
-          <h2>
-            Static-data checks
-          </h2>
-
-          <p id="preflight-summary"></p>
-
-          <ul id="preflight-list"></ul>
-
+          <p class="eyebrow">Configuration preflight</p><h2>Static-data checks</h2><p id="preflight-summary"></p><ul id="preflight-list"></ul>
         </section>
-
       </div>
-
     </div>
-
   </div>
-
 </main>
-
-
-<footer class="footer">
-  Teacher data stays in this browser unless exported.
-</footer>
-
-
-<script
-  type="module"
-  src="../scripts/page-teacher.js"
-></script>
-
-<script
-  type="module"
-  src="../scripts/header.js"
-></script>
-
-<script
-  type="module"
-  src="../scripts/register-service-worker.js"
-></script>
-
+<footer class="footer">Teacher data stays in this browser unless exported.</footer>
+<script type="module" src="../scripts/page-teacher.js"></script>
+<script type="module" src="../scripts/header.js"></script>
+<script type="module" src="../scripts/register-service-worker.js"></script>
 </body>
 </html>

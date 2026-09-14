@@ -38,49 +38,6 @@ async function importPublicKey() {
   );
 }
 
-
-
-async function importPrivateSigningKey(privateJwk) {
-  return crypto.subtle.importKey(
-    'jwk',
-    privateJwk,
-    { name: 'ECDSA', namedCurve: 'P-256' },
-    false,
-    ['sign']
-  );
-}
-
-export async function signSignedToken(payload, privateJwk) {
-  const json = stableStringify(payload);
-  const payloadBytes = new TextEncoder().encode(json);
-  const payloadPart = bytesToBase64Url(payloadBytes);
-  const key = await importPrivateSigningKey(privateJwk);
-  const signature = new Uint8Array(await crypto.subtle.sign(
-    { name: 'ECDSA', hash: 'SHA-256' },
-    key,
-    payloadBytes
-  ));
-  return `${payloadPart}.${bytesToBase64Url(signature)}`;
-}
-
-export async function privateKeyMatchesPublic(privateJwk) {
-  try {
-    const payload = { kind: 'key-check', at: 1 };
-    const token = await signSignedToken(payload, privateJwk);
-    const [payloadPart, signaturePart] = token.split('.');
-    const payloadBytes = base64UrlToBytes(payloadPart);
-    const key = await importPublicKey();
-    return crypto.subtle.verify(
-      { name: 'ECDSA', hash: 'SHA-256' },
-      key,
-      base64UrlToBytes(signaturePart),
-      payloadBytes
-    );
-  } catch {
-    return false;
-  }
-}
-
 export async function verifySignedToken(token, expectedKind, constraints = {}) {
   try {
     const [payloadPart, signaturePart] = String(token || '').trim().split('.');
@@ -109,6 +66,44 @@ export async function verifySignedToken(token, expectedKind, constraints = {}) {
   } catch (error) {
     return { ok: false, reason: error.message || 'Could not verify token.' };
   }
+}
+
+
+export async function privateKeyMatchesPublic(privateJwk) {
+  try {
+    if (!privateJwk || privateJwk.kty !== 'EC' || privateJwk.crv !== 'P-256' || !privateJwk.d) return false;
+    if (privateJwk.x !== APP_CONFIG.publicSigningKey.x || privateJwk.y !== APP_CONFIG.publicSigningKey.y) return false;
+    await crypto.subtle.importKey(
+      'jwk',
+      privateJwk,
+      { name: 'ECDSA', namedCurve: 'P-256' },
+      false,
+      ['sign']
+    );
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export async function signTeacherToken(privateJwk, payload) {
+  if (!(await privateKeyMatchesPublic(privateJwk))) {
+    throw new Error('Saved teacher signing key does not match this site.');
+  }
+  const key = await crypto.subtle.importKey(
+    'jwk',
+    privateJwk,
+    { name: 'ECDSA', namedCurve: 'P-256' },
+    false,
+    ['sign']
+  );
+  const payloadBytes = new TextEncoder().encode(stableStringify(payload));
+  const signature = new Uint8Array(await crypto.subtle.sign(
+    { name: 'ECDSA', hash: 'SHA-256' },
+    key,
+    payloadBytes
+  ));
+  return `${bytesToBase64Url(payloadBytes)}.${bytesToBase64Url(signature)}`;
 }
 
 async function derivePinKey(pin, context, salt, usages) {

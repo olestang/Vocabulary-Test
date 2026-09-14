@@ -12,7 +12,7 @@
   <section id="unlock-view" class="card narrow" hidden><p class="eyebrow">Final corrected result</p><h1>Enter your four-digit code</h1><p>The pupil name is taken from the identity already saved on this browser.</p><form id="result-form"><div class="form-row"><label for="result-pin">Your four-digit result code</label><input id="result-pin" class="input-large" inputmode="numeric" maxlength="4" pattern="\d{4}" autocomplete="off" required></div><p id="result-status" class="status" hidden></p><button class="btn" type="submit">Open my result</button></form></section>
   <section id="result-view" class="card" hidden><p class="eyebrow">Verified result saved to this browser</p><h1 id="result-title"></h1><div class="metrics"><div class="metric"><strong id="result-score"></strong><span>Final score</span></div><div class="metric"><strong id="result-corrected"></strong><span>Teacher correction</span></div></div><div id="result-list"></div><div class="actions"><a class="btn" href="../history/">Open my result history</a><a class="btn btn-secondary" href="../">Back to test code</a></div></section>
 </main>
-<footer class="footer">Your result is shown for the pupil registered on this browser.</footer>
+<footer class="footer">Only the record for the pupil registered on this browser is shown by the normal interface</footer>
 <script type="module" src="../scripts/page-results.js"></script><script type="module" src="../scripts/register-service-worker.js"></script>
 <script type="module" src="../scripts/header.js"></script>
 </body>

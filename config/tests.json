@@ -2,6 +2,27 @@
   "version": 1,
   "tests": [
     {
+      "id": "exit-placeholder",
+      "code": "EXIT",
+      "label": "Placeholder Test",
+      "active": true,
+      "questionCount": 1,
+      "seed": "placeholder-seed",
+      "configVersion": "2026-09-16a",
+      "requireFullscreen": false,
+      "focusPolicy": "none",
+      "allowDefinitions": false,
+      "practiceTestId": null,
+      "vocabularyIds": [
+        0
+      ],
+      "grading": {
+        "highSimilarity": 0.9,
+        "uncertainSimilarity": 0.72,
+        "maxHighEditDistance": 1
+      }
+    },
+    {
       "id": "body-anatomy",
       "code": "8CR5F9PX",
       "label": "Body and Anatomy",

@@ -9,12 +9,87 @@
     },
     {
       "id": 1,
-      "name": "Kari",
+      "name": "Aksel",
       "active": true
     },
     {
       "id": 2,
-      "name": "Balto",
+      "name": "Christian",
+      "active": true
+    },
+    {
+      "id": 3,
+      "name": "Emilie",
+      "active": true
+    },
+    {
+      "id": 4,
+      "name": "Emma-K",
+      "active": true
+    },
+    {
+      "id": 5,
+      "name": "Emma-O",
+      "active": true
+    },
+    {
+      "id": 6,
+      "name": "Hedda",
+      "active": true
+    },
+    {
+      "id": 7,
+      "name": "Kaisa",
+      "active": true
+    },
+    {
+      "id": 8,
+      "name": "Lily",
+      "active": true
+    },
+    {
+      "id": 9,
+      "name": "Linnea",
+      "active": true
+    },
+    {
+      "id": 10,
+      "name": "Malin",
+      "active": true
+    },
+    {
+      "id": 11,
+      "name": "Marie",
+      "active": true
+    },
+    {
+      "id": 12,
+      "name": "Mina",
+      "active": true
+    },
+    {
+      "id": 13,
+      "name": "Nora",
+      "active": true
+    },
+    {
+      "id": 14,
+      "name": "Oda",
+      "active": true
+    },
+    {
+      "id": 15,
+      "name": "Sarah",
+      "active": true
+    },
+    {
+      "id": 16,
+      "name": "Tilde",
+      "active": true
+    },
+    {
+      "id": 17,
+      "name": "Vilde",
       "active": true
     }
   ]

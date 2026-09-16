@@ -3,541 +3,3120 @@
   "items": [
     {
       "id": 0,
-      "en": "nurse",
-      "no": "sykepleier",
+      "en": "head",
+      "no": "hode",
       "synonymsEn": [
-        "nursing professional"
+        "the head"
       ],
       "synonymsNo": [
-        "sjukepleiar"
+        "hodet"
       ],
-      "definition": "A trained health worker who cares for people and supports treatment."
+      "definition": "the upper part of the body containing the brain, eyes, ears, nose and mouth"
     },
     {
       "id": 1,
-      "en": "patient",
-      "no": "pasient",
-      "synonymsEn": [],
-      "synonymsNo": [],
-      "definition": "A person who receives care or treatment from health services."
+      "en": "eye",
+      "no": "øye",
+      "synonymsEn": [
+        "eyes",
+        "the eye"
+      ],
+      "synonymsNo": [
+        "øyet",
+        "øyne",
+        "øynene"
+      ],
+      "definition": "the organ used for seeing"
     },
     {
       "id": 2,
-      "en": "wound",
-      "no": "sår",
+      "en": "mouth",
+      "no": "munn",
       "synonymsEn": [
-        "injury"
+        "the mouth"
       ],
-      "synonymsNo": [],
-      "definition": "Damage to body tissue, often involving a cut or broken skin."
+      "synonymsNo": [
+        "munnen"
+      ],
+      "definition": "the opening in the face used for eating, speaking and breathing"
     },
     {
       "id": 3,
-      "en": "bandage",
-      "no": "bandasje",
+      "en": "throat",
+      "no": "hals / svelg",
       "synonymsEn": [
-        "dressing"
+        "the throat"
       ],
-      "synonymsNo": [],
-      "definition": "Material wrapped around a body part to protect damaged tissue."
+      "synonymsNo": [
+        "halsen",
+        "svelg",
+        "svelget",
+        "hals"
+      ],
+      "definition": "the passage at the back of the mouth leading down to the lungs and stomach"
     },
     {
       "id": 4,
-      "en": "blood",
-      "no": "blod",
-      "synonymsEn": [],
-      "synonymsNo": [],
-      "definition": "The red fluid that carries oxygen and nutrients around the body."
+      "en": "shoulder",
+      "no": "skulder",
+      "synonymsEn": [
+        "shoulders",
+        "the shoulder"
+      ],
+      "synonymsNo": [
+        "skulderen",
+        "skuldre",
+        "skuldrene"
+      ],
+      "definition": "the joint where the arm connects to the upper body"
     },
     {
       "id": 5,
-      "en": "heart",
-      "no": "hjerte",
-      "synonymsEn": [],
-      "synonymsNo": [],
-      "definition": "The organ that pumps blood through the body."
+      "en": "arm",
+      "no": "arm",
+      "synonymsEn": [
+        "arms",
+        "the arm"
+      ],
+      "synonymsNo": [
+        "armen",
+        "armer",
+        "armene"
+      ],
+      "definition": "the upper limb from the shoulder to the hand"
     },
     {
       "id": 6,
-      "en": "lungs",
-      "no": "lunger",
+      "en": "hand",
+      "no": "hånd",
       "synonymsEn": [
-        "lung"
+        "hands",
+        "the hand"
       ],
       "synonymsNo": [
-        "lunge"
+        "hånden",
+        "hender",
+        "hendene"
       ],
-      "definition": "The organs in the chest used to take oxygen into the body."
+      "definition": "the part at the end of the arm with fingers"
     },
     {
       "id": 7,
-      "en": "breathing",
-      "no": "pust",
+      "en": "chest",
+      "no": "bryst / brystkasse",
       "synonymsEn": [
-        "respiration"
+        "the chest"
       ],
       "synonymsNo": [
-        "pusting"
+        "brystet",
+        "bryst",
+        "brystkasse"
       ],
-      "definition": "The process of taking air into and out of the body."
+      "definition": "the front of the upper body between the neck and abdomen"
     },
     {
       "id": 8,
-      "en": "pain",
-      "no": "smerte",
+      "en": "abdomen",
+      "no": "buk / mageområde",
       "synonymsEn": [
-        "ache"
+        "belly",
+        "abdominal area"
       ],
       "synonymsNo": [
-        "vondt"
+        "buken",
+        "mageområde",
+        "mageområdet",
+        "abdomen",
+        "buk"
       ],
-      "definition": "An unpleasant physical feeling that can signal damage or illness."
+      "definition": "the area of the body between the chest and the pelvis"
     },
     {
       "id": 9,
-      "en": "fever",
-      "no": "feber",
+      "en": "back",
+      "no": "rygg",
       "synonymsEn": [
-        "high temperature"
+        "the back"
       ],
-      "synonymsNo": [],
-      "definition": "A body temperature that is higher than normal, often during illness."
+      "synonymsNo": [
+        "ryggen"
+      ],
+      "definition": "the rear part of the body from the shoulders to the hips"
     },
     {
       "id": 10,
-      "en": "infection",
-      "no": "infeksjon",
-      "synonymsEn": [],
-      "synonymsNo": [],
-      "definition": "When harmful microorganisms enter the body and multiply."
+      "en": "hip",
+      "no": "hofte",
+      "synonymsEn": [
+        "hips",
+        "the hip"
+      ],
+      "synonymsNo": [
+        "hoften",
+        "hofter",
+        "hoftene"
+      ],
+      "definition": "the joint where the leg connects to the pelvis"
     },
     {
       "id": 11,
-      "en": "medicine",
-      "no": "medisin",
+      "en": "leg",
+      "no": "bein",
       "synonymsEn": [
-        "medication"
+        "legs",
+        "the leg"
       ],
       "synonymsNo": [
-        "legemiddel"
+        "ben",
+        "beinet",
+        "benet",
+        "beina",
+        "bena"
       ],
-      "definition": "A substance used to prevent, relieve, or treat disease."
+      "definition": "the lower limb from the hip to the foot"
     },
     {
       "id": 12,
-      "en": "care",
-      "no": "omsorg",
+      "en": "knee",
+      "no": "kne",
       "synonymsEn": [
-        "supportive care"
+        "knees",
+        "the knee"
       ],
       "synonymsNo": [
-        "pleie"
+        "kneet",
+        "knær",
+        "knærne"
       ],
-      "definition": "Practical and emotional help given to meet a person’s needs."
+      "definition": "the joint in the middle of the leg"
     },
     {
       "id": 13,
-      "en": "hygiene",
-      "no": "hygiene",
+      "en": "foot",
+      "no": "fot",
       "synonymsEn": [
-        "cleanliness"
+        "feet",
+        "the foot"
       ],
       "synonymsNo": [
-        "renhold"
+        "foten",
+        "føtter",
+        "føttene"
       ],
-      "definition": "Practices that help keep the body and surroundings clean and reduce spread of disease."
+      "definition": "the part at the end of the leg used for standing and walking"
     },
     {
       "id": 14,
-      "en": "exercise",
-      "no": "trening",
+      "en": "skin",
+      "no": "hud",
       "synonymsEn": [
-        "physical activity"
+        "the skin"
       ],
       "synonymsNo": [
-        "mosjon"
+        "huden"
       ],
-      "definition": "Movement of the body done to improve or maintain physical condition."
+      "definition": "the outer covering of the body"
     },
     {
       "id": 15,
-      "en": "nutrition",
-      "no": "ernæring",
+      "en": "joint",
+      "no": "ledd",
       "synonymsEn": [
-        "dietary health"
+        "joints",
+        "the joint"
       ],
       "synonymsNo": [
-        "kosthold"
+        "leddet"
       ],
-      "definition": "How food and nutrients support the body’s growth, energy, and health."
+      "definition": "a place where two bones meet and movement can occur"
     },
     {
       "id": 16,
-      "en": "sleep",
-      "no": "søvn",
-      "synonymsEn": [
-        "rest"
-      ],
+      "en": "spine",
+      "no": "ryggrad",
+      "synonymsEn": [],
       "synonymsNo": [],
-      "definition": "The natural state of reduced awareness that lets the body and mind recover."
+      "definition": "the column of bones running down the back that supports the body and protects the spinal cord"
     },
     {
       "id": 17,
-      "en": "stress",
-      "no": "stress",
+      "en": "heart",
+      "no": "hjerte",
       "synonymsEn": [
-        "pressure"
+        "the heart"
       ],
       "synonymsNo": [
-        "belastning"
+        "hjertet"
       ],
-      "definition": "A physical or emotional response to demands or difficult situations."
+      "definition": "the organ that pumps blood around the body"
     },
     {
       "id": 18,
-      "en": "safety",
-      "no": "sikkerhet",
+      "en": "lungs",
+      "no": "lunger",
       "synonymsEn": [
-        "security"
+        "lung",
+        "the lungs"
       ],
       "synonymsNo": [
-        "trygghet"
+        "lunge",
+        "lungen",
+        "lungene"
       ],
-      "definition": "Conditions and actions that reduce the risk of harm."
+      "definition": "the organs used for breathing"
     },
     {
       "id": 19,
-      "en": "emergency",
-      "no": "nødsituasjon",
+      "en": "brain",
+      "no": "hjerne",
       "synonymsEn": [
-        "urgent situation"
+        "the brain"
       ],
       "synonymsNo": [
-        "krisesituasjon"
+        "hjernen"
       ],
-      "definition": "A serious unexpected situation that requires immediate action."
+      "definition": "the organ in the head that controls the body and mind"
     },
     {
       "id": 20,
-      "en": "allergy",
-      "no": "allergi",
+      "en": "symptom",
+      "no": "symptom",
       "synonymsEn": [
-        "allergic reaction"
+        "symptoms"
       ],
-      "synonymsNo": [],
-      "definition": "An immune response to a substance that is normally harmless to many people."
+      "synonymsNo": [
+        "symptomet",
+        "symptomer",
+        "symptomene"
+      ],
+      "definition": "a change in the body or mind that may show illness or injury"
     },
     {
       "id": 21,
-      "en": "healthy",
-      "no": "sunn",
-      "synonymsEn": [
-        "well"
-      ],
-      "synonymsNo": [
-        "frisk"
-      ],
-      "definition": "In a condition that supports good physical or mental functioning."
-    },
-    {
-      "id": 22,
       "en": "illness",
       "no": "sykdom",
       "synonymsEn": [
-        "disease"
+        "disease",
+        "sickness"
       ],
-      "synonymsNo": [],
-      "definition": "A condition in which the body or mind is not functioning normally."
+      "synonymsNo": [
+        "sykdommen",
+        "lidelse"
+      ],
+      "definition": "a condition that makes a person unwell"
+    },
+    {
+      "id": 22,
+      "en": "pain",
+      "no": "smerte / vondt",
+      "synonymsEn": [
+        "painful feeling",
+        "ache"
+      ],
+      "synonymsNo": [
+        "smerter",
+        "vondt",
+        "verk",
+        "smerte"
+      ],
+      "definition": "an unpleasant physical feeling caused by illness or injury"
     },
     {
       "id": 23,
-      "en": "injury",
-      "no": "skade",
+      "en": "fever",
+      "no": "feber",
       "synonymsEn": [
-        "harm"
+        "high temperature",
+        "temperature"
       ],
-      "synonymsNo": [],
-      "definition": "Physical damage caused by an accident, impact, or other event."
+      "synonymsNo": [
+        "feberen",
+        "høy temperatur",
+        "forhøyet temperatur"
+      ],
+      "definition": "a body temperature that is higher than normal"
     },
     {
       "id": 24,
-      "en": "recovery",
-      "no": "bedring",
+      "en": "cough",
+      "no": "hoste",
       "synonymsEn": [
-        "healing"
+        "a cough",
+        "coughing"
       ],
       "synonymsNo": [
-        "tilfriskning"
+        "hosten",
+        "hosting"
       ],
-      "definition": "The process of becoming stronger or returning to normal after a problem."
+      "definition": "a sudden action that forces air out of the lungs"
     },
     {
       "id": 25,
-      "en": "pulse",
-      "no": "puls",
+      "en": "sore throat",
+      "no": "sår hals",
       "synonymsEn": [
-        "heart rate"
+        "a sore throat",
+        "throat pain"
       ],
-      "synonymsNo": [],
-      "definition": "The regular beat that can be felt in an artery as the heart pumps."
+      "synonymsNo": [
+        "vondt i halsen",
+        "halsvondt",
+        "sår i halsen"
+      ],
+      "definition": "pain or irritation in the throat"
     },
     {
       "id": 26,
-      "en": "skin",
-      "no": "hud",
-      "synonymsEn": [],
-      "synonymsNo": [],
-      "definition": "The outer covering of the body that protects tissues underneath."
+      "en": "headache",
+      "no": "hodepine",
+      "synonymsEn": [
+        "head ache",
+        "a headache"
+      ],
+      "synonymsNo": [
+        "vondt i hodet",
+        "hodeverk"
+      ],
+      "definition": "pain in the head"
     },
     {
       "id": 27,
-      "en": "bone",
-      "no": "knokkel",
+      "en": "stomachache",
+      "no": "vondt i magen / magesmerter",
       "synonymsEn": [
-        "skeleton part"
+        "stomach pain",
+        "abdominal pain",
+        "tummy ache",
+        "stomach ache"
       ],
       "synonymsNo": [
-        "bein"
+        "vondt i magen",
+        "magevondt",
+        "magesmerte",
+        "magepine",
+        "magesmerter"
       ],
-      "definition": "A hard part of the body that forms the skeleton."
+      "definition": "pain or discomfort in the stomach or abdominal area"
     },
     {
       "id": 28,
-      "en": "muscle",
-      "no": "muskel",
-      "synonymsEn": [],
-      "synonymsNo": [],
-      "definition": "Body tissue that contracts to create movement or maintain posture."
+      "en": "cold",
+      "no": "forkjølelse",
+      "synonymsEn": [
+        "a cold",
+        "common cold"
+      ],
+      "synonymsNo": [
+        "forkjølet",
+        "forkjølelsen"
+      ],
+      "definition": "a common mild viral illness affecting the nose and throat"
     },
     {
       "id": 29,
-      "en": "joint",
-      "no": "ledd",
-      "synonymsEn": [],
-      "synonymsNo": [],
-      "definition": "A place where two or more bones meet and movement may occur."
+      "en": "nausea",
+      "no": "kvalme",
+      "synonymsEn": [
+        "feeling sick",
+        "feeling nauseous",
+        "nauseousness"
+      ],
+      "synonymsNo": [
+        "kvalmen",
+        "uggenhet"
+      ],
+      "definition": "the feeling that you may vomit"
     },
     {
       "id": 30,
-      "en": "stomach",
-      "no": "mage",
+      "en": "vomiting",
+      "no": "oppkast / å kaste opp",
       "synonymsEn": [
-        "abdomen"
+        "vomit",
+        "throwing up",
+        "being sick",
+        "to vomit"
       ],
       "synonymsNo": [
-        "magesekk"
+        "oppkastet",
+        "å kaste opp",
+        "kaster opp",
+        "brekninger",
+        "oppkast",
+        "kaste opp"
       ],
-      "definition": "A part of the digestive system where food is mixed and broken down."
+      "definition": "bringing food or liquid up from the stomach and out through the mouth"
     },
     {
       "id": 31,
-      "en": "head",
-      "no": "hode",
-      "synonymsEn": [],
-      "synonymsNo": [],
-      "definition": "The upper part of the body containing the brain, eyes, ears, nose, and mouth."
+      "en": "diarrhea",
+      "no": "diaré",
+      "synonymsEn": [
+        "loose stools",
+        "runny stools",
+        "diarrhoea",
+        "watery stools"
+      ],
+      "synonymsNo": [
+        "diaréen",
+        "løs mage",
+        "løs avføring"
+      ],
+      "definition": "frequent loose or watery bowel movements"
     },
     {
       "id": 32,
-      "en": "throat",
-      "no": "hals",
+      "en": "constipation",
+      "no": "forstoppelse",
       "synonymsEn": [
-        "pharynx"
+        "being constipated"
       ],
-      "synonymsNo": [],
-      "definition": "The passage behind the mouth that connects toward the airways and digestive tract."
+      "synonymsNo": [
+        "forstoppelsen",
+        "hard mage",
+        "treg mage"
+      ],
+      "definition": "difficulty emptying the bowels or having hard stools"
     },
     {
       "id": 33,
-      "en": "cough",
-      "no": "hoste",
-      "synonymsEn": [],
-      "synonymsNo": [],
-      "definition": "A sudden action that pushes air out of the airways to clear irritation."
+      "en": "dizziness",
+      "no": "svimmelhet",
+      "synonymsEn": [
+        "dizzy",
+        "feeling dizzy",
+        "light-headedness",
+        "lightheadedness"
+      ],
+      "synonymsNo": [
+        "svimmel",
+        "svimmelheten",
+        "ørhet"
+      ],
+      "definition": "the feeling that you are unsteady or that things are spinning"
     },
     {
       "id": 34,
-      "en": "dizzy",
-      "no": "svimmel",
+      "en": "tiredness / fatigue",
+      "no": "tretthet / utmattelse",
       "synonymsEn": [
-        "light-headed"
+        "tiredness",
+        "extreme tiredness",
+        "exhaustion",
+        "fatigue"
       ],
-      "synonymsNo": [],
-      "definition": "Feeling as if you or the surroundings are moving or unsteady."
+      "synonymsNo": [
+        "tretthet",
+        "slitenhet",
+        "utmattet",
+        "veldig trøtt",
+        "utmattelse"
+      ],
+      "definition": "a feeling of being tired or lacking physical or mental energy"
     },
     {
       "id": 35,
-      "en": "tired",
-      "no": "sliten",
+      "en": "rash",
+      "no": "utslett",
       "synonymsEn": [
-        "fatigued"
+        "skin rash",
+        "a rash"
       ],
       "synonymsNo": [
-        "trøtt"
+        "utslettet",
+        "hudutslett"
       ],
-      "definition": "Having little energy and needing rest."
+      "definition": "an area of irritated or changed skin"
     },
     {
       "id": 36,
-      "en": "appointment",
-      "no": "timeavtale",
+      "en": "itching",
+      "no": "kløe",
       "synonymsEn": [
-        "scheduled visit"
+        "itch",
+        "itchiness",
+        "itchy skin"
       ],
       "synonymsNo": [
-        "avtale"
+        "kløen",
+        "det klør",
+        "kløende hud"
       ],
-      "definition": "A planned time to meet a professional or attend a service."
+      "definition": "an uncomfortable feeling that makes you want to scratch the skin"
     },
     {
       "id": 37,
-      "en": "consent",
-      "no": "samtykke",
+      "en": "swelling",
+      "no": "hevelse",
       "synonymsEn": [
-        "permission"
+        "swollen area",
+        "swollenness"
       ],
       "synonymsNo": [
-        "godkjenning"
+        "hevelsen",
+        "opphovning",
+        "hovenhet",
+        "hovent"
       ],
-      "definition": "A voluntary agreement given after receiving enough relevant information."
+      "definition": "an area becoming larger because of injury, inflammation or illness"
     },
     {
       "id": 38,
-      "en": "privacy",
-      "no": "personvern",
+      "en": "infection",
+      "no": "infeksjon",
       "synonymsEn": [
-        "confidentiality"
+        "an infection"
       ],
       "synonymsNo": [
-        "privatliv"
+        "infeksjonen"
       ],
-      "definition": "Protection of personal information and a person’s private sphere."
+      "definition": "an illness caused by harmful microorganisms entering the body"
     },
     {
       "id": 39,
-      "en": "support",
-      "no": "støtte",
-      "synonymsEn": [
-        "help"
-      ],
+      "en": "feeling unwell",
+      "no": "føle seg uvel / dårlig",
+      "synonymsEn": [],
       "synonymsNo": [
-        "hjelp"
+        "føle seg uvel",
+        "dårlig",
+        "føle seg dårlig",
+        "uvel"
       ],
-      "definition": "Assistance that makes it easier for someone to manage a situation or task."
+      "definition": "feeling sick, weak, or not as healthy as usual"
     },
     {
       "id": 40,
-      "en": "respect",
-      "no": "respekt",
+      "en": "injury",
+      "no": "skade",
       "synonymsEn": [
-        "consideration"
+        "injuries",
+        "physical injury"
       ],
       "synonymsNo": [
-        "aktelse"
+        "skaden",
+        "personskade"
       ],
-      "definition": "Treating another person as having value, rights, and dignity."
+      "definition": "physical damage to the body caused by an accident or other event"
     },
     {
       "id": 41,
-      "en": "communication",
-      "no": "kommunikasjon",
+      "en": "wound",
+      "no": "sår",
       "synonymsEn": [
-        "interaction"
+        "wounds",
+        "open wound"
       ],
       "synonymsNo": [
-        "formidling"
+        "såret",
+        "åpent sår"
       ],
-      "definition": "The exchange of information, ideas, feelings, or messages between people."
+      "definition": "damage to the skin or body tissue"
     },
     {
       "id": 42,
-      "en": "colleague",
-      "no": "kollega",
+      "en": "bleeding",
+      "no": "blødning / å blø",
       "synonymsEn": [
-        "coworker"
+        "to bleed",
+        "bleed",
+        "blood loss"
       ],
       "synonymsNo": [
-        "medarbeider"
+        "blør",
+        "å blø",
+        "blodtap",
+        "blødningen",
+        "blødning"
       ],
-      "definition": "A person you work with in the same workplace or profession."
+      "definition": "blood coming out of a damaged blood vessel"
     },
     {
       "id": 43,
-      "en": "workplace",
-      "no": "arbeidsplass",
+      "en": "bruise",
+      "no": "blåmerke",
       "synonymsEn": [
-        "place of work"
+        "bruising",
+        "a bruise"
       ],
       "synonymsNo": [
-        "jobb"
+        "blåmerket",
+        "bloduttredelse"
       ],
-      "definition": "The setting where a person performs their job."
+      "definition": "a dark mark on the skin caused by bleeding under the surface"
     },
     {
       "id": 44,
-      "en": "childcare",
-      "no": "barneomsorg",
+      "en": "burn",
+      "no": "brannskade",
       "synonymsEn": [
-        "care of children"
+        "burn injury",
+        "a burn"
       ],
       "synonymsNo": [
-        "barnepass"
+        "brannsår",
+        "forbrenning",
+        "brannskaden"
       ],
-      "definition": "Work and services that look after children and support their development."
+      "definition": "an injury caused by heat, chemicals, electricity or radiation"
     },
     {
       "id": 45,
-      "en": "elderly person",
-      "no": "eldre person",
+      "en": "fracture / broken bone",
+      "no": "brudd / beinbrudd",
       "synonymsEn": [
-        "older adult"
+        "broken bone",
+        "bone fracture",
+        "fracture"
       ],
       "synonymsNo": [
-        "eldre"
+        "beinbrudd",
+        "benbrudd",
+        "knokkelbrudd",
+        "bruddet",
+        "brudd"
       ],
-      "definition": "An adult in a later stage of life who may have age-related needs."
+      "definition": "a crack or break in a bone"
     },
     {
       "id": 46,
-      "en": "mental health",
-      "no": "psykisk helse",
+      "en": "sprain",
+      "no": "forstuing",
       "synonymsEn": [
-        "emotional wellbeing"
+        "sprained joint",
+        "a sprain"
       ],
       "synonymsNo": [
-        "mental helse"
+        "forstuelse",
+        "overtråkk",
+        "forstuingen"
       ],
-      "definition": "How a person thinks, feels, copes, and functions psychologically."
+      "definition": "an injury to the ligaments around a joint"
     },
     {
       "id": 47,
-      "en": "first aid",
-      "no": "førstehjelp",
+      "en": "shortness of breath",
+      "no": "tungpust / pustevansker",
       "synonymsEn": [
-        "emergency aid"
+        "breathlessness",
+        "difficulty breathing",
+        "short of breath",
+        "breathing difficulty",
+        "breathing difficulties"
       ],
-      "synonymsNo": [],
-      "definition": "Immediate basic help given before professional medical treatment is available."
+      "synonymsNo": [
+        "tungpust",
+        "pustevansker",
+        "kortpustethet",
+        "vanskelig for å puste",
+        "problemer med å puste",
+        "tungpustethet"
+      ],
+      "definition": "difficulty breathing or the feeling that you cannot get enough air"
     },
     {
       "id": 48,
-      "en": "blood pressure",
-      "no": "blodtrykk",
-      "synonymsEn": [],
-      "synonymsNo": [],
-      "definition": "The force of circulating blood against the walls of the arteries."
+      "en": "chest pain",
+      "no": "brystsmerter",
+      "synonymsEn": [
+        "pain in the chest",
+        "chest ache"
+      ],
+      "synonymsNo": [
+        "brystsmerte",
+        "vondt i brystet",
+        "smerter i brystet"
+      ],
+      "definition": "pain or discomfort in the chest"
     },
     {
       "id": 49,
-      "en": "temperature",
-      "no": "temperatur",
+      "en": "fainting",
+      "no": "besvimelse",
       "synonymsEn": [
-        "body temperature"
+        "faint",
+        "passing out",
+        "pass out",
+        "loss of consciousness"
       ],
       "synonymsNo": [
-        "kroppstemperatur"
+        "besvime",
+        "besvimte",
+        "å besvime",
+        "besvimelsen"
       ],
-      "definition": "A measurement of how warm or cold the body or environment is."
+      "definition": "briefly losing consciousness because not enough blood reaches the brain"
+    },
+    {
+      "id": 50,
+      "en": "dehydration",
+      "no": "dehydrering / væskemangel",
+      "synonymsEn": [
+        "being dehydrated",
+        "dehydrated"
+      ],
+      "synonymsNo": [
+        "væskemangel",
+        "uttørking",
+        "dehydrert",
+        "dehydrering"
+      ],
+      "definition": "a condition caused by losing more fluid than the body takes in"
+    },
+    {
+      "id": 51,
+      "en": "allergy",
+      "no": "allergi",
+      "synonymsEn": [
+        "allergies",
+        "an allergy"
+      ],
+      "synonymsNo": [
+        "allergien",
+        "allergier"
+      ],
+      "definition": "an immune reaction to a substance that is usually harmless"
+    },
+    {
+      "id": 52,
+      "en": "allergic reaction",
+      "no": "allergisk reaksjon",
+      "synonymsEn": [
+        "allergy reaction"
+      ],
+      "synonymsNo": [
+        "allergireaksjon"
+      ],
+      "definition": "a physical response caused by an allergy"
+    },
+    {
+      "id": 53,
+      "en": "asthma",
+      "no": "astma",
+      "synonymsEn": [
+        "asthma condition"
+      ],
+      "synonymsNo": [
+        "astmaen"
+      ],
+      "definition": "a long-term condition that can make the airways narrow and breathing difficult"
+    },
+    {
+      "id": 54,
+      "en": "diabetes",
+      "no": "diabetes",
+      "synonymsEn": [
+        "diabetes mellitus"
+      ],
+      "synonymsNo": [
+        "sukkersyke"
+      ],
+      "definition": "a condition that affects how the body controls blood sugar"
+    },
+    {
+      "id": 55,
+      "en": "high blood pressure",
+      "no": "høyt blodtrykk",
+      "synonymsEn": [
+        "hypertension"
+      ],
+      "synonymsNo": [
+        "forhøyet blodtrykk",
+        "hypertensjon"
+      ],
+      "definition": "blood pressure that stays higher than the healthy range"
+    },
+    {
+      "id": 56,
+      "en": "seizure",
+      "no": "krampeanfall",
+      "synonymsEn": [
+        "epileptic seizure",
+        "convulsion",
+        "fit"
+      ],
+      "synonymsNo": [
+        "epileptisk anfall",
+        "kramper",
+        "anfall"
+      ],
+      "definition": "a sudden episode of abnormal electrical activity in the brain that may affect movement or awareness"
+    },
+    {
+      "id": 57,
+      "en": "dementia",
+      "no": "demens",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "a group of conditions that affect memory, thinking, behavior, and the ability to manage daily life"
+    },
+    {
+      "id": 58,
+      "en": "anxiety",
+      "no": "angst / uro",
+      "synonymsEn": [
+        "anxiousness",
+        "feeling anxious"
+      ],
+      "synonymsNo": [
+        "engstelse",
+        "uro",
+        "engstelig",
+        "angst"
+      ],
+      "definition": "strong worry or fear that can affect daily life"
+    },
+    {
+      "id": 59,
+      "en": "depression",
+      "no": "depresjon",
+      "synonymsEn": [
+        "depressive illness"
+      ],
+      "synonymsNo": [
+        "depresjonen",
+        "nedstemthet"
+      ],
+      "definition": "a mental health condition involving persistent low mood and loss of interest"
+    },
+    {
+      "id": 60,
+      "en": "personal care",
+      "no": "personlig stell",
+      "synonymsEn": [
+        "personal hygiene care",
+        "personal assistance"
+      ],
+      "synonymsNo": [
+        "stell",
+        "kroppsstell",
+        "personlig pleie"
+      ],
+      "definition": "help with washing, dressing, toileting and other personal needs"
+    },
+    {
+      "id": 61,
+      "en": "hand hygiene",
+      "no": "håndhygiene",
+      "synonymsEn": [
+        "hand washing",
+        "handwashing",
+        "hand cleanliness"
+      ],
+      "synonymsNo": [
+        "håndvask",
+        "god håndhygiene"
+      ],
+      "definition": "cleaning the hands correctly to reduce the spread of microorganisms"
+    },
+    {
+      "id": 62,
+      "en": "wash your hands",
+      "no": "vaske hendene",
+      "synonymsEn": [
+        "wash hands",
+        "to wash your hands",
+        "clean your hands"
+      ],
+      "synonymsNo": [
+        "vask hendene",
+        "å vaske hendene",
+        "vaske hender"
+      ],
+      "definition": "clean your hands using soap and water"
+    },
+    {
+      "id": 63,
+      "en": "hand sanitizer",
+      "no": "hånddesinfeksjon",
+      "synonymsEn": [
+        "hand sanitiser",
+        "alcohol-based hand rub",
+        "hand rub"
+      ],
+      "synonymsNo": [],
+      "definition": "a hand-cleaning product, usually alcohol-based, used when appropriate to reduce microorganisms"
+    },
+    {
+      "id": 64,
+      "en": "disinfect",
+      "no": "desinfisere",
+      "synonymsEn": [
+        "to disinfect",
+        "sanitise",
+        "sanitize"
+      ],
+      "synonymsNo": [
+        "å desinfisere",
+        "desinfeksjon"
+      ],
+      "definition": "use a method or chemical to kill many harmful microorganisms"
+    },
+    {
+      "id": 65,
+      "en": "oral care",
+      "no": "munnstell",
+      "synonymsEn": [
+        "oral hygiene",
+        "mouth care"
+      ],
+      "synonymsNo": [
+        "munnhygiene",
+        "munnpleie"
+      ],
+      "definition": "care that keeps the mouth, teeth and gums clean and healthy"
+    },
+    {
+      "id": 66,
+      "en": "brush your teeth",
+      "no": "pusse tennene",
+      "synonymsEn": [
+        "brush teeth",
+        "to brush your teeth",
+        "clean your teeth"
+      ],
+      "synonymsNo": [
+        "puss tennene",
+        "å pusse tennene"
+      ],
+      "definition": "clean the teeth using a toothbrush"
+    },
+    {
+      "id": 67,
+      "en": "take a shower",
+      "no": "dusje / ta en dusj",
+      "synonymsEn": [
+        "to shower",
+        "have a shower",
+        "shower"
+      ],
+      "synonymsNo": [
+        "dusje",
+        "å dusje",
+        "ta en dusj",
+        "dusj"
+      ],
+      "definition": "wash the body under running water from a shower"
+    },
+    {
+      "id": 68,
+      "en": "wash your face",
+      "no": "vaske ansiktet",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "clean the face with water and, when appropriate, soap or another suitable product"
+    },
+    {
+      "id": 69,
+      "en": "get dressed",
+      "no": "kle på seg",
+      "synonymsEn": [
+        "dress",
+        "to get dressed",
+        "put on clothes"
+      ],
+      "synonymsNo": [
+        "kle på",
+        "å kle på seg",
+        "ta på klær"
+      ],
+      "definition": "put clothes on your body"
+    },
+    {
+      "id": 70,
+      "en": "get undressed",
+      "no": "kle av seg",
+      "synonymsEn": [
+        "to undress",
+        "take off clothes",
+        "undress"
+      ],
+      "synonymsNo": [
+        "kle av",
+        "å kle av seg",
+        "ta av klær"
+      ],
+      "definition": "remove clothes from the body"
+    },
+    {
+      "id": 71,
+      "en": "change clothes",
+      "no": "skifte klær",
+      "synonymsEn": [
+        "change your clothes",
+        "change clothing",
+        "put on clean clothes"
+      ],
+      "synonymsNo": [
+        "bytte klær",
+        "skifte",
+        "bytte tøy"
+      ],
+      "definition": "take off one set of clothes and put on another"
+    },
+    {
+      "id": 72,
+      "en": "change a diaper",
+      "no": "skifte bleie",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "remove a used diaper, clean the person, and put on a clean diaper"
+    },
+    {
+      "id": 73,
+      "en": "skin care",
+      "no": "hudpleie",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "care that helps keep the skin clean, protected, and healthy"
+    },
+    {
+      "id": 74,
+      "en": "change the bed linens",
+      "no": "skifte sengetøy",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "remove used sheets and other bed linens and replace them with clean ones"
+    },
+    {
+      "id": 75,
+      "en": "toileting",
+      "no": "toalettbesøk / toaletthjelp",
+      "synonymsEn": [],
+      "synonymsNo": [
+        "toalettbesøk",
+        "toaletthjelp",
+        "toalettstell"
+      ],
+      "definition": "help or routines related to using the toilet and managing personal hygiene"
+    },
+    {
+      "id": 76,
+      "en": "self-care",
+      "no": "egenomsorg",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "activities a person does to maintain their own health, hygiene, and well-being"
+    },
+    {
+      "id": 77,
+      "en": "infection control",
+      "no": "smittevern",
+      "synonymsEn": [
+        "infection prevention",
+        "infection prevention and control",
+        "IPC"
+      ],
+      "synonymsNo": [
+        "infeksjonskontroll",
+        "smitteverntiltak"
+      ],
+      "definition": "measures used to prevent infections from spreading"
+    },
+    {
+      "id": 78,
+      "en": "personal protective equipment / PPE",
+      "no": "personlig verneutstyr",
+      "synonymsEn": [
+        "personal protective equipment",
+        "PPE",
+        "protective equipment"
+      ],
+      "synonymsNo": [],
+      "definition": "equipment worn to reduce exposure to infection or other hazards"
+    },
+    {
+      "id": 79,
+      "en": "privacy",
+      "no": "privatliv / skjerming",
+      "synonymsEn": [
+        "personal privacy"
+      ],
+      "synonymsNo": [
+        "personvern",
+        "privatsfære",
+        "skjerming",
+        "privatliv"
+      ],
+      "definition": "a person’s right to personal space and control over private matters"
+    },
+    {
+      "id": 80,
+      "en": "meal",
+      "no": "måltid",
+      "synonymsEn": [
+        "a meal",
+        "mealtime"
+      ],
+      "synonymsNo": [
+        "måltidet",
+        "matmåltid"
+      ],
+      "definition": "food eaten at a particular time of day"
+    },
+    {
+      "id": 81,
+      "en": "appetite",
+      "no": "matlyst",
+      "synonymsEn": [
+        "an appetite"
+      ],
+      "synonymsNo": [
+        "appetitt",
+        "matlysten"
+      ],
+      "definition": "the desire to eat food"
+    },
+    {
+      "id": 82,
+      "en": "nutrition",
+      "no": "ernæring",
+      "synonymsEn": [
+        "nourishment"
+      ],
+      "synonymsNo": [
+        "kosthold",
+        "næring"
+      ],
+      "definition": "the food and nutrients a person needs for health and growth"
+    },
+    {
+      "id": 83,
+      "en": "fluid intake",
+      "no": "væskeinntak",
+      "synonymsEn": [
+        "being hydrated",
+        "adequate fluids",
+        "hydration"
+      ],
+      "synonymsNo": [
+        "nok væske",
+        "hydrering",
+        "væskebalanse"
+      ],
+      "definition": "the amount of fluid a person drinks or receives over a period of time"
+    },
+    {
+      "id": 84,
+      "en": "drink enough fluids",
+      "no": "drikke nok væske",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "take in enough water and other suitable drinks to maintain hydration"
+    },
+    {
+      "id": 85,
+      "en": "difficulty swallowing",
+      "no": "svelgevansker",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "problems or discomfort when moving food, drink, or saliva from the mouth to the stomach"
+    },
+    {
+      "id": 86,
+      "en": "help with eating",
+      "no": "hjelpe med å spise",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "assistance given to a person who needs support during a meal"
+    },
+    {
+      "id": 87,
+      "en": "sleep",
+      "no": "søvn / sove",
+      "synonymsEn": [
+        "to sleep",
+        "sleeping"
+      ],
+      "synonymsNo": [
+        "sove",
+        "å sove",
+        "søvnen",
+        "søvn"
+      ],
+      "definition": "the natural state of rest when the body and mind recover"
+    },
+    {
+      "id": 88,
+      "en": "rest",
+      "no": "hvile",
+      "synonymsEn": [
+        "to rest",
+        "resting"
+      ],
+      "synonymsNo": [
+        "hvile seg",
+        "å hvile",
+        "pauser"
+      ],
+      "definition": "a period of relaxing or stopping activity to recover"
+    },
+    {
+      "id": 89,
+      "en": "bedtime routine",
+      "no": "leggerutine / kveldsrutine",
+      "synonymsEn": [],
+      "synonymsNo": [
+        "leggerutine",
+        "kveldsrutine",
+        "leggetidsrutine"
+      ],
+      "definition": "the usual sequence of activities that helps a person prepare for sleep"
+    },
+    {
+      "id": 90,
+      "en": "mobility",
+      "no": "bevegelighet / mobilitet",
+      "synonymsEn": [
+        "movement ability",
+        "ability to move"
+      ],
+      "synonymsNo": [
+        "mobilitet",
+        "evne til å bevege seg",
+        "bevegelighet"
+      ],
+      "definition": "a person’s ability to move around safely"
+    },
+    {
+      "id": 91,
+      "en": "transfer",
+      "no": "forflytning",
+      "synonymsEn": [
+        "moving a person",
+        "patient transfer",
+        "to transfer"
+      ],
+      "synonymsNo": [
+        "overflytting",
+        "forflytte",
+        "å forflytte"
+      ],
+      "definition": "moving a person safely from one place or surface to another"
+    },
+    {
+      "id": 92,
+      "en": "positioning",
+      "no": "leiring / posisjonering",
+      "synonymsEn": [],
+      "synonymsNo": [
+        "leiring",
+        "posisjonering"
+      ],
+      "definition": "placing or supporting a person's body in a safe and comfortable position"
+    },
+    {
+      "id": 93,
+      "en": "walking assistance",
+      "no": "hjelp til å gå",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "support or equipment that helps a person walk safely"
+    },
+    {
+      "id": 94,
+      "en": "help someone stand up",
+      "no": "hjelpe noen å reise seg",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "support a person as they move from sitting or lying to a standing position"
+    },
+    {
+      "id": 95,
+      "en": "incontinence",
+      "no": "inkontinens",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "difficulty controlling the bladder or bowels"
+    },
+    {
+      "id": 96,
+      "en": "incontinence pad",
+      "no": "inkontinensbind / bleie",
+      "synonymsEn": [],
+      "synonymsNo": [
+        "inkontinensbind",
+        "bleie",
+        "inkontinensbleie"
+      ],
+      "definition": "an absorbent pad used to manage urinary or bowel leakage"
+    },
+    {
+      "id": 97,
+      "en": "urine",
+      "no": "urin",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "liquid waste produced by the kidneys and passed from the body"
+    },
+    {
+      "id": 98,
+      "en": "stool / feces",
+      "no": "avføring",
+      "synonymsEn": [
+        "stool",
+        "feces",
+        "stools",
+        "faeces"
+      ],
+      "synonymsNo": [
+        "avføringen"
+      ],
+      "definition": "solid waste passed from the bowels"
+    },
+    {
+      "id": 99,
+      "en": "urinary tract infection / UTI",
+      "no": "urinveisinfeksjon",
+      "synonymsEn": [
+        "urinary tract infection",
+        "UTI"
+      ],
+      "synonymsNo": [],
+      "definition": "an infection affecting part of the urinary system, such as the bladder"
+    },
+    {
+      "id": 100,
+      "en": "Hello, my name is …",
+      "no": "Hei, jeg heter …",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "a phrase used to introduce yourself politely"
+    },
+    {
+      "id": 101,
+      "en": "How are you feeling?",
+      "no": "Hvordan føler du deg? / Hvordan har du det?",
+      "synonymsEn": [
+        "how do you feel",
+        "how are you feeling today",
+        "how do you feel today"
+      ],
+      "synonymsNo": [
+        "hvordan har du det",
+        "hvordan føler du deg i dag",
+        "hvordan har du det i dag",
+        "Hvordan føler du deg?"
+      ],
+      "definition": "a question used to ask about someone’s physical or emotional state"
+    },
+    {
+      "id": 102,
+      "en": "Are you okay?",
+      "no": "Går det bra?",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "a simple question used to check a person's condition or well-being"
+    },
+    {
+      "id": 103,
+      "en": "Can you tell me what happened?",
+      "no": "Kan du fortelle meg hva som skjedde?",
+      "synonymsEn": [
+        "what happened",
+        "can you tell me what has happened",
+        "tell me what happened"
+      ],
+      "synonymsNo": [
+        "hva skjedde",
+        "kan du fortelle hva som skjedde"
+      ],
+      "definition": "an open question used to invite someone to explain an event"
+    },
+    {
+      "id": 104,
+      "en": "Where does it hurt?",
+      "no": "Hvor gjør det vondt?",
+      "synonymsEn": [
+        "where do you have pain",
+        "where is the pain",
+        "where does it hurt you"
+      ],
+      "synonymsNo": [
+        "hvor har du vondt",
+        "hvor har du smerter",
+        "hvor er smerten"
+      ],
+      "definition": "a question used to locate pain"
+    },
+    {
+      "id": 105,
+      "en": "When did it start?",
+      "no": "Når begynte det?",
+      "synonymsEn": [
+        "when did this start",
+        "when did the symptoms start",
+        "when did the pain start"
+      ],
+      "synonymsNo": [
+        "når startet det",
+        "når begynte symptomene",
+        "når begynte smerten"
+      ],
+      "definition": "a question used to find out when a symptom or problem began"
+    },
+    {
+      "id": 106,
+      "en": "Are you in pain?",
+      "no": "Har du vondt?",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "a question used to ask whether someone is experiencing pain"
+    },
+    {
+      "id": 107,
+      "en": "Do you feel dizzy?",
+      "no": "Føler du deg svimmel?",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "a question used to check whether someone feels dizzy or unsteady"
+    },
+    {
+      "id": 108,
+      "en": "Are you having trouble breathing?",
+      "no": "Har du problemer med å puste?",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "a question used to check whether someone is having difficulty breathing"
+    },
+    {
+      "id": 109,
+      "en": "Do you need help?",
+      "no": "Trenger du hjelp?",
+      "synonymsEn": [
+        "do you need any help",
+        "can I help you",
+        "would you like some help"
+      ],
+      "synonymsNo": [
+        "trenger du noe hjelp",
+        "kan jeg hjelpe deg",
+        "vil du ha hjelp"
+      ],
+      "definition": "a question offering assistance"
+    },
+    {
+      "id": 110,
+      "en": "Can I help you?",
+      "no": "Kan jeg hjelpe deg?",
+      "synonymsEn": [
+        "do you need any help",
+        "would you like some help",
+        "Do you need help?"
+      ],
+      "synonymsNo": [
+        "trenger du noe hjelp",
+        "vil du ha hjelp",
+        "Trenger du hjelp?"
+      ],
+      "definition": "a polite question used to offer assistance"
+    },
+    {
+      "id": 111,
+      "en": "Are you comfortable?",
+      "no": "Har du det behagelig?",
+      "synonymsEn": [
+        "are you comfortable here",
+        "do you feel comfortable",
+        "is this comfortable"
+      ],
+      "synonymsNo": [
+        "sitter du godt",
+        "ligger du godt",
+        "er du komfortabel",
+        "Ligger eller sitter du godt?"
+      ],
+      "definition": "a question checking whether someone is physically comfortable"
+    },
+    {
+      "id": 112,
+      "en": "Are you hungry?",
+      "no": "Er du sulten?",
+      "synonymsEn": [
+        "do you feel hungry"
+      ],
+      "synonymsNo": [
+        "er du sulten nå"
+      ],
+      "definition": "a question asking whether someone wants or needs food"
+    },
+    {
+      "id": 113,
+      "en": "Are you thirsty?",
+      "no": "Er du tørst?",
+      "synonymsEn": [
+        "do you feel thirsty"
+      ],
+      "synonymsNo": [
+        "er du tørst nå"
+      ],
+      "definition": "a question asking whether someone wants or needs something to drink"
+    },
+    {
+      "id": 114,
+      "en": "Would you like some water?",
+      "no": "Vil du ha litt vann?",
+      "synonymsEn": [
+        "would you like water",
+        "do you want some water",
+        "would you like a drink"
+      ],
+      "synonymsNo": [
+        "vil du ha vann",
+        "ønsker du litt vann",
+        "vil du ha noe å drikke"
+      ],
+      "definition": "a polite offer of a drink"
+    },
+    {
+      "id": 115,
+      "en": "Please sit down.",
+      "no": "Sett deg ned, takk.",
+      "synonymsEn": [
+        "sit down please",
+        "please take a seat",
+        "take a seat",
+        "sit down"
+      ],
+      "synonymsNo": [
+        "sett deg ned",
+        "sitt ned",
+        "vær så snill og sett deg",
+        "Vennligst sett deg ned."
+      ],
+      "definition": "a polite instruction asking someone to sit"
+    },
+    {
+      "id": 116,
+      "en": "Please stand up slowly.",
+      "no": "Reis deg sakte, takk.",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "a polite instruction asking someone to rise carefully and slowly"
+    },
+    {
+      "id": 117,
+      "en": "Please lie down.",
+      "no": "Legg deg ned, takk.",
+      "synonymsEn": [
+        "lie down please",
+        "lie down"
+      ],
+      "synonymsNo": [
+        "legg deg ned",
+        "vær så snill og legg deg ned",
+        "Vennligst legg deg ned."
+      ],
+      "definition": "a polite instruction asking someone to lie down"
+    },
+    {
+      "id": 118,
+      "en": "Take your time.",
+      "no": "Ta den tiden du trenger.",
+      "synonymsEn": [
+        "there is no rush",
+        "no rush",
+        "take as much time as you need"
+      ],
+      "synonymsNo": [
+        "ingen hast",
+        "du trenger ikke skynde deg",
+        "ta deg god tid"
+      ],
+      "definition": "a reassuring phrase telling someone they do not need to hurry"
+    },
+    {
+      "id": 119,
+      "en": "Show me where it hurts.",
+      "no": "Vis meg hvor det gjør vondt.",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "a phrase asking someone to indicate the location of pain"
+    },
+    {
+      "id": 120,
+      "en": "Could you repeat that?",
+      "no": "Kan du gjenta det?",
+      "synonymsEn": [
+        "can you repeat that",
+        "could you say that again",
+        "can you say that again",
+        "please repeat that"
+      ],
+      "synonymsNo": [
+        "kan du si det en gang til",
+        "kan du gjenta",
+        "kan du si det igjen"
+      ],
+      "definition": "a polite request asking someone to say something again"
+    },
+    {
+      "id": 121,
+      "en": "Could you speak more slowly?",
+      "no": "Kan du snakke saktere?",
+      "synonymsEn": [
+        "can you speak more slowly",
+        "could you speak slower",
+        "can you speak slower",
+        "please speak more slowly"
+      ],
+      "synonymsNo": [
+        "kan du snakke litt saktere",
+        "snakk saktere",
+        "kan du snakke langsommere"
+      ],
+      "definition": "a polite request asking someone to reduce their speaking speed"
+    },
+    {
+      "id": 122,
+      "en": "I don't understand.",
+      "no": "Jeg forstår ikke.",
+      "synonymsEn": [
+        "I do not understand",
+        "I don't get it",
+        "I’m not sure I understand"
+      ],
+      "synonymsNo": [
+        "jeg skjønner ikke",
+        "forstår ikke"
+      ],
+      "definition": "a phrase used when you need clarification"
+    },
+    {
+      "id": 123,
+      "en": "Let me explain.",
+      "no": "La meg forklare.",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "a phrase used before giving information or instructions"
+    },
+    {
+      "id": 124,
+      "en": "I need to ask you a few questions.",
+      "no": "Jeg må stille deg noen spørsmål.",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "a polite phrase used before collecting important information"
+    },
+    {
+      "id": 125,
+      "en": "I am going to help you.",
+      "no": "Jeg skal hjelpe deg.",
+      "synonymsEn": [
+        "I’m going to help you",
+        "I will help you",
+        "I’ll help you"
+      ],
+      "synonymsNo": [
+        "jeg vil hjelpe deg",
+        "jeg kommer til å hjelpe deg"
+      ],
+      "definition": "a phrase explaining what you are about to do"
+    },
+    {
+      "id": 126,
+      "en": "Is that okay?",
+      "no": "Er det greit?",
+      "synonymsEn": [
+        "is this okay",
+        "is that all right",
+        "is this all right",
+        "is that alright",
+        "is this alright"
+      ],
+      "synonymsNo": [
+        "går det bra",
+        "er dette greit",
+        "er det ok",
+        "er dette ok"
+      ],
+      "definition": "a question checking agreement or comfort"
+    },
+    {
+      "id": 127,
+      "en": "Do I have your consent?",
+      "no": "Har jeg ditt samtykke?",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "a question used to check that a person agrees to what is being proposed"
+    },
+    {
+      "id": 128,
+      "en": "May I touch your arm?",
+      "no": "Kan jeg ta på armen din?",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "a polite question used to ask permission before physical contact"
+    },
+    {
+      "id": 129,
+      "en": "On a scale from zero to ten …",
+      "no": "På en skala fra null til ti …",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "a phrase used to ask someone to rate pain or another symptom"
+    },
+    {
+      "id": 130,
+      "en": "Do you have any allergies?",
+      "no": "Har du noen allergier?",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "a question used to ask whether a person has known allergies"
+    },
+    {
+      "id": 131,
+      "en": "Do you take any medication?",
+      "no": "Bruker du noen medisiner?",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "a question used to ask whether someone regularly uses medication"
+    },
+    {
+      "id": 132,
+      "en": "What do you need?",
+      "no": "Hva trenger du?",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "an open question used to find out what help or support a person needs"
+    },
+    {
+      "id": 133,
+      "en": "What would you prefer?",
+      "no": "Hva foretrekker du? / Hva ønsker du?",
+      "synonymsEn": [],
+      "synonymsNo": [
+        "Hva foretrekker du?",
+        "Hva ønsker du?"
+      ],
+      "definition": "a question used to ask about a person's choice or preference"
+    },
+    {
+      "id": 134,
+      "en": "Tell me if anything changes.",
+      "no": "Si fra hvis noe endrer seg.",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "a phrase asking someone to report a change in symptoms or condition"
+    },
+    {
+      "id": 135,
+      "en": "Does that feel better?",
+      "no": "Føles det bedre?",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "a question used to check whether an action has improved comfort or symptoms"
+    },
+    {
+      "id": 136,
+      "en": "Please tell me if it hurts.",
+      "no": "Si fra hvis det gjør vondt.",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "a phrase asking someone to report pain during care or movement"
+    },
+    {
+      "id": 137,
+      "en": "You are safe here.",
+      "no": "Du er trygg her.",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "a reassuring phrase used to help a person feel secure"
+    },
+    {
+      "id": 138,
+      "en": "Is there someone you would like me to call?",
+      "no": "Er det noen du vil at jeg skal ringe?",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "a question offering to contact a relative, friend, or other support person"
+    },
+    {
+      "id": 139,
+      "en": "I'll be back in a moment.",
+      "no": "Jeg kommer tilbake om et øyeblikk.",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "a phrase used to tell someone that you will return shortly"
+    },
+    {
+      "id": 140,
+      "en": "child",
+      "no": "barn",
+      "synonymsEn": [
+        "children",
+        "a child"
+      ],
+      "synonymsNo": [
+        "barnet",
+        "barna"
+      ],
+      "definition": "a young person who has not reached adulthood"
+    },
+    {
+      "id": 141,
+      "en": "parent or guardian",
+      "no": "forelder eller foresatt",
+      "synonymsEn": [
+        "parent",
+        "guardian",
+        "parent/guardian",
+        "parents or guardians"
+      ],
+      "synonymsNo": [
+        "forelder",
+        "foresatt",
+        "foreldre",
+        "foresatte"
+      ],
+      "definition": "an adult legally or practically responsible for a child"
+    },
+    {
+      "id": 142,
+      "en": "preschool / daycare",
+      "no": "barnehage",
+      "synonymsEn": [
+        "nursery",
+        "preschool",
+        "daycare",
+        "day care",
+        "pre-school",
+        "kindergarten"
+      ],
+      "synonymsNo": [
+        "barnehagen"
+      ],
+      "definition": "a place or program where young children are cared for, learn, and play before elementary school"
+    },
+    {
+      "id": 143,
+      "en": "after-school program",
+      "no": "skolefritidsordning / SFO",
+      "synonymsEn": [
+        "after-school programme",
+        "after school program",
+        "after school programme"
+      ],
+      "synonymsNo": [
+        "skolefritidsordning",
+        "SFO"
+      ],
+      "definition": "a supervised program for school-age children before or after the school day"
+    },
+    {
+      "id": 144,
+      "en": "play",
+      "no": "lek / leke",
+      "synonymsEn": [],
+      "synonymsNo": [
+        "lek",
+        "leke"
+      ],
+      "definition": "an activity children do for enjoyment, learning, and development"
+    },
+    {
+      "id": 145,
+      "en": "behavior",
+      "no": "atferd",
+      "synonymsEn": [
+        "behaviour"
+      ],
+      "synonymsNo": [],
+      "definition": "the way a person acts or responds in a situation"
+    },
+    {
+      "id": 146,
+      "en": "development",
+      "no": "utvikling",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "the process of growing and gaining physical, cognitive, emotional, and social abilities"
+    },
+    {
+      "id": 147,
+      "en": "language development",
+      "no": "språkutvikling",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "the process of learning to understand and use language"
+    },
+    {
+      "id": 148,
+      "en": "social skills",
+      "no": "sosiale ferdigheter",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "skills used to communicate, cooperate, and interact with other people"
+    },
+    {
+      "id": 149,
+      "en": "well-being",
+      "no": "trivsel / velvære",
+      "synonymsEn": [],
+      "synonymsNo": [
+        "trivsel",
+        "velvære"
+      ],
+      "definition": "a person's overall state of comfort, health, safety, and quality of life"
+    },
+    {
+      "id": 150,
+      "en": "emotional support",
+      "no": "emosjonell støtte",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "help that provides reassurance, understanding, and comfort"
+    },
+    {
+      "id": 151,
+      "en": "support",
+      "no": "støtte / bistand",
+      "synonymsEn": [
+        "help",
+        "to help",
+        "to assist",
+        "assist"
+      ],
+      "synonymsNo": [
+        "å hjelpe",
+        "bistå",
+        "assistere",
+        "støtte",
+        "hjelpe",
+        "bistand"
+      ],
+      "definition": "help, encouragement, or practical assistance given to someone"
+    },
+    {
+      "id": 152,
+      "en": "needs",
+      "no": "behov",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "things a person requires for health, safety, development, or well-being"
+    },
+    {
+      "id": 153,
+      "en": "disability",
+      "no": "funksjonsnedsettelse",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "a physical, sensory, intellectual, or mental condition that may affect activities or participation"
+    },
+    {
+      "id": 154,
+      "en": "respect",
+      "no": "respekt",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "consideration for a person's dignity, wishes, rights, and boundaries"
+    },
+    {
+      "id": 155,
+      "en": "safeguarding",
+      "no": "beskyttelse / ivaretakelse",
+      "synonymsEn": [],
+      "synonymsNo": [
+        "beskyttelse",
+        "ivaretakelse"
+      ],
+      "definition": "actions taken to protect children and vulnerable people from abuse, neglect, and harm"
+    },
+    {
+      "id": 156,
+      "en": "neglect",
+      "no": "omsorgssvikt",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "failure to provide necessary care, protection, supervision, or support"
+    },
+    {
+      "id": 157,
+      "en": "Please stay with the group.",
+      "no": "Hold deg sammen med gruppen, takk.",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "a polite instruction asking someone not to leave the group"
+    },
+    {
+      "id": 158,
+      "en": "Tell me if you need a break.",
+      "no": "Si fra hvis du trenger en pause.",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "a phrase encouraging someone to say when they need to rest"
+    },
+    {
+      "id": 159,
+      "en": "Would you like me to call your parent or guardian?",
+      "no": "Vil du at jeg skal ringe forelderen eller den foresatte din?",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "a question offering to contact the adult responsible for a child or young person"
+    },
+    {
+      "id": 160,
+      "en": "healthcare worker",
+      "no": "helsearbeider / helsefagarbeider",
+      "synonymsEn": [
+        "health care worker",
+        "healthcare assistant",
+        "health care assistant",
+        "care worker",
+        "health worker"
+      ],
+      "synonymsNo": [
+        "helsearbeider",
+        "pleiemedarbeider",
+        "helsefagarbeider"
+      ],
+      "definition": "a worker who provides practical health and care services"
+    },
+    {
+      "id": 161,
+      "en": "nurse",
+      "no": "sykepleier",
+      "synonymsEn": [
+        "registered nurse",
+        "a nurse"
+      ],
+      "synonymsNo": [
+        "sykepleieren"
+      ],
+      "definition": "a healthcare professional trained to care for patients and perform clinical tasks"
+    },
+    {
+      "id": 162,
+      "en": "doctor",
+      "no": "lege",
+      "synonymsEn": [
+        "physician",
+        "medical doctor",
+        "a doctor"
+      ],
+      "synonymsNo": [
+        "legen",
+        "doktor"
+      ],
+      "definition": "a medical professional who diagnoses and treats illness"
+    },
+    {
+      "id": 163,
+      "en": "care assistant",
+      "no": "pleieassistent / omsorgsarbeider",
+      "synonymsEn": [
+        "care worker",
+        "healthcare assistant",
+        "health care assistant",
+        "nursing assistant",
+        "care aide"
+      ],
+      "synonymsNo": [
+        "pleiemedarbeider",
+        "omsorgsarbeider",
+        "assistent i pleie",
+        "pleieassistent"
+      ],
+      "definition": "a worker who assists people with care and daily activities"
+    },
+    {
+      "id": 164,
+      "en": "childcare worker",
+      "no": "barne- og ungdomsarbeider",
+      "synonymsEn": [
+        "child care worker",
+        "childcare assistant",
+        "child care assistant",
+        "youth worker"
+      ],
+      "synonymsNo": [
+        "barnearbeider",
+        "ungdomsarbeider",
+        "barne- og ungdomsarbeiderfag"
+      ],
+      "definition": "a worker who supports children and young people in everyday activities and development"
+    },
+    {
+      "id": 165,
+      "en": "patient",
+      "no": "pasient",
+      "synonymsEn": [
+        "a patient"
+      ],
+      "synonymsNo": [
+        "pasienten"
+      ],
+      "definition": "a person receiving medical treatment or healthcare"
+    },
+    {
+      "id": 166,
+      "en": "resident",
+      "no": "beboer",
+      "synonymsEn": [
+        "a resident",
+        "care-home resident",
+        "nursing home resident"
+      ],
+      "synonymsNo": [
+        "beboeren",
+        "bruker på institusjon"
+      ],
+      "definition": "a person who lives in a care home or other residential setting"
+    },
+    {
+      "id": 167,
+      "en": "colleague / coworker",
+      "no": "kollega",
+      "synonymsEn": [
+        "coworker",
+        "co-worker",
+        "workmate",
+        "colleague"
+      ],
+      "synonymsNo": [
+        "arbeidskollega",
+        "medarbeider"
+      ],
+      "definition": "a person you work with"
+    },
+    {
+      "id": 168,
+      "en": "supervisor",
+      "no": "veileder / arbeidsleder",
+      "synonymsEn": [
+        "manager",
+        "team leader",
+        "supervising worker"
+      ],
+      "synonymsNo": [
+        "arbeidsleder",
+        "leder",
+        "praksisveileder",
+        "veileder"
+      ],
+      "definition": "a person responsible for guiding or overseeing your work"
+    },
+    {
+      "id": 169,
+      "en": "hospital",
+      "no": "sykehus",
+      "synonymsEn": [
+        "a hospital"
+      ],
+      "synonymsNo": [
+        "sykehuset"
+      ],
+      "definition": "a place where people receive medical treatment and care"
+    },
+    {
+      "id": 170,
+      "en": "nursing home",
+      "no": "sykehjem",
+      "synonymsEn": [
+        "care home",
+        "residential care home",
+        "old people’s home",
+        "elderly care home"
+      ],
+      "synonymsNo": [
+        "sykehjemmet",
+        "pleiehjem"
+      ],
+      "definition": "a residential setting that provides care for people who need regular support"
+    },
+    {
+      "id": 171,
+      "en": "home care services",
+      "no": "hjemmetjeneste / hjemmesykepleie",
+      "synonymsEn": [
+        "home care",
+        "home healthcare",
+        "home health care"
+      ],
+      "synonymsNo": [
+        "hjemmetjeneste",
+        "hjemmesykepleie"
+      ],
+      "definition": "health and care services provided to people in their own homes"
+    },
+    {
+      "id": 172,
+      "en": "hospital unit / ward",
+      "no": "avdeling",
+      "synonymsEn": [
+        "hospital ward",
+        "unit",
+        "hospital unit",
+        "department",
+        "ward"
+      ],
+      "synonymsNo": [
+        "avdelingen",
+        "post"
+      ],
+      "definition": "a section of a hospital organized for a particular type of care or group of patients"
+    },
+    {
+      "id": 173,
+      "en": "shift",
+      "no": "vakt",
+      "synonymsEn": [
+        "work shift",
+        "a shift"
+      ],
+      "synonymsNo": [
+        "arbeidsvakt",
+        "vakten"
+      ],
+      "definition": "a scheduled period of time at work"
+    },
+    {
+      "id": 174,
+      "en": "thermometer",
+      "no": "termometer",
+      "synonymsEn": [
+        "a thermometer"
+      ],
+      "synonymsNo": [
+        "termometeret"
+      ],
+      "definition": "an instrument used to measure temperature"
+    },
+    {
+      "id": 175,
+      "en": "blood pressure monitor",
+      "no": "blodtrykksapparat",
+      "synonymsEn": [
+        "blood pressure machine",
+        "blood pressure cuff",
+        "BP monitor",
+        "sphygmomanometer"
+      ],
+      "synonymsNo": [
+        "blodtrykksmåler",
+        "blodtrykksmåleapparat"
+      ],
+      "definition": "equipment used to measure blood pressure"
+    },
+    {
+      "id": 176,
+      "en": "stethoscope",
+      "no": "stetoskop",
+      "synonymsEn": [
+        "a stethoscope"
+      ],
+      "synonymsNo": [
+        "stetoskopet"
+      ],
+      "definition": "an instrument used to listen to sounds inside the body"
+    },
+    {
+      "id": 177,
+      "en": "wheelchair",
+      "no": "rullestol",
+      "synonymsEn": [
+        "wheel chair",
+        "a wheelchair"
+      ],
+      "synonymsNo": [
+        "rullestolen"
+      ],
+      "definition": "a chair with wheels used by a person who has difficulty walking"
+    },
+    {
+      "id": 178,
+      "en": "walker",
+      "no": "rullator / gåstativ",
+      "synonymsEn": [
+        "walking frame",
+        "walking aid",
+        "rollator"
+      ],
+      "synonymsNo": [
+        "gåstol",
+        "rullatoren",
+        "rullator",
+        "gåstativ"
+      ],
+      "definition": "a frame with handles that supports a person while walking"
+    },
+    {
+      "id": 179,
+      "en": "patient lift",
+      "no": "personløfter",
+      "synonymsEn": [
+        "patient hoist",
+        "lift",
+        "hoist"
+      ],
+      "synonymsNo": [
+        "løfter",
+        "heis for pasient",
+        "personheis"
+      ],
+      "definition": "equipment used to lift or transfer a person safely"
+    },
+    {
+      "id": 180,
+      "en": "health condition",
+      "no": "helsetilstand",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "an illness, disorder, injury, or other state that affects a person's health"
+    },
+    {
+      "id": 181,
+      "en": "mental health",
+      "no": "psykisk helse",
+      "synonymsEn": [],
+      "synonymsNo": [
+        "mental helse"
+      ],
+      "definition": "a person's emotional, psychological, and social well-being"
+    },
+    {
+      "id": 182,
+      "en": "next of kin",
+      "no": "pårørende",
+      "synonymsEn": [
+        "family contact",
+        "next-of-kin"
+      ],
+      "synonymsNo": [],
+      "definition": "a close relative or other person recorded as the main family contact"
+    },
+    {
+      "id": 183,
+      "en": "caregiver",
+      "no": "omsorgsperson",
+      "synonymsEn": [
+        "carer"
+      ],
+      "synonymsNo": [],
+      "definition": "a person who provides practical or personal care and support"
+    },
+    {
+      "id": 184,
+      "en": "quality of life",
+      "no": "livskvalitet",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "a person's overall well-being and satisfaction with daily life"
+    },
+    {
+      "id": 185,
+      "en": "independence",
+      "no": "selvstendighet",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "the ability to make choices and do as much as possible without unnecessary help"
+    },
+    {
+      "id": 186,
+      "en": "dignity",
+      "no": "verdighet",
+      "synonymsEn": [
+        "human dignity",
+        "personal dignity"
+      ],
+      "synonymsNo": [
+        "respekt for personen"
+      ],
+      "definition": "the quality of being treated as a person of value and respect"
+    },
+    {
+      "id": 187,
+      "en": "confidentiality",
+      "no": "taushetsplikt / konfidensialitet",
+      "synonymsEn": [],
+      "synonymsNo": [
+        "taushetsplikt",
+        "konfidensialitet"
+      ],
+      "definition": "the duty to protect private information and share it only when appropriate"
+    },
+    {
+      "id": 188,
+      "en": "person-centered care",
+      "no": "personsentrert omsorg",
+      "synonymsEn": [
+        "person-centred care"
+      ],
+      "synonymsNo": [],
+      "definition": "care planned around the individual person's needs, values, preferences, and goals"
+    },
+    {
+      "id": 189,
+      "en": "activities of daily living / ADLs",
+      "no": "daglige aktiviteter / ADL",
+      "synonymsEn": [
+        "activities of daily living",
+        "ADLs",
+        "ADL"
+      ],
+      "synonymsNo": [
+        "daglige aktiviteter",
+        "ADL",
+        "aktiviteter i dagliglivet"
+      ],
+      "definition": "basic everyday tasks such as washing, dressing, eating, and using the toilet"
+    },
+    {
+      "id": 190,
+      "en": "rehabilitation",
+      "no": "rehabilitering",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "support and treatment that help a person regain or improve function and independence"
+    },
+    {
+      "id": 191,
+      "en": "prevention",
+      "no": "forebygging",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "action taken to reduce the chance of illness, injury, or other problems"
+    },
+    {
+      "id": 192,
+      "en": "health promotion",
+      "no": "helsefremmende arbeid",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "work that helps people improve and maintain their health and well-being"
+    },
+    {
+      "id": 193,
+      "en": "consent",
+      "no": "samtykke",
+      "synonymsEn": [
+        "permission",
+        "informed consent",
+        "agreement"
+      ],
+      "synonymsNo": [
+        "tillatelse",
+        "godkjenning",
+        "informert samtykke"
+      ],
+      "definition": "permission or agreement for something to happen after receiving relevant information"
+    },
+    {
+      "id": 194,
+      "en": "risk",
+      "no": "risiko",
+      "synonymsEn": [
+        "a risk"
+      ],
+      "synonymsNo": [
+        "risikoen"
+      ],
+      "definition": "the chance that harm or an unwanted event may occur"
+    },
+    {
+      "id": 195,
+      "en": "patient record / medical record",
+      "no": "pasientjournal",
+      "synonymsEn": [
+        "medical record",
+        "health record",
+        "patient chart",
+        "medical chart",
+        "patient record"
+      ],
+      "synonymsNo": [
+        "journal",
+        "pasientjournalen",
+        "helsejournal"
+      ],
+      "definition": "a written or digital record containing information about a patient's health and care"
+    },
+    {
+      "id": 196,
+      "en": "care plan",
+      "no": "pleieplan / tiltaksplan",
+      "synonymsEn": [
+        "care-plan",
+        "plan of care",
+        "individual care plan"
+      ],
+      "synonymsNo": [
+        "tiltaksplan",
+        "omsorgsplan",
+        "pleieplanen",
+        "pleieplan"
+      ],
+      "definition": "a written plan describing a person’s needs, goals and agreed care"
+    },
+    {
+      "id": 197,
+      "en": "documentation",
+      "no": "dokumentasjon",
+      "synonymsEn": [
+        "record keeping",
+        "record-keeping",
+        "written documentation"
+      ],
+      "synonymsNo": [
+        "journalføring",
+        "dokumentering"
+      ],
+      "definition": "written or digital information that records work, observations or care"
+    },
+    {
+      "id": 198,
+      "en": "handoff / handover",
+      "no": "rapport / vaktoverlevering",
+      "synonymsEn": [
+        "handoff",
+        "handover",
+        "hand-off",
+        "hand-over",
+        "shift report"
+      ],
+      "synonymsNo": [
+        "rapport",
+        "vaktoverlevering",
+        "overlevering"
+      ],
+      "definition": "the transfer of important information and responsibility from one worker or team to another"
+    },
+    {
+      "id": 199,
+      "en": "appointment",
+      "no": "time / avtale",
+      "synonymsEn": [
+        "appointment time",
+        "medical appointment"
+      ],
+      "synonymsNo": [
+        "avtale",
+        "legetime",
+        "time",
+        "timeavtale"
+      ],
+      "definition": "an arranged time to meet a professional or receive a service"
+    },
+    {
+      "id": 200,
+      "en": "emergency",
+      "no": "nødsituasjon",
+      "synonymsEn": [
+        "an emergency",
+        "emergency situation"
+      ],
+      "synonymsNo": [
+        "akuttsituasjon",
+        "nødssituasjon"
+      ],
+      "definition": "a serious or dangerous situation needing immediate action"
+    },
+    {
+      "id": 201,
+      "en": "first aid",
+      "no": "førstehjelp",
+      "synonymsEn": [
+        "first-aid"
+      ],
+      "synonymsNo": [
+        "førstehjelpen"
+      ],
+      "definition": "immediate basic help given to someone who is injured or suddenly ill"
+    },
+    {
+      "id": 202,
+      "en": "call for help",
+      "no": "tilkalle hjelp",
+      "synonymsEn": [
+        "get help",
+        "call for assistance",
+        "ask for help",
+        "summon help"
+      ],
+      "synonymsNo": [
+        "rope på hjelp",
+        "hente hjelp",
+        "be om hjelp"
+      ],
+      "definition": "contact or alert another person when assistance is needed"
+    },
+    {
+      "id": 203,
+      "en": "call an ambulance",
+      "no": "ringe etter ambulanse",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "contact emergency medical services and request an ambulance"
+    },
+    {
+      "id": 204,
+      "en": "fire",
+      "no": "brann",
+      "synonymsEn": [
+        "a fire"
+      ],
+      "synonymsNo": [
+        "brannen"
+      ],
+      "definition": "uncontrolled burning that can cause injury and damage"
+    },
+    {
+      "id": 205,
+      "en": "accident",
+      "no": "ulykke / uhell",
+      "synonymsEn": [
+        "an accident",
+        "incident"
+      ],
+      "synonymsNo": [
+        "ulykken",
+        "uhell",
+        "ulykke"
+      ],
+      "definition": "an unexpected event that causes or may cause injury or damage"
+    },
+    {
+      "id": 206,
+      "en": "fall",
+      "no": "fall",
+      "synonymsEn": [
+        "a fall",
+        "falling"
+      ],
+      "synonymsNo": [
+        "fallet",
+        "fallulykke"
+      ],
+      "definition": "an event in which a person unintentionally comes down to the ground"
+    },
+    {
+      "id": 207,
+      "en": "choking",
+      "no": "sette i halsen / kvelning",
+      "synonymsEn": [
+        "choke",
+        "to choke",
+        "airway obstruction"
+      ],
+      "synonymsNo": [
+        "sette i halsen",
+        "kveles",
+        "luftveisstans",
+        "kvelning"
+      ],
+      "definition": "difficulty breathing because the airway is blocked"
+    },
+    {
+      "id": 208,
+      "en": "airway",
+      "no": "luftvei",
+      "synonymsEn": [
+        "air passage",
+        "airways"
+      ],
+      "synonymsNo": [
+        "luftveien",
+        "luftveier"
+      ],
+      "definition": "the passage through which air moves into and out of the lungs"
+    },
+    {
+      "id": 209,
+      "en": "unconscious",
+      "no": "bevisstløs",
+      "synonymsEn": [
+        "unresponsive",
+        "not conscious"
+      ],
+      "synonymsNo": [
+        "bevisstløshet",
+        "ikke ved bevissthet"
+      ],
+      "definition": "not awake and not aware of what is happening"
+    },
+    {
+      "id": 210,
+      "en": "recovery position",
+      "no": "stabilt sideleie",
+      "synonymsEn": [
+        "the recovery position",
+        "stable side position"
+      ],
+      "synonymsNo": [
+        "sideleiet",
+        "sideleie"
+      ],
+      "definition": "a safe side-lying position for an unconscious person who is breathing normally"
+    },
+    {
+      "id": 211,
+      "en": "severe bleeding",
+      "no": "kraftig blødning",
+      "synonymsEn": [
+        "heavy bleeding",
+        "serious bleeding",
+        "major bleeding"
+      ],
+      "synonymsNo": [
+        "stor blødning",
+        "alvorlig blødning",
+        "blør kraftig"
+      ],
+      "definition": "heavy loss of blood that may become life-threatening"
+    },
+    {
+      "id": 212,
+      "en": "CPR",
+      "no": "hjerte-lunge-redning / HLR",
+      "synonymsEn": [
+        "cardiopulmonary resuscitation",
+        "cardio pulmonary resuscitation",
+        "HLR"
+      ],
+      "synonymsNo": [
+        "hjerte lungeredning",
+        "hjerte-lungeredning",
+        "hlr",
+        "hjerte-lunge-redning"
+      ],
+      "definition": "emergency chest compressions, often with rescue breaths, used when a person has no normal breathing"
+    },
+    {
+      "id": 213,
+      "en": "defibrillator / AED",
+      "no": "hjertestarter",
+      "synonymsEn": [
+        "defibrillator",
+        "AED",
+        "automated external defibrillator"
+      ],
+      "synonymsNo": [],
+      "definition": "a device that can analyze heart rhythm and deliver an electric shock when indicated during cardiac arrest"
+    },
+    {
+      "id": 214,
+      "en": "poisoning",
+      "no": "forgiftning",
+      "synonymsEn": [
+        "being poisoned",
+        "toxic exposure"
+      ],
+      "synonymsNo": [
+        "forgiftningen"
+      ],
+      "definition": "illness or harm caused by swallowing, breathing, touching or injecting a harmful substance"
+    },
+    {
+      "id": 215,
+      "en": "evacuation",
+      "no": "evakuering",
+      "synonymsEn": [
+        "evacuating",
+        "emergency evacuation"
+      ],
+      "synonymsNo": [
+        "evakueringen"
+      ],
+      "definition": "moving people away from a dangerous place to safety"
+    },
+    {
+      "id": 216,
+      "en": "Have you fallen?",
+      "no": "Har du falt?",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "a question used to find out whether someone has had a fall"
+    },
+    {
+      "id": 217,
+      "en": "Did you hit your head?",
+      "no": "Slo du hodet?",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "a question used after a fall or accident to check for a possible head injury"
+    },
+    {
+      "id": 218,
+      "en": "Please keep pressure on the wound.",
+      "no": "Hold trykk på såret, takk.",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "an instruction used to help control bleeding by maintaining pressure"
+    },
+    {
+      "id": 219,
+      "en": "Stay with the person.",
+      "no": "Bli hos personen.",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "an instruction to remain with someone who needs observation, reassurance, or help"
+    },
+    {
+      "id": 220,
+      "en": "observe",
+      "no": "observere",
+      "synonymsEn": [
+        "to observe",
+        "watch",
+        "notice"
+      ],
+      "synonymsNo": [
+        "å observere",
+        "se etter",
+        "legge merke til"
+      ],
+      "definition": "watch carefully in order to notice important information or changes"
+    },
+    {
+      "id": 221,
+      "en": "monitor",
+      "no": "overvåke / følge med på",
+      "synonymsEn": [
+        "to monitor",
+        "keep track of",
+        "follow"
+      ],
+      "synonymsNo": [
+        "å overvåke",
+        "følge med på",
+        "monitorere",
+        "overvåke"
+      ],
+      "definition": "observe or measure something over time to detect changes"
+    },
+    {
+      "id": 222,
+      "en": "report",
+      "no": "rapportere / melde fra",
+      "synonymsEn": [
+        "to report",
+        "inform",
+        "notify"
+      ],
+      "synonymsNo": [
+        "melde fra",
+        "gi beskjed",
+        "å rapportere",
+        "rapportere"
+      ],
+      "definition": "give important information to another person, often a colleague or supervisor"
+    },
+    {
+      "id": 223,
+      "en": "document",
+      "no": "dokumentere / journalføre",
+      "synonymsEn": [
+        "to document",
+        "record",
+        "write down"
+      ],
+      "synonymsNo": [
+        "journalføre",
+        "skrive ned",
+        "å dokumentere",
+        "dokumentere"
+      ],
+      "definition": "make a written or digital record of important information"
+    },
+    {
+      "id": 224,
+      "en": "change in condition",
+      "no": "endring i tilstand",
+      "synonymsEn": [
+        "change in health",
+        "change in the patient’s condition",
+        "condition change"
+      ],
+      "synonymsNo": [
+        "endring i helsetilstand",
+        "forverring",
+        "endring i pasientens tilstand"
+      ],
+      "definition": "a noticeable difference in a person’s physical or mental health"
+    },
+    {
+      "id": 225,
+      "en": "vital signs",
+      "no": "vitale tegn / vitalverdier",
+      "synonymsEn": [
+        "vital measurements",
+        "observations"
+      ],
+      "synonymsNo": [
+        "vitalverdier",
+        "vitale målinger",
+        "vitale tegn"
+      ],
+      "definition": "basic measurements that show important body functions"
+    },
+    {
+      "id": 226,
+      "en": "body temperature",
+      "no": "kroppstemperatur",
+      "synonymsEn": [
+        "temperature",
+        "body temp"
+      ],
+      "synonymsNo": [
+        "temperatur",
+        "kroppstemperaturen"
+      ],
+      "definition": "the measured heat level of the body"
+    },
+    {
+      "id": 227,
+      "en": "pulse",
+      "no": "puls",
+      "synonymsEn": [
+        "heart rate",
+        "pulse rate"
+      ],
+      "synonymsNo": [
+        "pulsen",
+        "hjertefrekvens"
+      ],
+      "definition": "the rhythmic beating felt in an artery as the heart pumps blood"
+    },
+    {
+      "id": 228,
+      "en": "blood pressure",
+      "no": "blodtrykk",
+      "synonymsEn": [
+        "BP",
+        "blood-pressure"
+      ],
+      "synonymsNo": [
+        "blodtrykket"
+      ],
+      "definition": "the force of blood pushing against the walls of the arteries"
+    },
+    {
+      "id": 229,
+      "en": "blood sugar",
+      "no": "blodsukker",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "the amount of glucose present in the blood"
+    },
+    {
+      "id": 230,
+      "en": "blood oxygen level / oxygen saturation",
+      "no": "oksygenmetning",
+      "synonymsEn": [
+        "blood oxygen level",
+        "oxygen saturation",
+        "SpO2"
+      ],
+      "synonymsNo": [
+        "SpO2"
+      ],
+      "definition": "the percentage of hemoglobin in the blood that is carrying oxygen"
+    },
+    {
+      "id": 231,
+      "en": "breathing rate",
+      "no": "pustefrekvens",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "the number of breaths a person takes in one minute"
+    },
+    {
+      "id": 232,
+      "en": "oxygen",
+      "no": "oksygen",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "a gas the body needs for normal cell function and that may also be given as medical treatment"
+    },
+    {
+      "id": 233,
+      "en": "medication",
+      "no": "medisin / legemiddel",
+      "synonymsEn": [
+        "medicine",
+        "medications",
+        "medicines",
+        "drug"
+      ],
+      "synonymsNo": [
+        "legemiddel",
+        "legemidler",
+        "medisiner",
+        "medisin"
+      ],
+      "definition": "a substance used to prevent, treat or relieve illness or symptoms"
+    },
+    {
+      "id": 234,
+      "en": "prescription",
+      "no": "resept",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "a medical order for a medication or treatment, or the document containing that order"
+    },
+    {
+      "id": 235,
+      "en": "dose / dosage",
+      "no": "dose / dosering",
+      "synonymsEn": [
+        "dosage",
+        "medicine dose",
+        "medication dose",
+        "dose"
+      ],
+      "synonymsNo": [
+        "dosering",
+        "dosen",
+        "dose"
+      ],
+      "definition": "a measured amount of medication intended to be taken or given at one time"
+    },
+    {
+      "id": 236,
+      "en": "side effect",
+      "no": "bivirkning",
+      "synonymsEn": [
+        "side-effect",
+        "adverse effect",
+        "side effects"
+      ],
+      "synonymsNo": [
+        "bivirkningen",
+        "bivirkninger"
+      ],
+      "definition": "an unwanted effect that can occur when using a medicine or treatment"
+    },
+    {
+      "id": 237,
+      "en": "pain reliever",
+      "no": "smertestillende",
+      "synonymsEn": [
+        "painkiller",
+        "analgesic"
+      ],
+      "synonymsNo": [],
+      "definition": "a medication used to reduce or relieve pain"
+    },
+    {
+      "id": 238,
+      "en": "confusion",
+      "no": "forvirring",
+      "synonymsEn": [],
+      "synonymsNo": [],
+      "definition": "difficulty thinking clearly, understanding, remembering, or knowing where you are"
+    },
+    {
+      "id": 239,
+      "en": "pressure ulcer / pressure sore",
+      "no": "trykksår",
+      "synonymsEn": [
+        "pressure ulcer",
+        "pressure sore",
+        "bed sore",
+        "bedsore"
+      ],
+      "synonymsNo": [],
+      "definition": "damage to skin and underlying tissue caused by prolonged pressure or pressure combined with friction"
     }
   ]
 }

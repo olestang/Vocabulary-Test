@@ -23,6 +23,46 @@
       }
     },
     {
+      "id": "test",
+      "code": "TEST",
+      "label": "Body and Anatomy",
+      "active": true,
+      "questionCount": 20,
+      "seed": "w5g0dey4mxekukgauejp0",
+      "configVersion": "2026-09-16a",
+      "requireFullscreen": true,
+      "focusPolicy": "lockImmediately",
+      "allowDefinitions": true,
+      "practiceTestId": null,
+      "vocabularyIds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ],
+      "grading": {
+        "highSimilarity": 0.9,
+        "uncertainSimilarity": 0.72,
+        "maxHighEditDistance": 1
+      }
+    },
+    {
       "id": "body-anatomy",
       "code": "8CR5F9PX",
       "label": "Body and Anatomy",

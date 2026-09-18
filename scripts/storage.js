@@ -33,9 +33,57 @@ export const storage = {
     const all = read('completedAttempts', {});
     all[testId] = attempt;
     write('completedAttempts', all);
+    if (attempt?.submitted && attempt?.pupilId != null) {
+      const locks = read('completedTestLocks', {});
+      locks[`${attempt.pupilId}|${testId}`] = {
+        pupilId: attempt.pupilId,
+        testId,
+        attemptId: attempt.attemptId || null,
+        finishTime: attempt.finishTime || Date.now()
+      };
+      write('completedTestLocks', locks);
+    }
   },
   getCompletedAttempt(testId) { return read('completedAttempts', {})[testId] || null; },
   clearCompletedAttempts() { localStorage.removeItem(key('completedAttempts')); },
+
+  hasCompletedTest(pupilId, testId) {
+    const lockKey = `${pupilId}|${testId}`;
+    const locks = read('completedTestLocks', {});
+    if (locks[lockKey]) return true;
+
+    // Backward compatibility: older versions only stored completedAttempts.
+    const attempt = read('completedAttempts', {})[testId];
+    if (attempt?.submitted && String(attempt.pupilId) === String(pupilId)) {
+      locks[lockKey] = {
+        pupilId: attempt.pupilId,
+        testId,
+        attemptId: attempt.attemptId || null,
+        finishTime: attempt.finishTime || Date.now()
+      };
+      write('completedTestLocks', locks);
+      return true;
+    }
+    return false;
+  },
+  preserveCompletedTestsForPupil(pupilId) {
+    const locks = read('completedTestLocks', {});
+    let changed = false;
+    for (const [testId, attempt] of Object.entries(read('completedAttempts', {}))) {
+      if (!attempt?.submitted || String(attempt.pupilId) !== String(pupilId)) continue;
+      const lockKey = `${pupilId}|${testId}`;
+      if (!locks[lockKey]) {
+        locks[lockKey] = {
+          pupilId: attempt.pupilId,
+          testId,
+          attemptId: attempt.attemptId || null,
+          finishTime: attempt.finishTime || Date.now()
+        };
+        changed = true;
+      }
+    }
+    if (changed) write('completedTestLocks', locks);
+  },
 
   getPupilHistory() { return read('pupilHistory', []); },
   clearPupilHistory() { localStorage.removeItem(key('pupilHistory')); },

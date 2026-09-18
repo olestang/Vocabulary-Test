@@ -1,5 +1,5 @@
 import { APP_CONFIG } from './config.js';
-import { loadAppData, buildCanonicalQuestions, getPrompt, getDirectionLabel } from './data.js';
+import { loadAppData, buildCanonicalQuestions, getPrompt, getDirectionLabel, isGradedTest } from './data.js';
 import { gradeAttempt, acceptedAnswers } from './grading.js';
 import { storage } from './storage.js';
 import { decodeCheckedPayload, encodeCheckedPayload, encryptForPin, receiptFromToken, verifySignedToken, signTeacherToken, privateKeyMatchesPublic } from './cryptography.js';
@@ -13,7 +13,8 @@ const state = {
   teacherData: null,
   selectedTestId: null,
   correction: null,
-  pendingSubmissionToken: null
+  pendingSubmissionToken: null,
+  correctAllMode: false
 };
 
 function showAuth(message = '') {
@@ -71,8 +72,9 @@ function validateSubmissionPayload(payload, externalPupilName, test, pupil, cano
   if (payload.v !== APP_CONFIG.submissionFormatVersion) warnings.push(`Unknown submission format v${payload.v}.`);
   if (!test) warnings.push('The test ID in the payload is not configured on this site.');
   if (!pupil) warnings.push('The pupil ID in the payload is not in the roster.');
-  if (externalPupilName && pupil && externalPupilName.trim() !== visibleNameToken(pupil.name)) {
-    warnings.push(`Possible identity substitution: the visible URL name “${externalPupilName}” does not match the submission identity “${pupil.name}”.`);
+  const cleanExternalName = decodeURIComponent(String(externalPupilName || '').split('&')[0]).trim();
+  if (cleanExternalName && pupil && cleanExternalName !== visibleNameToken(pupil.name)) {
+    warnings.push(`Possible identity substitution: the visible URL name “${cleanExternalName}” does not match the submission identity “${pupil.name}”.`);
     suspicious = true;
   }
   if (test && payload.cv !== test.configVersion) warnings.push(`Config version mismatch: payload ${payload.cv}, current ${test.configVersion}.`);
@@ -156,7 +158,7 @@ function renderImportPanel(test, pupil, record) {
   if (warnings.length) {
     setStatus($('#import-status'), `${suspicious ? 'Possible cheating/tampering warning: ' : 'Validation warning: '}${warnings.join(' ')}`, suspicious ? 'error' : 'warning');
   } else {
-    setStatus($('#import-status'), 'Submission imported and checksum verified.', 'success');
+    setStatus($('#import-status'), 'Submission link checked and imported.', 'success');
   }
   $('#import-correct').onclick = () => openCorrection(test.id, pupil.id);
 }
@@ -165,7 +167,8 @@ async function importFromHashIfPresent() {
   const params = parseHashParams();
   const token = params.get('s');
   if (!token) return;
-  const visibleName = new URL(location.href).searchParams.get('pupil') || '';
+  const currentUrl = new URL(location.href);
+  const visibleName = (currentUrl.searchParams.get('pupil') || currentUrl.search.slice(1) || '').split('&')[0];
   await importSubmissionToken(token, visibleName);
 }
 
@@ -204,7 +207,15 @@ function renderTestOverviewCards() {
     button.type = 'button';
     const title = document.createElement('strong'); title.textContent = test.label;
     const small = document.createElement('span'); small.textContent = `${subs}/${activeCount} submitted · ${corrections} corrected`;
-    button.append(title, small);
+    const chips = document.createElement('div'); chips.className = 'chip-row';
+    const graded = document.createElement('span'); graded.className = `status-chip ${isGradedTest(test) ? 'graded' : 'ungraded'}`; graded.textContent = isGradedTest(test) ? 'Graded' : 'Not graded';
+    const isPastClose = test.closingTime && Date.now() > new Date(test.closingTime).getTime();
+    const isOpen = !!test.active && !isPastClose;
+    const open = document.createElement('span'); open.className = `status-chip ${isOpen ? 'open' : 'closed'}`;
+    const closeText = test.closingTime && !isPastClose ? ` until ${new Intl.DateTimeFormat('nb-NO', { day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit' }).format(new Date(test.closingTime))}` : '';
+    open.textContent = isOpen ? `Open${closeText}` : 'Closed';
+    chips.append(graded, open);
+    button.append(title, small, chips);
     button.addEventListener('click', () => {
       state.selectedTestId = test.id;
       renderDashboard();
@@ -221,7 +232,12 @@ function renderSelectedTest() {
   const corrections = state.teacherData.corrections?.[test.id] || {};
   const submittedCount = active.filter(p => submissions[p.id]).length;
   const correctedCount = active.filter(p => corrections[p.id]?.completedAt).length;
+  const durations = active.map(p => submissions[p.id]).filter(Boolean).map(sub => sub.payload.f - sub.payload.s).filter(ms => Number.isFinite(ms) && ms >= 0).sort((a,b)=>a-b);
+  const medianDuration = durations.length ? (durations.length % 2 ? durations[(durations.length-1)/2] : (durations[durations.length/2-1] + durations[durations.length/2]) / 2) : 0;
+  const lateThreshold = Math.max(12 * 60 * 1000, medianDuration * 1.75, medianDuration + 5 * 60 * 1000);
   $('#selected-test-title').textContent = test.label;
+  $('#selected-test-meta').textContent = `${isGradedTest(test) ? 'Graded' : 'Not graded'} · ${(test.active && !(test.closingTime && Date.now() > new Date(test.closingTime).getTime())) ? 'Open' : 'Closed'}${test.closingTime ? ` until ${formatDateTime(new Date(test.closingTime).getTime())}` : ''}`;
+  $('#results-selected-test').textContent = `Selected test: ${test.label} · ${isGradedTest(test) ? 'Graded' : 'Not graded'}`;
   $('#stat-submitted').textContent = `${submittedCount}/${active.length}`;
   $('#stat-missing').textContent = String(active.length - submittedCount);
   $('#stat-corrected').textContent = `${correctedCount}/${submittedCount}`;
@@ -232,20 +248,27 @@ function renderSelectedTest() {
     const submission = submissions[pupil.id];
     const correction = corrections[pupil.id];
     const tr = document.createElement('tr');
+    const durationMs = submission ? submission.payload.f - submission.payload.s : 0;
+    const lockoutEvents = submission ? (submission.payload.e || []).filter(ev => Array.isArray(ev) && ev[2] === 1).length : 0;
+    const suspiciousNow = !!submission && (!!submission.suspicious || lockoutEvents > 0 || (medianDuration > 0 && durationMs > lateThreshold));
     const cells = [
       pupil.name,
       submission ? 'Submitted' : 'Missing',
       submission ? `${submission.grading.estimatedCorrect}+${submission.grading.uncertain}? / ${submission.grading.total}` : '-',
-      correction?.completedAt ? `${correction.finalScore}/${test.questionCount}` : submission ? 'Needs correction' : '-',
-      submission ? formatDuration((submission.payload.f - submission.payload.s) / 1000) : '-',
-      submission ? String(submission.payload.x || 0) : '-'
+      correction?.completedAt ? `${correction.finalScore}/${test.questionCount ?? submission?.grading?.total ?? 0}` : submission ? 'Needs correction' : '-'
     ];
     cells.forEach((text, idx) => {
-      const td = document.createElement('td');
-      td.textContent = text;
-      if (idx === 1 && submission?.suspicious) td.className = 'danger-text';
-      tr.appendChild(td);
+      const td = document.createElement('td'); td.textContent = text; tr.appendChild(td);
     });
+    const check = document.createElement('td');
+    if (submission) {
+      const checkButton = document.createElement('button'); checkButton.type = 'button';
+      checkButton.className = `btn btn-small suspicion-button ${suspiciousNow ? 'suspicious' : ''}`;
+      checkButton.textContent = suspiciousNow ? 'Check activity' : 'Activity';
+      checkButton.addEventListener('click', () => showActivityDetails(test, pupil, submission, medianDuration, lateThreshold));
+      check.appendChild(checkButton);
+    }
+    tr.appendChild(check);
     const action = document.createElement('td');
     if (submission) {
       const button = document.createElement('button');
@@ -272,7 +295,16 @@ function buildCorrectionState(testId, pupilId, reviewAll = false) {
   const existing = getCorrection(testId, pupilId);
   const decisions = existing?.attemptId === submission.payload.a
     ? [...existing.decisions]
-    : submission.grading.details.map(detail => detail.band === 'correct' ? true : null);
+    : submission.grading.details.map((detail, index) => {
+        if (detail.band === 'correct') return true;
+        const source = canonical[index];
+        if (!source?.sourceTestId) return null;
+        const sourceCorrection = getCorrection(source.sourceTestId, pupilId);
+        if (!sourceCorrection) return null;
+        const sourceDecision = sourceCorrection.decisions?.[source.sourceIndex];
+        if (sourceDecision === true || sourceDecision === false) return sourceDecision;
+        return sourceCorrection.finalBits?.[source.sourceIndex] === true ? true : sourceCorrection.finalBits?.[source.sourceIndex] === false ? false : null;
+      });
   const queue = canonical.map((_, index) => index).filter(index => reviewAll || submission.grading.details[index].band !== 'correct');
   return { test, pupilId, submission, canonical, decisions, queue, queuePosition: 0, reviewAll };
 }
@@ -412,11 +444,12 @@ function finishCorrection() {
   }
   persistCorrectionProgress(Date.now());
   const correction = getCorrection(c.test.id, c.pupilId);
-  setStatus($('#correction-status'), `Correction complete: ${correction.finalScore}/${c.test.questionCount}.`, 'success');
+  setStatus($('#correction-status'), `Correction complete: ${correction.finalScore}/${correction.finalBits.length}.`, 'success');
   $('#correction-panel').hidden = true;
   $('#dashboard-panel').hidden = false;
   state.correction = null;
   renderDashboard();
+  if (state.correctAllMode) openNextClassCorrection(c.test.id);
 }
 
 function renderPreflight() {
@@ -452,8 +485,9 @@ function renderPreflight() {
     if (uniqueOwners.length > 1) warnings.push(`Synonym “${synonym}” is accepted for multiple vocabulary items: ${uniqueOwners.join(', ')}.`);
   }
   for (const test of state.data.tests.tests) {
-    const available = test.vocabularyIds.filter(id => state.data.vocabById.has(id)).length;
-    if (available < test.questionCount) warnings.push(`${test.label}: only ${available} valid words for ${test.questionCount} questions.`);
+    const canonical = buildCanonicalQuestions(state.data, test);
+    const wanted = Number(test.merge_amount ?? test.mergeAmount ?? test.questionCount ?? 0);
+    if (canonical.length < wanted) warnings.push(`${test.label}: only ${canonical.length} valid questions for ${wanted} requested.`);
     if (test.openingTime && Number.isNaN(new Date(test.openingTime).getTime())) warnings.push(`${test.label}: invalid openingTime.`);
   }
   $('#preflight-summary').textContent = `${active.length} active pupils · ${state.data.vocabulary.items.length} vocabulary entries · ${state.data.tests.tests.length} tests · ${warnings.length} warning(s)`;
@@ -464,6 +498,87 @@ function renderPreflight() {
   } else {
     warnings.slice(0, 30).forEach(text => { const li = document.createElement('li'); li.textContent = text; ul.appendChild(li); });
   }
+}
+
+
+function showActivityDetails(test, pupil, submission, medianDuration, lateThreshold) {
+  const durationMs = submission.payload.f - submission.payload.s;
+  const lockouts = (submission.payload.e || []).filter(ev => Array.isArray(ev) && ev[2] === 1).length || Number(submission.payload.x || 0);
+  const late = medianDuration > 0 && durationMs > lateThreshold;
+  const identityWarning = (submission.warnings || []).find(w => w.includes('identity substitution')) || '';
+  const suspicious = !!identityWarning || lockouts > 0 || late || !!submission.suspicious;
+  $('#activity-title').textContent = `${pupil.name} - ${test.label}`;
+  setStatus($('#activity-warning'), suspicious ? `Possible cheating/activity concern.${identityWarning ? ` ${identityWarning}` : ''}${late ? ' The test took significantly longer than the class median.' : ''}` : 'No automatic warning was triggered for this submission.', suspicious ? 'error' : 'success');
+  const metrics = $('#activity-metrics'); metrics.replaceChildren();
+  const values = [
+    ['Lockout events', String(lockouts)],
+    ['Time spent', formatDuration(durationMs / 1000)],
+    ['Clicked submit', formatDateTime(submission.payload.f)],
+    ['Class median', medianDuration ? formatDuration(medianDuration / 1000) : '-']
+  ];
+  values.forEach(([label,value]) => { const box=document.createElement('div'); box.className='metric'; const strong=document.createElement('strong'); strong.textContent=value; const span=document.createElement('span'); span.textContent=label; box.append(strong,span); metrics.appendChild(box); });
+  $('#activity-panel').hidden = false;
+  $('#activity-panel').scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+function openNextClassCorrection(testId) {
+  const submissions = state.teacherData.submissions?.[testId] || {};
+  const corrections = state.teacherData.corrections?.[testId] || {};
+  for (const pupil of state.data.roster.pupils.filter(p => p.active)) {
+    const submission = submissions[pupil.id];
+    if (!submission || submission.rawPurged || corrections[pupil.id]?.completedAt) continue;
+    openCorrection(testId, pupil.id);
+    return;
+  }
+  state.correctAllMode = false;
+  renderDashboard();
+  setStatus($('#backup-status'), '', '');
+  alert('All submitted work for this test has been corrected.');
+}
+
+function startCorrectAll() {
+  const testId = state.selectedTestId;
+  state.correctAllMode = true;
+  openNextClassCorrection(testId);
+}
+
+function pdfEscape(text) {
+  return String(text).replace(/\\/g,'\\\\').replace(/\(/g,'\\(').replace(/\)/g,'\\)').replace(/[–—]/g,'-');
+}
+function latin1Bytes(text) {
+  const map = { '€':128, '’':146, '“':147, '”':148, '•':149 };
+  const out = new Uint8Array(text.length);
+  for (let i=0;i<text.length;i++) { const c=text[i]; const code=map[c] ?? c.charCodeAt(0); out[i] = code <= 255 ? code : 63; }
+  return out;
+}
+function downloadSimplePdf(filename, title, lines) {
+  const pages=[]; for(let i=0;i<lines.length;i+=42) pages.push(lines.slice(i,i+42)); if(!pages.length) pages.push([]);
+  const objs=[]; const pageIds=[]; const contentIds=[]; const fontId=3;
+  let nextId=4;
+  pages.forEach(()=>{pageIds.push(nextId++); contentIds.push(nextId++);});
+  objs[1]='<< /Type /Catalog /Pages 2 0 R >>';
+  objs[2]=`<< /Type /Pages /Kids [${pageIds.map(id=>`${id} 0 R`).join(' ')}] /Count ${pages.length} >>`;
+  objs[fontId]='<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>';
+  pages.forEach((page,pi)=>{
+    const commands=['BT','/F1 16 Tf','50 790 Td',`(${pdfEscape(title)}) Tj`,'/F1 10 Tf','0 -24 Td'];
+    page.forEach((line,idx)=>{ if(idx) commands.push('0 -16 Td'); commands.push(`(${pdfEscape(line)}) Tj`); }); commands.push('ET');
+    const stream=commands.join('\n');
+    objs[pageIds[pi]]=`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 ${fontId} 0 R >> >> /Contents ${contentIds[pi]} 0 R >>`;
+    objs[contentIds[pi]]=`<< /Length ${latin1Bytes(stream).length} >>\nstream\n${stream}\nendstream`;
+  });
+  let pdf='%PDF-1.4\n'; const offsets=[0];
+  for(let i=1;i<objs.length;i++){ if(!objs[i]) continue; offsets[i]=latin1Bytes(pdf).length; pdf+=`${i} 0 obj\n${objs[i]}\nendobj\n`; }
+  const xref=latin1Bytes(pdf).length; pdf+=`xref\n0 ${objs.length}\n0000000000 65535 f \n`;
+  for(let i=1;i<objs.length;i++) pdf+=`${String(offsets[i]||0).padStart(10,'0')} 00000 n \n`;
+  pdf+=`trailer\n<< /Size ${objs.length} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF`;
+  const blob=new Blob([latin1Bytes(pdf)],{type:'application/pdf'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=filename; a.click(); setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+function downloadFinalResultsPdf() {
+  const test=state.data.testById.get(state.selectedTestId); if(!test) return;
+  const submissions=state.teacherData.submissions?.[test.id]||{}; const corrections=state.teacherData.corrections?.[test.id]||{};
+  const lines=[`Test: ${test.label}`,`Type: ${isGradedTest(test)?'Graded':'Not graded'}`,`Status: ${test.active?'Open':'Closed'}${test.closingTime ? ` until ${formatDateTime(new Date(test.closingTime).getTime())}` : ''}`,''];
+  for(const pupil of state.data.roster.pupils.filter(p=>p.active)) { const sub=submissions[pupil.id]; const corr=corrections[pupil.id]; const result=!sub?'':corr?.completedAt?`${corr.finalScore}/${corr.finalBits.length}`:'Not corrected'; lines.push(`${pupil.name}: ${result}`); }
+  downloadSimplePdf(`final-results-${test.id}.pdf`, 'VG1 Vocabulary - Final results', lines);
 }
 
 async function generateResultsLink() {
@@ -481,7 +596,8 @@ async function generateResultsLink() {
       pupilId: pupil.id,
       bits: packBits(correction.finalBits.map(Boolean)),
       score: correction.finalScore,
-      total: test.questionCount,
+      total: correction.finalBits.length,
+      graded: isGradedTest(test),
       correctedAt: correction.completedAt
     };
     const encrypted = await encryptForPin(record, String(submission.payload.c), `${test.id}|${pupil.id}`);
@@ -520,7 +636,7 @@ async function finalizeResultsLink() {
   const bundleToken = $('#result-bundle-token').value.trim();
   const signatureToken = $('#result-bundle-signature').value.trim();
   if (!bundleToken || !signatureToken) {
-    setStatus($('#results-link-status'), 'Generate a package and paste its signed result-bundle token first.', 'warning');
+    setStatus($('#results-link-status'), 'Create the class results link first.', 'warning');
     return;
   }
   try {
@@ -532,7 +648,7 @@ async function finalizeResultsLink() {
     const url = new URL('../results/', location.href);
     url.hash = `r=${encodeURIComponent(bundleToken)}&s=${encodeURIComponent(signatureToken)}`;
     $('#results-link').value = url.href;
-    setStatus($('#results-link-status'), `Teacher signature verified. Signed class result link is ready for ${bundle.entries.length} pupil record(s). Four-digit PINs remain a convenience/privacy layer, while the teacher signature protects result integrity.`, 'success');
+    setStatus($('#results-link-status'), `Class results link is ready for ${bundle.entries.length} pupil result(s). Pupils use their four-digit result code to open their own result.`, 'success');
   } catch (error) {
     setStatus($('#results-link-status'), `Could not finalize result link: ${error.message}`, 'error');
   }
@@ -556,22 +672,20 @@ function exportResultsOnly() {
     for (const pupil of state.data.roster.pupils.filter(p => p.active)) {
       const submission = submissions[pupil.id];
       const correction = corrections[pupil.id];
-      if (!submission) continue;
       rows.push({
-        pupilId: pupil.id,
-        pupilName: pupil.name,
-        submittedAt: submission.payload.f,
-        durationSeconds: Math.round((submission.payload.f - submission.payload.s) / 1000),
-        integrityEvents: submission.payload.x || 0,
-        suspicious: !!submission.suspicious,
+        pupilId: pupil.id, pupilName: pupil.name, submitted: !!submission,
+        submittedAt: submission?.payload?.f || null,
+        durationSeconds: submission ? Math.round((submission.payload.f - submission.payload.s) / 1000) : null,
+        integrityEvents: submission?.payload?.x || 0,
+        suspicious: !!submission?.suspicious,
         corrected: !!correction?.completedAt,
         score: correction?.completedAt ? correction.finalScore : null,
-        total: correction?.completedAt ? test.questionCount : null
+        total: correction?.completedAt ? correction.finalBits.length : null
       });
     }
-    if (rows.length) tests.push({ testId: test.id, label: test.label, rows });
+    tests.push({ testId: test.id, label: test.label, graded: isGradedTest(test), active: !!test.active, closingTime: test.closingTime || null, rows });
   }
-  downloadText(`vocabulary-results-only-${new Date().toISOString().slice(0, 10)}.json`, JSON.stringify({ schema: 1, exportedAt: new Date().toISOString(), tests }, null, 2));
+  downloadText(`vocabulary-results-only-${new Date().toISOString().slice(0, 10)}.json`, JSON.stringify({ schema: 2, exportedAt: new Date().toISOString(), tests }, null, 2));
 }
 
 function purgeSelectedTestDetails() {
@@ -671,6 +785,7 @@ function bindEvents() {
   $('#correction-close').addEventListener('click', () => {
     if (state.correction) persistCorrectionProgress();
     state.correction = null;
+    state.correctAllMode = false;
     $('#correction-panel').hidden = true;
     $('#dashboard-panel').hidden = false;
     renderDashboard();
@@ -682,6 +797,9 @@ function bindEvents() {
     if (key === 'w' || event.key === 'ArrowLeft') { event.preventDefault(); applyDecision(false); }
     if (key === 'y') { event.preventDefault(); $('#correction-skip').click(); }
   });
+  $('#correct-all')?.addEventListener('click', startCorrectAll);
+  $('#activity-close')?.addEventListener('click', () => { $('#activity-panel').hidden = true; });
+  $('#download-results-pdf')?.addEventListener('click', downloadFinalResultsPdf);
   $('#generate-results').addEventListener('click', generateResultsLink);
   $('#finalize-results-link').addEventListener('click', finalizeResultsLink);
   $('#copy-results-link').addEventListener('click', async () => {

@@ -1,5 +1,5 @@
 import { APP_CONFIG } from './config.js';
-import { loadAppData, findTestByCode, buildCanonicalQuestions, buildPupilOrder, getPrompt, getDirectionLabel } from './data.js';
+import { loadAppData, findTestByCode, buildCanonicalQuestions, buildPupilOrder, getPrompt, getDirectionLabel, isGradedTest } from './data.js';
 import { gradeAttempt, gradeAnswer, acceptedAnswers } from './grading.js';
 import { storage } from './storage.js';
 import { encodeCheckedPayload, decodeCheckedPayload, receiptFromToken, verifySignedToken } from './cryptography.js';
@@ -18,7 +18,9 @@ const state = {
   monitorActive: false,
   countdownTimer: null,
   nextEnabledAt: 0,
-  practice: null
+  practice: null,
+  guardTimer: null,
+  fullscreenTransitionPending: false
 };
 
 const screens = ['registration', 'ready', 'code', 'rules', 'test', 'submit', 'finished', 'practice'];
@@ -91,11 +93,8 @@ async function beginSecureSession() {
   // before the test code is entered.
   state.monitorActive = true;
 
-  try {
-    if (!document.fullscreenElement) await document.documentElement.requestFullscreen();
-  } catch {
-    addViolation('fullscreen-start-failed', true);
-  }
+  const enteredFullscreen = await enterProtectedFullscreen();
+  if (!enteredFullscreen) addViolation('fullscreen-start-failed', true);
 }
 
 function showCodeScreen(message = '') {
@@ -105,9 +104,78 @@ function showCodeScreen(message = '') {
   $('#test-code').focus();
 }
 
+function showRetakeGate(test) {
+  if (!state.entrySession) return;
+
+  // This is a teacher-permission waiting screen, not an active test stage.
+  // Pupils may need to switch to the teacher's window/device to obtain the code,
+  // so focus/full-screen monitoring must be paused until permission is accepted.
+  state.monitorActive = false;
+  const requestSeed = `retake|${state.entrySession.sessionId}|${state.pupil.id}|${test.id}`;
+  state.entrySession.retakeRequest = state.entrySession.retakeRequest || makeUnlockRequest(requestSeed, 0);
+  state.entrySession.stage = 'retake';
+  state.entrySession.testId = test.id;
+  state.entrySession.locked = false;
+  state.entrySession.unlockRequest = null;
+  persistEntrySession();
+
+  $('#retake-test-label').textContent = test.label;
+  $('#retake-request').textContent = state.entrySession.retakeRequest;
+  $('#retake-token').value = '';
+  setStatus($('#retake-status'), '', '');
+  $('#retake-screen').hidden = false;
+  document.body.classList.add('is-locked');
+  $('#retake-token').focus();
+}
+
+function hideRetakeGate() {
+  $('#retake-screen').hidden = true;
+  document.body.classList.remove('is-locked');
+}
+
+async function authorizeRetake() {
+  const request = state.entrySession?.retakeRequest;
+  const code = normalizeFiveLetters($('#retake-token').value);
+  if (!request || !verifyUnlockCode(request, code)) {
+    setStatus($('#retake-status'), 'That five-letter teacher code is not valid for this request.', 'error');
+    return;
+  }
+
+  // Keep monitoring paused while restoring the protected full-screen session.
+  // requestFullscreen is deliberately called from this button click so browsers
+  // accept it as a user-initiated action. Do not authorize the retake until the
+  // secure view has actually been restored.
+  state.monitorActive = false;
+  const restored = await enterProtectedFullscreen();
+  if (!restored) {
+    setStatus(
+      $('#retake-status'),
+      'The teacher code is correct, but full-screen could not be restored. Click “Allow another attempt” again and allow full-screen if the browser asks.',
+      'error'
+    );
+    return;
+  }
+
+  state.entrySession.retakeAuthorizedTestId = state.test.id;
+  state.entrySession.retakeRequest = null;
+  state.entrySession.stage = 'rules';
+  state.entrySession.locked = false;
+  state.entrySession.unlockRequest = null;
+  state.entrySession.violationEvents ||= [];
+  state.entrySession.violationEvents.push({ type: 'teacher-authorized-retake', at: Date.now(), lockEligible: false });
+  persistEntrySession();
+
+  hideRetakeGate();
+  configureRules(state.test);
+  state.monitorActive = true;
+  checkIntegrityNow('retake-authorized');
+}
+
 function configureRules(test) {
   $('#rules-test-label').textContent = test.label;
-  $('#rules-count').textContent = String(test.questionCount);
+  $('#rules-count').textContent = String(test.questionCount ?? test.merge_amount ?? test.mergeAmount ?? 0);
+  const gradeBadge = $('#rules-grade-badge');
+  if (gradeBadge) { gradeBadge.textContent = isGradedTest(test) ? 'Graded test' : 'Practice / not graded'; gradeBadge.dataset.graded = isGradedTest(test) ? 'true' : 'false'; }
   $('#rules-fullscreen').textContent = test.requireFullscreen ? 'Full-screen is required.' : 'Full-screen is recommended.';
   updateStartAvailability();
   clearInterval(state.countdownTimer);
@@ -119,6 +187,14 @@ function updateStartAvailability() {
   if (!state.test) return;
   const startButton = $('#start-test');
   const countdown = $('#opening-countdown');
+  if (state.test.closingTime) {
+    const closing = new Date(state.test.closingTime).getTime();
+    if (Number.isFinite(closing) && Date.now() > closing) {
+      startButton.disabled = true;
+      countdown.textContent = 'This test is closed.';
+      return;
+    }
+  }
   if (!state.test.openingTime) {
     startButton.disabled = false;
     countdown.textContent = 'The test is open.';
@@ -328,6 +404,28 @@ function hideLock() {
   document.body.classList.remove('is-locked');
 }
 
+function fullscreenElement() {
+  return document.fullscreenElement || document.webkitFullscreenElement || null;
+}
+
+async function enterProtectedFullscreen() {
+  if (fullscreenElement()) return true;
+  const root = document.documentElement;
+  const request = root.requestFullscreen || root.webkitRequestFullscreen;
+  if (!request) return false;
+
+  state.fullscreenTransitionPending = true;
+  try {
+    const result = request.call(root);
+    if (result?.then) await result;
+    return !!fullscreenElement();
+  } catch {
+    return false;
+  } finally {
+    state.fullscreenTransitionPending = false;
+  }
+}
+
 async function unlockAttempt() {
   const record = currentGuardRecord();
   const code = normalizeFiveLetters($('#unlock-token').value);
@@ -336,67 +434,101 @@ async function unlockAttempt() {
     return;
   }
 
-  record.locked = false;
-  record.violationEvents.push({ type: 'teacher-unlock', at: Date.now(), lockEligible: false });
-  record.unlockRequest = null;
-  hideLock();
-
+  // During the entry/code stage, a teacher unlock intentionally ends the secure
+  // session rather than returning the pupil to the test.
   if (record === state.entrySession && !state.attempt) {
+    record.locked = false;
+    record.violationEvents.push({ type: 'teacher-unlock', at: Date.now(), lockEligible: false });
+    record.unlockRequest = null;
+    persistEntrySession();
+    hideLock();
+    hideRetakeGate();
     storage.clearEntrySession();
     state.entrySession = null;
     state.test = null;
     state.canonical = [];
     state.monitorActive = false;
-    if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+    if (fullscreenElement()) {
+      const exit = document.exitFullscreen || document.webkitExitFullscreen;
+      if (exit) Promise.resolve(exit.call(document)).catch(() => {});
+    }
     showReadyScreen('Your teacher ended the test session. You can start again when ready.');
     return;
   }
 
-  persistAttempt();
-  if (state.test?.requireFullscreen && !document.fullscreenElement) {
-    try {
-      await document.documentElement.requestFullscreen();
-    } catch {
-      setStatus($('#test-status'), 'The test could not return to full-screen. Ask your teacher before continuing.', 'warning');
+  // For an active test that requires full-screen, restore full-screen *before*
+  // clearing the lock. This prevents a valid teacher code from leaving the pupil
+  // able to continue in a normal browser window if requestFullscreen is blocked.
+  if (state.test?.requireFullscreen && !fullscreenElement()) {
+    const restored = await enterProtectedFullscreen();
+    if (!restored) {
+      showLock();
+      setStatus(
+        $('#unlock-status'),
+        'The unlock code is correct, but full-screen could not be restored. Click “Unlock test” again and allow full-screen if the browser asks.',
+        'error'
+      );
+      return;
     }
   }
+
+  record.locked = false;
+  record.violationEvents.push({ type: 'teacher-unlock', at: Date.now(), lockEligible: false });
+  record.unlockRequest = null;
+  persistAttempt();
+  hideLock();
   renderQuestion();
 }
 
-function installIntegrityMonitors() {
-  document.addEventListener('visibilitychange', () => {
-    if (!state.monitorActive || document.visibilityState !== 'hidden') return;
+function protectedSessionNeedsFullscreen() {
+  return !!state.entrySession || !!state.test?.requireFullscreen;
+}
+
+function checkIntegrityNow(source = 'guard-check') {
+  if (!state.monitorActive) return;
+  const record = currentGuardRecord();
+  if (!record || record.submitted) return;
+
+  if (record.locked) {
+    const lockScreen = $('#lock-screen');
+    if (lockScreen?.hidden || !document.body.classList.contains('is-locked')) showLock();
+    return;
+  }
+
+  if (document.visibilityState === 'hidden') {
     addViolation('tab-or-window-hidden', true);
-  });
-  document.addEventListener('fullscreenchange', () => {
-    const record = currentGuardRecord();
-    const fullscreenRequired = !!state.entrySession || !!state.test?.requireFullscreen;
-    if (!state.monitorActive || !record || !fullscreenRequired || document.fullscreenElement) return;
-    addViolation('fullscreen-exit', true);
-  });
-  // Losing browser focus during a protected session is treated as a lock event.
-  // A short delay avoids locking on transient focus changes caused by browser UI,
-  // while still catching Alt+Tab / switching applications reliably.
-  window.addEventListener('blur', () => {
-    if (!state.monitorActive) return;
-    window.setTimeout(() => {
-      const record = currentGuardRecord();
-      if (!state.monitorActive || !record || record.locked || record.submitted) return;
-      if (!document.hasFocus()) addViolation('window-blur', true);
-    }, 150);
-  });
+    return;
+  }
 
-  // If the page becomes visible/focused again with a persisted locked state,
-  // force the red lock overlay back on screen immediately.
-  window.addEventListener('focus', () => {
-    const record = currentGuardRecord();
-    if (state.monitorActive && record?.locked) showLock();
-  });
+  if (protectedSessionNeedsFullscreen() && !state.fullscreenTransitionPending && !fullscreenElement()) {
+    addViolation(source === 'fullscreenchange' ? 'fullscreen-exit' : 'fullscreen-missing', true);
+    return;
+  }
 
-  window.addEventListener('pageshow', () => {
-    const record = currentGuardRecord();
-    if (state.monitorActive && record?.locked) showLock();
-  });
+  // hasFocus() catches application/window switches that do not always produce a
+  // useful visibilitychange in every browser. Do not use it while entering
+  // full-screen because that transition can briefly move focus itself.
+  if (!state.fullscreenTransitionPending && !document.hasFocus()) {
+    addViolation('window-blur', true);
+  }
+}
+
+function installIntegrityMonitors() {
+  document.addEventListener('visibilitychange', () => checkIntegrityNow('visibilitychange'));
+
+  const onFullscreenChange = () => checkIntegrityNow('fullscreenchange');
+  document.addEventListener('fullscreenchange', onFullscreenChange);
+  document.addEventListener('webkitfullscreenchange', onFullscreenChange);
+
+  window.addEventListener('blur', () => checkIntegrityNow('window-blur'));
+  window.addEventListener('focus', () => checkIntegrityNow('window-focus'));
+  window.addEventListener('pageshow', () => checkIntegrityNow('pageshow'));
+
+  // Browser full-screen/focus events can occasionally be skipped during rapid
+  // Escape/Alt+Tab transitions. Keep a lightweight watchdog while a protected
+  // session is active so the page cannot silently remain usable outside full-screen.
+  clearInterval(state.guardTimer);
+  state.guardTimer = window.setInterval(() => checkIntegrityNow('watchdog'), 200);
 
   window.addEventListener('pagehide', () => {
     const record = currentGuardRecord();
@@ -429,15 +561,15 @@ async function startTest() {
   state.entrySession = null;
   persistAttempt();
   showScreen('test');
-  if (state.test.requireFullscreen && !document.fullscreenElement) {
-    try {
-      await document.documentElement.requestFullscreen();
-    } catch {
-      addViolation('fullscreen-denied', true);
-    }
-  }
   state.monitorActive = true;
-  renderQuestion();
+
+  if (state.test.requireFullscreen && !fullscreenElement()) {
+    const enteredFullscreen = await enterProtectedFullscreen();
+    if (!enteredFullscreen) addViolation('fullscreen-denied', true);
+  }
+
+  if (state.attempt.locked) showLock();
+  else renderQuestion();
 }
 
 function showSubmissionScreen() {
@@ -648,7 +780,8 @@ function checkPracticeAnswer() {
 }
 
 function resetIdentity() {
-  if (!confirm('Reset the pupil identity on this browser? This also clears pupil-local attempts, saved result history, and practice progress on this browser.')) return;
+  if (!confirm('Reset the pupil identity on this browser? This clears pupil-local attempts, saved result history, and practice progress. Finished tests will still require teacher permission before the same pupil can take them again.')) return;
+  if (state.pupil?.id != null) storage.preserveCompletedTestsForPupil(state.pupil.id);
   storage.clearPupilIdentity();
   storage.clearEntrySession();
   storage.clearActiveAttempt();
@@ -660,13 +793,14 @@ function resetIdentity() {
 
 function returnToCodeScreen() {
   state.monitorActive = false;
+  hideRetakeGate();
   storage.clearActiveAttempt();
   state.attempt = null;
   state.test = null;
   state.canonical = [];
   state.practice = null;
   document.body.classList.remove('finished-green');
-  $('#estimated-results').hidden = true;
+  if ($('#estimated-results')) $('#estimated-results').hidden = true;
   $('#test-code').value = '';
   showReadyScreen('Ready for another test when you are.');
 }
@@ -675,6 +809,21 @@ async function restoreEntrySessionIfNeeded() {
   const saved = storage.getEntrySession();
   if (!saved || saved.pupilId !== state.pupil.id) return false;
   state.entrySession = saved;
+
+  // A retake-permission screen is intentionally outside the protected test
+  // session. Reloading/returning to it must not create a second lock screen.
+  if (saved.stage === 'retake' && saved.testId) {
+    state.test = state.data.testById.get(saved.testId) || null;
+    if (state.test) {
+      state.canonical = buildCanonicalQuestions(state.data, state.test);
+      state.entrySession.locked = false;
+      state.entrySession.unlockRequest = null;
+      persistEntrySession();
+      showRetakeGate(state.test);
+      return true;
+    }
+  }
+
   state.entrySession.violationCount = (state.entrySession.violationCount || 0) + 1;
   state.entrySession.violationEvents ||= [];
   state.entrySession.violationEvents.push({ type: 'page-reload-or-resume', at: Date.now(), lockEligible: true });
@@ -741,6 +890,14 @@ function bindEvents() {
     }
     state.test = test;
     state.canonical = buildCanonicalQuestions(state.data, test);
+
+    const alreadyFinished = storage.hasCompletedTest(state.pupil.id, test.id);
+    const authorizedForRetake = state.entrySession?.retakeAuthorizedTestId === test.id;
+    if (alreadyFinished && !authorizedForRetake) {
+      showRetakeGate(test);
+      return;
+    }
+
     if (state.entrySession) { state.entrySession.stage = 'rules'; state.entrySession.testId = test.id; persistEntrySession(); }
     configureRules(test);
   });
@@ -762,11 +919,16 @@ function bindEvents() {
     wrap.hidden = !wrap.hidden;
   });
   $('#unlock-button').addEventListener('click', unlockAttempt);
+  $('#retake-button').addEventListener('click', authorizeRetake);
+  $('#retake-token').addEventListener('keydown', event => {
+    if (event.key === 'Enter') { event.preventDefault(); authorizeRetake(); }
+  });
   $('#submit-final').addEventListener('click', finalizeSubmission);
   $('#back-to-last-question').addEventListener('click', async () => {
     showScreen('test');
-    if (state.test.requireFullscreen && !document.fullscreenElement) {
-      try { await document.documentElement.requestFullscreen(); } catch { addViolation('fullscreen-reentry-denied', true); }
+    if (state.test.requireFullscreen && !fullscreenElement()) {
+      const enteredFullscreen = await enterProtectedFullscreen();
+      if (!enteredFullscreen) addViolation('fullscreen-reentry-denied', true);
     }
     state.monitorActive = true;
     renderQuestion();
@@ -777,7 +939,8 @@ function bindEvents() {
   });
   $('#verify-url').addEventListener('click', verifyOwnSubmissionLink);
   $('#confirm-handin').addEventListener('click', confirmHandIn);
-  $('#release-button').addEventListener('click', showEstimatedResultsFromRelease);
+  $('#release-button')?.addEventListener('click', showEstimatedResultsFromRelease);
+  $('#back-to-link')?.addEventListener('click', () => { state.attempt.confirmedHandIn = false; persistAttempt(); storage.saveCompletedAttempt(state.attempt.testId, state.attempt); renderFinished(false); });
   $('#practice-button').addEventListener('click', startPractice);
   $('#new-test-button').addEventListener('click', returnToCodeScreen);
   $('#practice-check').addEventListener('click', checkPracticeAnswer);
@@ -803,6 +966,7 @@ async function init() {
     }
     state.pupil = pupil;
     $('#current-pupil').textContent = pupil.name;
+    storage.preserveCompletedTestsForPupil(pupil.id);
     if (await restoreAttemptIfNeeded()) return;
     if (await restoreEntrySessionIfNeeded()) return;
     showReadyScreen();

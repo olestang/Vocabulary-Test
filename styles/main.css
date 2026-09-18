@@ -223,3 +223,22 @@ hr { border: 0; border-top: 1px solid #d4e3ea; margin: 2rem 0; }
 
 /* During a committed test session, keep pupil navigation focused on the test. */
 .test-session-active .header-meta a { display: none !important; }
+
+
+/* 2026-09 usability additions */
+.header-meta a { font-weight: 800; padding: .42rem .62rem; border-radius: 9px; background: rgba(255,255,255,.72); border: 1px solid #b8d3df; text-decoration: none; }
+.header-meta a:hover { background: #fff; }
+.test-type-badge, .status-chip { display:inline-flex; align-items:center; gap:.35rem; padding:.38rem .7rem; border-radius:999px; font-weight:900; font-size:.88rem; border:1px solid #a9c9d8; background:#eef6fa; }
+.test-type-badge[data-graded="true"], .status-chip.graded { background:#e7f4ff; border-color:#8ebed7; color:#0a5278; }
+.test-type-badge[data-graded="false"], .status-chip.ungraded { background:#f4f4f4; border-color:#c9c9c9; color:#555; }
+.status-chip.open { background:#e2f6e9; border-color:#9fd0ae; color:#195e35; }
+.status-chip.closed { background:#f1f1f1; border-color:#c9c9c9; color:#666; }
+.status-chip.suspicious { background:#ffe4e4; border-color:#d87b7b; color:#8f2222; }
+.suspicion-button { background:#eef3f5; color:var(--ink); border:1px solid #b8cbd4; box-shadow:none; }
+.suspicion-button.suspicious { background:#c93636; color:#fff; border-color:#a72626; }
+.selected-test-banner { font-weight:900; border-left:5px solid var(--primary); padding:.75rem 1rem; background:#edf7fb; border-radius:8px; }
+.test-card .chip-row { display:flex; flex-wrap:wrap; gap:.35rem; margin-top:.55rem; }
+.history-filter { display:flex; gap:.5rem; margin:1rem 0; }
+.pupil-next-step { margin-top:1rem; }
+#correct-all { font-size:1rem; padding:.9rem 1.2rem; }
+@media print { .site-header,.dashboard-tabs,.actions,.footer { display:none !important; } }

@@ -46,7 +46,7 @@
 
   <section id="screen-rules" class="card narrow" hidden>
     <p class="eyebrow">Before you start</p>
-    <h1 id="rules-test-label"></h1>
+    <h1 id="rules-test-label"></h1><p id="rules-grade-badge" class="test-type-badge"></p>
     <div class="callout"><strong id="opening-countdown">Checking opening time…</strong></div>
     <ul class="rules">
       <li>You will answer <strong id="rules-count"></strong> vocabulary questions, one at a time.</li>
@@ -99,12 +99,8 @@
       <div class="callout"><strong>Submitted.</strong> Keep this page open. The green screen lets the teacher see that you are finished.</div>
       <div class="actions"><button id="practice-button" class="btn btn-success" type="button">Practice next week’s words</button><button id="new-test-button" class="btn btn-secondary" type="button">Enter another test code</button></div>
       <hr>
-      <h2>Estimated results release</h2>
-      <p>When your teacher gives you a results release code, enter it below. The estimate is not the final corrected result.</p>
-      <div class="form-row"><label for="release-token">Teacher results release code</label><textarea id="release-token" spellcheck="false"></textarea></div>
-      <div class="actions"><button id="release-button" class="btn" type="button">Open estimated results</button></div>
-      <p id="release-status" class="status" hidden></p>
-      <div id="estimated-results" hidden><p id="estimated-summary" class="callout"></p><div id="estimated-list"></div></div>
+      <div class="callout pupil-next-step"><strong>Final results will appear in My results after your teacher has corrected the test.</strong></div>
+      <div class="actions"><button id="back-to-link" class="btn btn-secondary" type="button">Back to my submission link</button></div>
     </div>
   </section>
 
@@ -129,6 +125,19 @@
 
 <div id="lock-screen" class="lock-screen" hidden role="dialog" aria-modal="true" aria-labelledby="lock-title">
   <div class="lock-card"><p class="eyebrow">Teacher help needed</p><h2 id="lock-title">Test paused</h2><p>This test session was interrupted. Ask your teacher before continuing or leaving the session.</p><span id="lock-count" hidden></span><p>Tell your teacher this five-letter request:</p><p id="unlock-request" class="unlock-big-code"></p><div class="form-row"><label for="unlock-token">Five-letter teacher unlock code</label><input id="unlock-token" class="unlock-code-input" maxlength="5" autocomplete="off" autocapitalize="characters" spellcheck="false"></div><p id="unlock-status" class="status" hidden></p><div class="actions"><button id="unlock-button" class="btn btn-danger" type="button">Unlock test</button></div></div>
+</div>
+
+<div id="retake-screen" class="lock-screen" hidden role="dialog" aria-modal="true" aria-labelledby="retake-title">
+  <div class="lock-card">
+    <p class="eyebrow">Teacher permission needed</p>
+    <h2 id="retake-title">You have already finished this test</h2>
+    <p><strong id="retake-test-label"></strong> has already been submitted by this pupil. You cannot start it again unless your teacher allows another attempt.</p>
+    <p>Tell your teacher this five-letter request:</p>
+    <p id="retake-request" class="unlock-big-code"></p>
+    <div class="form-row"><label for="retake-token">Five-letter teacher code</label><input id="retake-token" class="unlock-code-input" maxlength="5" autocomplete="off" autocapitalize="characters" spellcheck="false"></div>
+    <p id="retake-status" class="status" hidden></p>
+    <div class="actions"><button id="retake-button" class="btn btn-danger" type="button">Allow another attempt</button></div>
+  </div>
 </div>
 
 <footer class="footer">VG1 Vocabulary Test</footer>

@@ -34,7 +34,7 @@ function renderSubmission() {
   $('#finished-after-confirm').hidden = !confirmed;
   document.body.classList.toggle('finished-green', confirmed);
   setStatus($('#copy-status'), '', '');
-  setStatus($('#release-status'), '', '');
+  if ($('#release-status')) setStatus($('#release-status'), '', '');
 }
 
 async function copySubmissionUrl() {
@@ -204,7 +204,8 @@ function bindEvents() {
   $('#copy-url').addEventListener('click', copySubmissionUrl);
   $('#verify-url').addEventListener('click', verifyOwnSubmissionLink);
   $('#confirm-handin').addEventListener('click', confirmHandIn);
-  $('#release-button').addEventListener('click', showEstimatedResultsFromRelease);
+  $('#release-button')?.addEventListener('click', showEstimatedResultsFromRelease);
+  $('#back-to-link')?.addEventListener('click', () => { state.attempt.confirmedHandIn = false; saveAttempt(); renderSubmission(); });
   $('#practice-button').addEventListener('click', startPractice);
   $('#new-test-button').addEventListener('click', goToNewTest);
   $('#practice-check').addEventListener('click', checkPracticeAnswer);

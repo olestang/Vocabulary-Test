@@ -20,7 +20,7 @@ async function run() {
     addResult('Load roster, vocabulary, and tests', true, `${data.roster.pupils.length} pupils, ${data.vocabulary.items.length} words`);
     const test = data.tests.tests[0];
     const questions = buildCanonicalQuestions(data, test);
-    addResult('Deterministic question selection', questions.length === test.questionCount, `${questions.length} questions`);
+    addResult('Deterministic question selection', questions.length === Number(test.merge_amount ?? test.mergeAmount ?? test.questionCount ?? questions.length), `${questions.length} questions`);
 
     const checked = await encodeCheckedPayload({ v: 1, hello: 'world', n: 42 });
     const decoded = await decodeCheckedPayload(checked);

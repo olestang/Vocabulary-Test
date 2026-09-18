@@ -1,9 +1,9 @@
-import { loadAppData, buildCanonicalQuestions, getPrompt } from './data.js';
+import { loadAppData, buildCanonicalQuestions, getPrompt, isGradedTest } from './data.js';
 import { acceptedAnswers } from './grading.js';
 import { storage } from './storage.js';
 import { $, formatDateTime, downloadText, setStatus } from './utilities.js';
 
-const state = { data: null, pupil: null, history: [] };
+const state = { data: null, pupil: null, history: [], filter: 'graded' };
 
 function renderDetails(record) {
   const test = state.data.testById.get(record.testId);
@@ -34,13 +34,15 @@ function renderHistory() {
   if (!state.history.length) {
     const p = document.createElement('p'); p.textContent = 'No verified results are saved on this browser yet.'; wrap.appendChild(p); return;
   }
-  for (const record of state.history) {
+  const visible = state.filter === 'all' ? state.history : state.history.filter(record => isGradedTest(state.data.testById.get(record.testId)));
+  if (!visible.length) { const p = document.createElement('p'); p.textContent = state.filter === 'graded' ? 'No graded final results are saved on this browser yet.' : 'No final results are saved on this browser yet.'; wrap.appendChild(p); return; }
+  for (const record of visible) {
     const test = state.data.testById.get(record.testId);
     if (!test) continue;
     const button = document.createElement('button');
     button.type = 'button';
     button.className = 'history-card';
-    const title = document.createElement('strong'); title.textContent = test.label;
+    const title = document.createElement('strong'); title.textContent = `${test.label} · ${isGradedTest(test) ? 'Graded' : 'Not graded'}`;
     const score = document.createElement('span'); score.textContent = `${record.score}/${record.total}`;
     const date = document.createElement('small'); date.textContent = `Saved ${formatDateTime(record.verifiedAt)}`;
     button.append(title, score, date);
@@ -65,7 +67,7 @@ async function importHistory(file) {
     for (const record of parsed.history) {
       if (record.pupilId !== state.pupil.id || !state.data.testById.has(record.testId) || !Array.isArray(record.bits)) continue;
       const test = state.data.testById.get(record.testId);
-      if (record.bits.length !== test.questionCount) continue;
+      if (record.bits.length !== buildCanonicalQuestions(state.data, test).length) continue;
       storage.savePupilHistoryRecord(record);
       imported += 1;
     }
@@ -89,6 +91,8 @@ async function init() {
   $('#pupil-dashboard-name').textContent = state.pupil.name;
   state.history = storage.getPupilHistory().filter(r => r.pupilId === state.pupil.id);
   renderHistory();
+  $('#filter-graded')?.addEventListener('click', () => { state.filter = 'graded'; $('#filter-graded').classList.remove('btn-secondary'); $('#filter-all').classList.add('btn-secondary'); renderHistory(); });
+  $('#filter-all')?.addEventListener('click', () => { state.filter = 'all'; $('#filter-all').classList.remove('btn-secondary'); $('#filter-graded').classList.add('btn-secondary'); renderHistory(); });
   $('#export-history').addEventListener('click', exportHistory);
   $('#import-history-file').addEventListener('change', event => { const file = event.target.files?.[0]; if (file) importHistory(file); event.target.value = ''; });
 }

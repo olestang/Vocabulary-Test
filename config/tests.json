@@ -20,7 +20,8 @@
         "highSimilarity": 0.9,
         "uncertainSimilarity": 0.72,
         "maxHighEditDistance": 1
-      }
+      },
+      "graded": true
     },
     {
       "id": "test",
@@ -60,7 +61,8 @@
         "highSimilarity": 0.9,
         "uncertainSimilarity": 0.72,
         "maxHighEditDistance": 1
-      }
+      },
+      "graded": true
     },
     {
       "id": "body-anatomy",
@@ -100,7 +102,8 @@
         "highSimilarity": 0.9,
         "uncertainSimilarity": 0.72,
         "maxHighEditDistance": 1
-      }
+      },
+      "graded": true
     },
     {
       "id": "symptoms-common-illness",
@@ -140,7 +143,8 @@
         "highSimilarity": 0.9,
         "uncertainSimilarity": 0.72,
         "maxHighEditDistance": 1
-      }
+      },
+      "graded": true
     },
     {
       "id": "injuries-health-conditions",
@@ -180,7 +184,8 @@
         "highSimilarity": 0.9,
         "uncertainSimilarity": 0.72,
         "maxHighEditDistance": 1
-      }
+      },
+      "graded": true
     },
     {
       "id": "personal-care-hygiene",
@@ -220,7 +225,8 @@
         "highSimilarity": 0.9,
         "uncertainSimilarity": 0.72,
         "maxHighEditDistance": 1
-      }
+      },
+      "graded": true
     },
     {
       "id": "food-sleep-mobility-toileting",
@@ -260,7 +266,8 @@
         "highSimilarity": 0.9,
         "uncertainSimilarity": 0.72,
         "maxHighEditDistance": 1
-      }
+      },
+      "graded": true
     },
     {
       "id": "basic-communication",
@@ -300,7 +307,8 @@
         "highSimilarity": 0.9,
         "uncertainSimilarity": 0.72,
         "maxHighEditDistance": 1
-      }
+      },
+      "graded": true
     },
     {
       "id": "asking-explaining-reassuring",
@@ -340,7 +348,8 @@
         "highSimilarity": 0.9,
         "uncertainSimilarity": 0.72,
         "maxHighEditDistance": 1
-      }
+      },
+      "graded": true
     },
     {
       "id": "childcare-development-safeguarding",
@@ -380,7 +389,8 @@
         "highSimilarity": 0.9,
         "uncertainSimilarity": 0.72,
         "maxHighEditDistance": 1
-      }
+      },
+      "graded": true
     },
     {
       "id": "workplace-roles-equipment",
@@ -420,7 +430,8 @@
         "highSimilarity": 0.9,
         "uncertainSimilarity": 0.72,
         "maxHighEditDistance": 1
-      }
+      },
+      "graded": true
     },
     {
       "id": "professional-care-ethics",
@@ -460,7 +471,8 @@
         "highSimilarity": 0.9,
         "uncertainSimilarity": 0.72,
         "maxHighEditDistance": 1
-      }
+      },
+      "graded": true
     },
     {
       "id": "safety-first-aid",
@@ -500,7 +512,8 @@
         "highSimilarity": 0.9,
         "uncertainSimilarity": 0.72,
         "maxHighEditDistance": 1
-      }
+      },
+      "graded": true
     },
     {
       "id": "observation-medication",
@@ -540,7 +553,8 @@
         "highSimilarity": 0.9,
         "uncertainSimilarity": 0.72,
         "maxHighEditDistance": 1
-      }
+      },
+      "graded": true
     }
   ]
 }

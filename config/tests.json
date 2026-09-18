@@ -32,7 +32,7 @@
       "configVersion": "2026-09-16a",
       "requireFullscreen": true,
       "focusPolicy": "lockImmediately",
-      "allowDefinitions": true,
+      "allowDefinitions": false,
       "practiceTestId": null,
       "vocabularyIds": [
         0,

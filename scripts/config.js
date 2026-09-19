@@ -11,7 +11,7 @@ export const APP_CONFIG = Object.freeze({
   hashedValues: PUBLIC_SECURITY.hashedValues,
   storagePrefix: 'vg1vocab.v1.',
   submissionFormatVersion: 1,
-  resultFormatVersion: 1,
+  resultFormatVersion: 2,
   pinIterations: 120000,
   nextButtonDelayMs: 500,
   receiptLength: 8,

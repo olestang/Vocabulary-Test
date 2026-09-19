@@ -1,17 +1,21 @@
 import { APP_CONFIG } from './config.js';
-import { loadAppData, findTestByCode, buildCanonicalQuestions, buildPupilOrder, getPrompt, getDirectionLabel, isGradedTest } from './data.js';
+import { hourKey } from './access-codes.js';
+import { loadAppData, findTestByCode, buildCanonicalQuestions, buildPupilOrder, getPrompt, getDirectionLabel, isGradedTest, getActiveClasses, getActivePupils, getClass, getPupil, resolveClassTiming, isAfterRetakeCutoff } from './data.js';
 import { gradeAttempt, gradeAnswer, acceptedAnswers } from './grading.js';
 import { storage } from './storage.js';
 import { encodeCheckedPayload, decodeCheckedPayload, receiptFromToken, verifySignedToken } from './cryptography.js';
-import { makeUnlockRequest, verifyUnlockCode, normalizeFiveLetters } from './unlock-codes.js';
+import { makeUnlockRequest, makeLeaveRequest, verifyUnlockCode, verifyLeaveCode, normalizeFiveLetters } from './unlock-codes.js';
 import {
   $, $$, setHidden, normalizeAnswer, randomId, formatDuration, formatDateTime, setStatus, sha256Hex
 } from './utilities.js';
 
 const state = {
   data: null,
+  classRecord: null,
   pupil: null,
   test: null,
+  accessMode: 'normal',
+  accessHour: null,
   canonical: [],
   attempt: null,
   entrySession: null,
@@ -33,10 +37,10 @@ function showScreen(name) {
 }
 
 function activePupils() {
-  return state.data.roster.pupils.filter(p => p.active);
+  return getActivePupils(state.data, state.classRecord?.id);
 }
 
-function renderRegistration() {
+function renderPupilChoices() {
   const select = $('#pupil-select');
   select.replaceChildren();
   const placeholder = document.createElement('option');
@@ -49,19 +53,34 @@ function renderRegistration() {
     option.textContent = pupil.name;
     select.appendChild(option);
   }
+}
+
+function renderRegistration() {
+  const classSelect = $('#class-select');
+  classSelect.replaceChildren();
+  const classes = getActiveClasses(state.data);
+  for (const classRecord of classes) {
+    const option = document.createElement('option');
+    option.value = classRecord.id;
+    option.textContent = classRecord.label;
+    classSelect.appendChild(option);
+  }
+  state.classRecord = classes[0] || null;
+  classSelect.value = state.classRecord?.id || '';
+  renderPupilChoices();
   showScreen('registration');
 }
 
 function setPupil(pupil) {
   state.pupil = pupil;
-  storage.setPupilIdentity({ id: pupil.id, name: pupil.name, registeredAt: Date.now() });
-  $('#current-pupil').textContent = pupil.name;
+  storage.setPupilIdentity({ classId: state.classRecord.id, id: pupil.id, name: pupil.name, registeredAt: Date.now() });
+  $('#current-pupil').textContent = `${state.classRecord.label} · ${pupil.name}`;
 }
 
 function showReadyScreen(message = '') {
   state.monitorActive = false;
   showScreen('ready');
-  $('#current-pupil').textContent = state.pupil?.name || '';
+  $('#current-pupil').textContent = state.pupil ? `${state.classRecord?.label || ''} · ${state.pupil.name}` : '';
   setStatus($('#ready-status'), message, message ? 'info' : '');
 }
 
@@ -73,6 +92,7 @@ function createEntrySession() {
   return {
     v: 1,
     sessionId: randomId(10),
+    classId: state.classRecord.id,
     pupilId: state.pupil.id,
     startedAt: Date.now(),
     violationCount: 0,
@@ -99,7 +119,7 @@ async function beginSecureSession() {
 
 function showCodeScreen(message = '') {
   showScreen('code');
-  $('#current-pupil').textContent = state.pupil?.name || '';
+  $('#current-pupil').textContent = state.pupil ? `${state.classRecord?.label || ''} · ${state.pupil.name}` : '';
   setStatus($('#code-status'), message, message ? 'info' : '');
   $('#test-code').focus();
 }
@@ -111,10 +131,12 @@ function showRetakeGate(test) {
   // Pupils may need to switch to the teacher's window/device to obtain the code,
   // so focus/full-screen monitoring must be paused until permission is accepted.
   state.monitorActive = false;
-  const requestSeed = `retake|${state.entrySession.sessionId}|${state.pupil.id}|${test.id}`;
+  const requestSeed = `retake|${state.entrySession.sessionId}|${state.classRecord.id}|${state.pupil.id}|${test.id}`;
   state.entrySession.retakeRequest = state.entrySession.retakeRequest || makeUnlockRequest(requestSeed, 0);
   state.entrySession.stage = 'retake';
   state.entrySession.testId = test.id;
+  state.entrySession.accessMode = state.accessMode;
+  state.entrySession.accessHour = state.accessHour;
   state.entrySession.locked = false;
   state.entrySession.unlockRequest = null;
   persistEntrySession();
@@ -131,6 +153,23 @@ function showRetakeGate(test) {
 function hideRetakeGate() {
   $('#retake-screen').hidden = true;
   document.body.classList.remove('is-locked');
+}
+
+function cancelRetakeGate() {
+  state.monitorActive = false;
+  hideRetakeGate();
+  storage.clearEntrySession();
+  state.entrySession = null;
+  state.test = null;
+  state.canonical = [];
+  state.accessMode = 'normal';
+  state.accessHour = null;
+  $('#test-code').value = '';
+  if (fullscreenElement()) {
+    const exit = document.exitFullscreen || document.webkitExitFullscreen;
+    if (exit) Promise.resolve(exit.call(document)).catch(() => {});
+  }
+  showReadyScreen('No repeat attempt was started.');
 }
 
 async function authorizeRetake() {
@@ -177,6 +216,13 @@ function configureRules(test) {
   const gradeBadge = $('#rules-grade-badge');
   if (gradeBadge) { gradeBadge.textContent = isGradedTest(test) ? 'Graded test' : 'Practice / not graded'; gradeBadge.dataset.graded = isGradedTest(test) ? 'true' : 'false'; }
   $('#rules-fullscreen').textContent = test.requireFullscreen ? 'Full-screen is required.' : 'Full-screen is recommended.';
+  const lateNote = $('#rules-late-note');
+  if (state.accessMode === 'late') {
+    lateNote.textContent = 'This attempt is being recorded as taken later. Its question selection is randomized separately from the normal test session.';
+    lateNote.hidden = false;
+  } else {
+    lateNote.hidden = true;
+  }
   updateStartAvailability();
   clearInterval(state.countdownTimer);
   state.countdownTimer = setInterval(updateStartAvailability, 1000);
@@ -187,24 +233,41 @@ function updateStartAvailability() {
   if (!state.test) return;
   const startButton = $('#start-test');
   const countdown = $('#opening-countdown');
-  if (state.test.closingTime) {
-    const closing = new Date(state.test.closingTime).getTime();
-    if (Number.isFinite(closing) && Date.now() > closing) {
+  const backButton = $('#rules-back-code');
+  const timing = resolveClassTiming(state.test, state.classRecord.id);
+  const now = Date.now();
+  if (timing.closingTime) {
+    const closing = new Date(timing.closingTime).getTime();
+    if (Number.isFinite(closing) && now > closing) {
       startButton.disabled = true;
-      countdown.textContent = 'This test is closed.';
+      backButton.hidden = false;
+      countdown.textContent = 'This test is closed for your class.';
       return;
     }
   }
-  if (!state.test.openingTime) {
-    startButton.disabled = false;
-    countdown.textContent = 'The test is open.';
+  if (state.accessMode === 'late' && state.accessHour && hourKey(now) !== state.accessHour) {
+    startButton.disabled = true;
+    backButton.hidden = false;
+    countdown.textContent = 'This hourly late/retake code has expired. Go back and enter the code for the current hour.';
     return;
   }
-  const opening = new Date(state.test.openingTime).getTime();
-  const remaining = opening - Date.now();
+  if (state.accessMode !== 'late' && isAfterRetakeCutoff(state.test, state.classRecord.id, now)) {
+    startButton.disabled = true;
+    backButton.hidden = false;
+    countdown.textContent = 'The normal test time has ended. Go back and enter the current late/retake code from your teacher.';
+    return;
+  }
+  backButton.hidden = true;
+  if (!timing.openingTime) {
+    startButton.disabled = false;
+    countdown.textContent = state.accessMode === 'late' ? 'Late/retake access is open.' : 'The test is open.';
+    return;
+  }
+  const opening = new Date(timing.openingTime).getTime();
+  const remaining = opening - now;
   if (remaining <= 0) {
     startButton.disabled = false;
-    countdown.textContent = 'The test is open.';
+    countdown.textContent = state.accessMode === 'late' ? 'Late/retake access is open.' : 'The test is open.';
   } else {
     startButton.disabled = true;
     const seconds = Math.ceil(remaining / 1000);
@@ -215,15 +278,21 @@ function updateStartAvailability() {
 }
 
 function createAttempt() {
-  state.canonical = buildCanonicalQuestions(state.data, state.test);
-  const order = buildPupilOrder(state.canonical, state.test, state.pupil.id);
+  const startedAt = Date.now();
+  const attemptSeed = state.accessMode === 'late' ? startedAt : null;
+  state.canonical = buildCanonicalQuestions(state.data, state.test, { attemptSeed });
+  const order = buildPupilOrder(state.canonical, state.test, state.pupil.id, { attemptSeed });
   return {
-    v: 1,
+    v: 2,
     attemptId: randomId(10),
     testId: state.test.id,
+    classId: state.classRecord.id,
     pupilId: state.pupil.id,
+    lateAttempt: state.accessMode === 'late',
+    repeatAttempt: state.entrySession?.retakeAuthorizedTestId === state.test.id,
+    attemptSeed,
     configVersion: state.test.configVersion,
-    startTime: Date.now(),
+    startTime: startedAt,
     finishTime: null,
     violationCount: state.entrySession?.violationCount || 0,
     violationEvents: [...(state.entrySession?.violationEvents || [])],
@@ -373,9 +442,106 @@ function addViolation(type, lock = true) {
   else if (state.attempt && $('#violation-pill')) $('#violation-pill').textContent = `${record.violationCount} interruptions`;
 }
 
+function showPupilLeaveGate() {
+  const attempt = state.attempt;
+  if (!attempt || attempt.submitted || attempt.locked) return;
+
+  recordAnswerFromInput();
+  attempt.leaveRequest = attempt.leaveRequest || makeLeaveRequest(attempt.attemptId);
+  persistAttempt();
+
+  $('#leave-request').textContent = attempt.leaveRequest;
+  $('#leave-token').value = '';
+  setStatus($('#leave-status'), '', '');
+  $('#leave-test-screen').hidden = false;
+  document.body.classList.add('is-leave-request');
+  $('#leave-token').focus();
+}
+
+function hidePupilLeaveGate({ focusAnswer = true } = {}) {
+  const screen = $('#leave-test-screen');
+  if (screen) screen.hidden = true;
+  document.body.classList.remove('is-leave-request');
+  setStatus($('#leave-status'), '', '');
+  if (focusAnswer && state.attempt && !state.attempt.locked && document.body.dataset.screen === 'test') $('#answer-input')?.focus();
+}
+
+async function abandonCurrentSession(eventType, message) {
+  const record = currentGuardRecord();
+  if (!record) return;
+
+  state.monitorActive = false;
+  record.locked = false;
+  record.violationEvents ||= [];
+  record.violationEvents.push({ type: eventType, at: Date.now(), lockEligible: false });
+  record.unlockRequest = null;
+  if (record === state.attempt) record.leaveRequest = null;
+  persistGuardRecord(record);
+
+  hidePupilLeaveGate({ focusAnswer: false });
+  hideLock();
+  hideRetakeGate();
+  clearInterval(state.countdownTimer);
+  storage.clearEntrySession();
+  storage.clearActiveAttempt();
+  state.entrySession = null;
+  state.attempt = null;
+  state.test = null;
+  state.canonical = [];
+  state.practice = null;
+  state.accessMode = 'normal';
+  state.accessHour = null;
+  $('#test-code').value = '';
+  $('#unlock-token').value = '';
+  $('#leave-token').value = '';
+
+  if (fullscreenElement()) {
+    const exit = document.exitFullscreen || document.webkitExitFullscreen;
+    if (exit) {
+      try { await exit.call(document); } catch { /* The unfinished session is already safely abandoned. */ }
+    }
+  }
+  showReadyScreen(message);
+}
+
+async function authorizePupilLeave() {
+  const attempt = state.attempt;
+  const code = normalizeFiveLetters($('#leave-token').value);
+  if (!attempt?.leaveRequest || !verifyLeaveCode(attempt.leaveRequest, code)) {
+    setStatus($('#leave-status'), 'That five-letter code is not a valid leave code for this request. Ask the teacher to use “Approve leaving a test,” not “Unlock a pupil.”', 'error');
+    return;
+  }
+  await abandonCurrentSession('teacher-authorized-pupil-leave', 'Your teacher approved leaving the unfinished test. You can start a new session when ready.');
+}
+
+async function hasValidTeacherAccess() {
+  const token = storage.getTeacherAccessToken();
+  if (!token) return false;
+  try {
+    const result = await verifySignedToken(token, APP_CONFIG.teacherTokenKinds.access);
+    return !!result.ok;
+  } catch {
+    return false;
+  }
+}
+
+async function refreshLockedTeacherControls() {
+  const controls = $('#locked-teacher-controls');
+  if (!controls) return;
+
+  // Never expose no-code teacher actions on a pupil browser. The controls are
+  // hidden by default and only revealed after the browser's saved teacher
+  // access token has been cryptographically verified.
+  controls.hidden = true;
+  controls.open = false;
+  if (await hasValidTeacherAccess()) controls.hidden = false;
+}
+
 function showLock() {
   const record = currentGuardRecord();
   if (!record) return;
+  hidePupilLeaveGate({ focusAnswer: false });
+  void refreshLockedTeacherControls();
 
   // Do not let an optional piece of display text prevent the actual lock
   // overlay from appearing. Older/newer HTML versions may not show a count.
@@ -480,6 +646,26 @@ async function unlockAttempt() {
   renderQuestion();
 }
 
+async function leaveLockedTest() {
+  const record = currentGuardRecord();
+  if (!record) return;
+
+  // Defense in depth: hiding the button is not the authorization check. Even a
+  // programmatic click must have a valid saved teacher-access token.
+  if (!(await hasValidTeacherAccess())) {
+    await refreshLockedTeacherControls();
+    setStatus($('#unlock-status'), 'Ending a locked test without a code is available only in verified teacher mode.', 'error');
+    return;
+  }
+
+  const confirmed = window.confirm(
+    'Teacher only: end this locked test without a code?\n\nThis permanently discards the unfinished attempt on this browser. Choose Cancel if you meant to unlock the pupil instead.'
+  );
+  if (!confirmed) return;
+
+  await abandonCurrentSession('teacher-left-locked-test', 'Your teacher ended the unfinished test. You can start a new session when ready.');
+}
+
 function protectedSessionNeedsFullscreen() {
   return !!state.entrySession || !!state.test?.requireFullscreen;
 }
@@ -555,6 +741,14 @@ function installIntegrityMonitors() {
 }
 
 async function startTest() {
+  if (state.accessMode === 'late' && state.accessHour && hourKey(Date.now()) !== state.accessHour) {
+    updateStartAvailability();
+    return;
+  }
+  if (state.accessMode !== 'late' && isAfterRetakeCutoff(state.test, state.classRecord.id)) {
+    updateStartAvailability();
+    return;
+  }
   clearInterval(state.countdownTimer);
   state.attempt = createAttempt();
   storage.clearEntrySession();
@@ -597,6 +791,7 @@ async function finalizeSubmission() {
   const payload = {
     v: APP_CONFIG.submissionFormatVersion,
     t: a.testId,
+    cl: a.classId,
     p: a.pupilId,
     a: a.attemptId,
     cv: a.configVersion,
@@ -608,13 +803,15 @@ async function finalizeSubmission() {
     c: pin,
     r: a.answers
   };
+  if (a.lateAttempt) { payload.l = 1; payload.m = a.attemptSeed; }
+  if (a.repeatAttempt) payload.rp = 1;
   const token = await encodeCheckedPayload(payload);
   const url = new URL('./', location.href);
   // Keep the pupil name visibly at the beginning of the submission URL after the GitHub Pages base.
   // Opening this link routes to the teacher dashboard, which independently checks the visible name.
   const visibleName = state.pupil.name.trim().replace(/\s+/g, '-');
   url.search = `?${encodeURIComponent(visibleName)}`;
-  url.hash = `s=${encodeURIComponent(token)}`;
+  url.hash = token;
   a.submissionToken = token;
   a.submissionUrl = url.href;
   a.receipt = await receiptFromToken(token);
@@ -640,10 +837,11 @@ function renderFinished(confirmed = state.attempt?.confirmedHandIn) {
 async function verifyOwnSubmissionLink() {
   try {
     const url = new URL($('#submission-url').value);
-    const params = new URLSearchParams(url.hash.slice(1));
-    const token = params.get('s');
+    const rawHash = url.hash.slice(1);
+    const params = new URLSearchParams(rawHash);
+    const token = params.get('s') || (rawHash && !rawHash.includes('=') ? decodeURIComponent(rawHash) : '');
     const payload = await decodeCheckedPayload(token);
-    if (payload.p !== state.pupil.id || payload.t !== state.test.id || !payload.f) throw new Error('The copied link does not match this pupil/test.');
+    if (payload.p !== state.pupil.id || payload.t !== state.test.id || (payload.cl && payload.cl !== state.classRecord.id) || !payload.f) throw new Error('The copied link does not match this pupil/test.');
     setStatus($('#copy-status'), `Verified. Receipt ${await receiptFromToken(token)} matches this submitted attempt.`, 'success');
   } catch (error) {
     setStatus($('#copy-status'), `Could not verify the copied link: ${error.message}`, 'error');
@@ -781,7 +979,7 @@ function checkPracticeAnswer() {
 
 function resetIdentity() {
   if (!confirm('Reset the pupil identity on this browser? This clears pupil-local attempts, saved result history, and practice progress. Finished tests will still require teacher permission before the same pupil can take them again.')) return;
-  if (state.pupil?.id != null) storage.preserveCompletedTestsForPupil(state.pupil.id);
+  if (state.pupil?.id != null) storage.preserveCompletedTestsForPupil(state.classRecord?.id, state.pupil.id, state.data.roster.classes[0]?.id);
   storage.clearPupilIdentity();
   storage.clearEntrySession();
   storage.clearActiveAttempt();
@@ -807,7 +1005,7 @@ function returnToCodeScreen() {
 
 async function restoreEntrySessionIfNeeded() {
   const saved = storage.getEntrySession();
-  if (!saved || saved.pupilId !== state.pupil.id) return false;
+  if (!saved || saved.pupilId !== state.pupil.id || (saved.classId && saved.classId !== state.classRecord.id)) return false;
   state.entrySession = saved;
 
   // A retake-permission screen is intentionally outside the protected test
@@ -815,6 +1013,8 @@ async function restoreEntrySessionIfNeeded() {
   if (saved.stage === 'retake' && saved.testId) {
     state.test = state.data.testById.get(saved.testId) || null;
     if (state.test) {
+      state.accessMode = saved.accessMode || (isAfterRetakeCutoff(state.test, state.classRecord.id) ? 'late' : 'normal');
+      state.accessHour = saved.accessHour || (state.accessMode === 'late' ? hourKey(Date.now()) : null);
       state.canonical = buildCanonicalQuestions(state.data, state.test);
       state.entrySession.locked = false;
       state.entrySession.unlockRequest = null;
@@ -833,6 +1033,8 @@ async function restoreEntrySessionIfNeeded() {
   if (saved.testId) {
     state.test = state.data.testById.get(saved.testId) || null;
     if (state.test) {
+      state.accessMode = saved.accessMode || (isAfterRetakeCutoff(state.test, state.classRecord.id) ? 'late' : 'normal');
+      state.accessHour = saved.accessHour || (state.accessMode === 'late' ? hourKey(Date.now()) : null);
       state.canonical = buildCanonicalQuestions(state.data, state.test);
       configureRules(state.test);
     } else {
@@ -847,11 +1049,13 @@ async function restoreEntrySessionIfNeeded() {
 
 async function restoreAttemptIfNeeded() {
   const saved = storage.getActiveAttempt();
-  if (!saved || saved.pupilId !== state.pupil.id) return false;
+  if (!saved || saved.pupilId !== state.pupil.id || (saved.classId && saved.classId !== state.classRecord.id)) return false;
   const test = state.data.testById.get(saved.testId);
   if (!test) return false;
   state.test = test;
-  state.canonical = buildCanonicalQuestions(state.data, test);
+  state.accessMode = saved.lateAttempt ? 'late' : 'normal';
+  state.accessHour = null;
+  state.canonical = buildCanonicalQuestions(state.data, test, { attemptSeed: saved.attemptSeed ?? null });
   state.attempt = saved;
   state.attempt.answerEdits ||= Array(state.canonical.length).fill(0);
   state.attempt.committedAnswers ||= state.attempt.answers.map(answer => answer || null);
@@ -872,9 +1076,14 @@ async function restoreAttemptIfNeeded() {
 }
 
 function bindEvents() {
+  $('#class-select').addEventListener('change', event => {
+    state.classRecord = getClass(state.data, event.target.value);
+    renderPupilChoices();
+  });
   $('#register-button').addEventListener('click', () => {
-    const id = Number($('#pupil-select').value);
-    const pupil = state.data.pupilById.get(id);
+    const rawId = $('#pupil-select').value;
+    const id = /^-?\d+$/.test(rawId) ? Number(rawId) : rawId;
+    const pupil = getPupil(state.data, state.classRecord?.id, id);
     if (!pupil?.active) return;
     setPupil(pupil);
     showReadyScreen();
@@ -883,22 +1092,25 @@ function bindEvents() {
   $('#request-session-exit').addEventListener('click', () => addViolation('teacher-exit-request', true));
   $('#code-form').addEventListener('submit', event => {
     event.preventDefault();
-    const test = findTestByCode(state.data, $('#test-code').value);
-    if (!test) {
-      setStatus($('#code-status'), 'That test code is not active or is not recognized.', 'error');
+    const access = findTestByCode(state.data, $('#test-code').value, state.classRecord.id);
+    if (!access) {
+      setStatus($('#code-status'), 'That five-letter code is not active for this class and time.', 'error');
       return;
     }
+    const test = access.test;
     state.test = test;
+    state.accessMode = access.mode;
+    state.accessHour = access.accessHour || null;
     state.canonical = buildCanonicalQuestions(state.data, test);
 
-    const alreadyFinished = storage.hasCompletedTest(state.pupil.id, test.id);
+    const alreadyFinished = storage.hasCompletedTest(state.classRecord.id, state.pupil.id, test.id, state.data.roster.classes[0]?.id);
     const authorizedForRetake = state.entrySession?.retakeAuthorizedTestId === test.id;
     if (alreadyFinished && !authorizedForRetake) {
       showRetakeGate(test);
       return;
     }
 
-    if (state.entrySession) { state.entrySession.stage = 'rules'; state.entrySession.testId = test.id; persistEntrySession(); }
+    if (state.entrySession) { state.entrySession.stage = 'rules'; state.entrySession.testId = test.id; state.entrySession.accessMode = state.accessMode; state.entrySession.accessHour = state.accessHour; persistEntrySession(); }
     configureRules(test);
   });
   $('#start-test').addEventListener('click', startTest);
@@ -914,12 +1126,39 @@ function bindEvents() {
   });
   $('#next-button').addEventListener('click', handleNext);
   $('#back-button').addEventListener('click', handleBack);
+  $('#request-leave-test').addEventListener('click', showPupilLeaveGate);
+  $('#leave-cancel').addEventListener('click', () => hidePupilLeaveGate());
+  $('#leave-confirm').addEventListener('click', authorizePupilLeave);
+  $('#leave-token').addEventListener('input', event => { event.target.value = normalizeFiveLetters(event.target.value); });
+  $('#leave-token').addEventListener('keydown', event => { if (event.key === 'Enter') { event.preventDefault(); authorizePupilLeave(); } });
   $('#definition-toggle').addEventListener('click', () => {
     const wrap = $('#definition-wrap');
     wrap.hidden = !wrap.hidden;
   });
   $('#unlock-button').addEventListener('click', unlockAttempt);
+  const lockedTeacherControls = $('#locked-teacher-controls');
+  if (lockedTeacherControls) {
+    lockedTeacherControls.addEventListener('toggle', () => {
+      if (!lockedTeacherControls.open) return;
+      requestAnimationFrame(() => {
+        const card = lockedTeacherControls.closest('.lock-card');
+        if (!card) return;
+        card.scrollTo({ top: card.scrollHeight, behavior: 'smooth' });
+      });
+    });
+  }
+  $('#leave-locked-test').addEventListener('click', leaveLockedTest);
   $('#retake-button').addEventListener('click', authorizeRetake);
+  $('#retake-back').addEventListener('click', cancelRetakeGate);
+  $('#rules-back-code').addEventListener('click', () => {
+    clearInterval(state.countdownTimer);
+    state.test = null;
+    state.accessMode = 'normal';
+    state.accessHour = null;
+    if (state.entrySession) { state.entrySession.stage = 'code'; state.entrySession.testId = null; state.entrySession.accessMode = 'normal'; state.entrySession.accessHour = null; persistEntrySession(); }
+    $('#test-code').value = '';
+    showCodeScreen();
+  });
   $('#retake-token').addEventListener('keydown', event => {
     if (event.key === 'Enter') { event.preventDefault(); authorizeRetake(); }
   });
@@ -959,14 +1198,15 @@ async function init() {
     bindEvents();
     installIntegrityMonitors();
     const savedIdentity = storage.getPupilIdentity();
-    const pupil = savedIdentity ? state.data.pupilById.get(savedIdentity.id) : null;
-    if (!pupil?.active) {
+    state.classRecord = savedIdentity ? getClass(state.data, savedIdentity.classId) : null;
+    const pupil = savedIdentity ? getPupil(state.data, state.classRecord?.id, savedIdentity.id) : null;
+    if (!state.classRecord?.active || !pupil?.active) {
       renderRegistration();
       return;
     }
     state.pupil = pupil;
-    $('#current-pupil').textContent = pupil.name;
-    storage.preserveCompletedTestsForPupil(pupil.id);
+    $('#current-pupil').textContent = `${state.classRecord.label} · ${pupil.name}`;
+    storage.preserveCompletedTestsForPupil(state.classRecord.id, pupil.id, state.data.roster.classes[0]?.id);
     if (await restoreAttemptIfNeeded()) return;
     if (await restoreEntrySessionIfNeeded()) return;
     showReadyScreen();

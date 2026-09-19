@@ -112,6 +112,8 @@ textarea { min-height: 7rem; resize: vertical; }
 
 .question-shell { min-height: 62vh; display: grid; align-content: center; }
 .test-topline { display: flex; justify-content: space-between; gap: 1rem; align-items: center; color: var(--muted); font-weight: 700; }
+.test-topline-actions { display: flex; align-items: center; justify-content: flex-end; gap: .55rem; }
+.leave-test-trigger { padding: .3rem .55rem; font-size: .88rem; color: #7c4b00; border: 1px solid #d7b46b; background: #fff8e8; }
 .pill { display: inline-flex; align-items: center; border-radius: 999px; padding: .35rem .65rem; background: #eef6fa; border: 1px solid #bfd9e6; font-size: .85rem; }
 .question-card { margin-top: 1rem; padding: clamp(1.5rem, 5vw, 3.2rem); text-align: center; background: #fff; border-radius: 22px; border: 1px solid #b9d5e2; box-shadow: var(--shadow); }
 .direction { color: var(--muted); font-weight: 800; text-transform: uppercase; letter-spacing: .07em; font-size: .8rem; }
@@ -121,15 +123,32 @@ textarea { min-height: 7rem; resize: vertical; }
 .question-nav { display: flex; gap: .75rem; justify-content: space-between; margin-top: 1.3rem; }
 .question-nav .btn { min-width: 130px; }
 
-.overlay, .lock-screen {
+.overlay, .lock-screen, .leave-test-screen {
   position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; padding: 1rem;
   background: rgba(15, 38, 53, .58); backdrop-filter: blur(5px);
 }
-.overlay[hidden], .lock-screen[hidden] { display: none; }
+.overlay[hidden], .lock-screen[hidden], .leave-test-screen[hidden] { display: none; }
 .overlay-card { width: min(520px, 100%); background: #fff; border-radius: 18px; padding: 1.5rem; box-shadow: 0 20px 60px rgba(0,0,0,.25); }
-.lock-screen { background: #9e1f1f; color: #fff; }
-.lock-card { width: min(760px, 100%); background: #fff; color: #3b1717; border-radius: 18px; padding: 2rem; box-shadow: 0 20px 60px rgba(0,0,0,.35); }
+.lock-screen { background: #9e1f1f; color: #fff; overflow-y: auto; overscroll-behavior: contain; }
+.lock-card {
+  width: min(760px, 100%); background: #fff; color: #3b1717; border-radius: 18px; padding: 2rem; box-shadow: 0 20px 60px rgba(0,0,0,.35);
+  max-height: calc(100vh - 2rem);
+  max-height: calc(100dvh - 2rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
 .lock-card h2 { color: var(--danger); font-size: 2.2rem; }
+.teacher-only-zone { margin-top: 1.5rem; padding: 1rem; border: 2px dashed #c58b8b; border-radius: 12px; background: #fff6f6; }
+.teacher-only-zone[hidden] { display: none !important; }
+.teacher-only-zone summary { cursor: pointer; font-weight: 900; color: #8c1d1d; }
+.teacher-only-zone[open] summary { margin-bottom: .9rem; }
+.teacher-only-zone .eyebrow { color: #8c1d1d; }
+.leave-test-screen { background: #17364a; color: #fff; }
+.leave-test-card { width: min(720px, 100%); background: #fffdf7; color: #2f2b21; border: 5px solid #d6a33d; border-radius: 18px; padding: 2rem; box-shadow: 0 20px 60px rgba(0,0,0,.35); }
+.leave-test-card h2 { color: #765000; font-size: 2.2rem; }
+.leave-distinction { margin: 1rem 0; padding: 1rem; border: 2px solid #d6a33d; border-radius: 12px; background: #fff2cb; color: #604300; }
+.leave-approval-card { border: 2px solid #d6a33d; }
 .code-box { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; background: #f4f4f4; padding: .75rem; border-radius: 8px; overflow-wrap: anywhere; }
 
 .finished-card { border: 2px solid #76b993; }
@@ -242,3 +261,64 @@ hr { border: 0; border-top: 1px solid #d4e3ea; margin: 2rem 0; }
 .pupil-next-step { margin-top:1rem; }
 #correct-all { font-size:1rem; padding:.9rem 1.2rem; }
 @media print { .site-header,.dashboard-tabs,.actions,.footer { display:none !important; } }
+
+/* Class-aware teacher controls and compact header settings */
+.header-link-button {
+  font-weight: 800;
+  padding: .42rem .62rem;
+  border-radius: 9px;
+  background: rgba(255,255,255,.72);
+  border: 1px solid #b8d3df;
+  color: var(--primary);
+  text-decoration: none;
+  box-shadow: none;
+}
+.header-link-button:hover { background: #fff; }
+.teacher-selects { display: grid; grid-template-columns: minmax(150px, 1fr) minmax(180px, 1fr); gap: .75rem; }
+.dashboard-topbar { grid-template-columns: 1fr minmax(360px, 520px); }
+.code-inline { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .16em; font-weight: 900; }
+
+@media (max-width: 720px) {
+  .teacher-selects { grid-template-columns: 1fr; }
+  .dashboard-topbar { grid-template-columns: 1fr; }
+}
+
+
+/* Teacher settings dropdown */
+.header-menu-wrap { position: relative; }
+.header-dropdown {
+  position: absolute;
+  z-index: 50;
+  right: 0;
+  top: calc(100% + .45rem);
+  min-width: 220px;
+  padding: .45rem;
+  background: #fff;
+  border: 1px solid #b8d3df;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+.header-dropdown button,
+.header-dropdown a {
+  display: block;
+  width: 100%;
+  padding: .7rem .8rem;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ink);
+  text-align: left;
+  font-weight: 750;
+  text-decoration: none;
+  box-shadow: none;
+}
+.header-dropdown button:hover,
+.header-dropdown a:hover { background: #edf6fa; }
+.settings-section:focus { outline: 3px solid rgba(12,93,134,.28); outline-offset: 4px; }
+
+@media (max-width: 720px) {
+  .header-dropdown { position: fixed; top: 4.5rem; right: 1rem; left: 1rem; min-width: 0; }
+  .dashboard-tabs { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 560px) { .test-topline-actions { align-items: flex-end; flex-direction: column; } .leave-test-trigger { font-size: .82rem; } }

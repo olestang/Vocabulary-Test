@@ -18,8 +18,9 @@
 <main id="main" class="shell">
   <section id="screen-registration" class="card narrow" hidden>
     <p class="eyebrow">First use on this browser</p>
-    <h1>Choose your pupil name</h1>
-    <p class="lead">Your identity is saved locally on this browser so you do not need to type your name for every test.</p>
+    <h1>Choose your class and pupil name</h1>
+    <p class="lead">Your class and identity are saved locally on this browser so you do not need to choose them for every test.</p>
+    <div class="form-row"><label for="class-select">Class</label><select id="class-select"></select></div>
     <div class="form-row"><label for="pupil-select">Pupil</label><select id="pupil-select"></select></div>
     <div class="actions"><button id="register-button" class="btn" type="button">Save pupil</button></div>
   </section>
@@ -47,6 +48,7 @@
   <section id="screen-rules" class="card narrow" hidden>
     <p class="eyebrow">Before you start</p>
     <h1 id="rules-test-label"></h1><p id="rules-grade-badge" class="test-type-badge"></p>
+    <p id="rules-late-note" class="status" data-kind="warning" hidden></p>
     <div class="callout"><strong id="opening-countdown">Checking opening time…</strong></div>
     <ul class="rules">
       <li>You will answer <strong id="rules-count"></strong> vocabulary questions, one at a time.</li>
@@ -58,11 +60,11 @@
       <li>You can get full points even if you slightly misspell a word.</li>
     </ul>
     <div class="callout"><strong>Display accommodations</strong><div class="actions"><label><input id="access-large-text" type="checkbox" style="width:auto"> Larger text</label><label><input id="access-high-contrast" type="checkbox" style="width:auto"> Higher contrast</label></div><small class="muted">These change presentation only; they do not change questions, scoring, or timing.</small></div>
-    <div class="actions"><button id="start-test" class="btn" type="button" disabled>Start test</button></div>
+    <div class="actions"><button id="start-test" class="btn" type="button" disabled>Start test</button><button id="rules-back-code" class="btn btn-secondary" type="button" hidden>Back to code</button></div>
   </section>
 
   <section id="screen-test" class="question-shell" hidden>
-    <div class="test-topline"><span id="question-progress">1 of 20</span><span id="violation-pill" class="pill">0 interruptions</span></div>
+    <div class="test-topline"><span id="question-progress">1 of 20</span><div class="test-topline-actions"><span id="violation-pill" class="pill">0 interruptions</span><button id="request-leave-test" class="btn btn-link leave-test-trigger" type="button">Leave test</button></div></div>
     <div class="question-card">
       <div id="question-direction" class="direction"></div>
       <h1 id="question-prompt" class="prompt"></h1>
@@ -123,8 +125,22 @@
   <div class="overlay-card"><h2 id="blank-title">Leave this answer blank?</h2><p>You have not entered an answer. Do you want to submit this word as blank?</p><div class="actions"><button id="blank-cancel" class="btn btn-secondary" type="button">Go back and answer</button><button id="blank-confirm" class="btn btn-danger" type="button">Submit blank</button></div></div>
 </div>
 
+<div id="leave-test-screen" class="leave-test-screen" hidden role="dialog" aria-modal="true" aria-labelledby="leave-test-title">
+  <div class="leave-test-card">
+    <p class="eyebrow">Pupil exit request</p>
+    <h2 id="leave-test-title">Request to leave this test</h2>
+    <div class="leave-distinction"><strong>This is not the paused/locked screen.</strong> You can return to the test without a code. Leaving the unfinished test requires a teacher-approved leave code.</div>
+    <p>Show your teacher this five-letter <strong>leave request</strong>:</p>
+    <p id="leave-request" class="unlock-big-code"></p>
+    <div class="form-row"><label for="leave-token">Five-letter teacher leave code</label><input id="leave-token" class="unlock-code-input" maxlength="5" autocomplete="off" autocapitalize="characters" spellcheck="false"></div>
+    <p id="leave-status" class="status" hidden></p>
+    <div class="actions"><button id="leave-cancel" class="btn btn-secondary" type="button">Return to test</button><button id="leave-confirm" class="btn btn-danger" type="button">Leave test</button></div>
+    <p class="muted">The teacher must use the “Approve leaving a test” tool. An unlock code for a paused test will not work here.</p>
+  </div>
+</div>
+
 <div id="lock-screen" class="lock-screen" hidden role="dialog" aria-modal="true" aria-labelledby="lock-title">
-  <div class="lock-card"><p class="eyebrow">Teacher help needed</p><h2 id="lock-title">Test paused</h2><p>This test session was interrupted. Ask your teacher before continuing or leaving the session.</p><span id="lock-count" hidden></span><p>Tell your teacher this five-letter request:</p><p id="unlock-request" class="unlock-big-code"></p><div class="form-row"><label for="unlock-token">Five-letter teacher unlock code</label><input id="unlock-token" class="unlock-code-input" maxlength="5" autocomplete="off" autocapitalize="characters" spellcheck="false"></div><p id="unlock-status" class="status" hidden></p><div class="actions"><button id="unlock-button" class="btn btn-danger" type="button">Unlock test</button></div></div>
+  <div class="lock-card"><p class="eyebrow">Teacher help needed · paused test</p><h2 id="lock-title">Test paused</h2><p>This test session was interrupted. The pupil cannot leave from this screen. Ask a teacher to unlock the test.</p><span id="lock-count" hidden></span><p>To continue the test, use this five-letter <strong>unlock request</strong>:</p><p id="unlock-request" class="unlock-big-code"></p><div class="form-row"><label for="unlock-token">Five-letter teacher unlock code</label><input id="unlock-token" class="unlock-code-input" maxlength="5" autocomplete="off" autocapitalize="characters" spellcheck="false"></div><p id="unlock-status" class="status" hidden></p><div class="actions"><button id="unlock-button" class="btn btn-danger" type="button">Unlock test</button></div><details id="locked-teacher-controls" class="teacher-only-zone" hidden><summary>Teacher controls — end locked test</summary><p class="eyebrow">Verified teacher mode</p><strong>End the locked attempt without an unlock code</strong><p>This option is shown only when this browser already has valid teacher access. It permanently abandons the unfinished session on this browser.</p><button id="leave-locked-test" class="btn btn-secondary" type="button">Teacher: leave locked test</button></details></div>
 </div>
 
 <div id="retake-screen" class="lock-screen" hidden role="dialog" aria-modal="true" aria-labelledby="retake-title">
@@ -136,7 +152,7 @@
     <p id="retake-request" class="unlock-big-code"></p>
     <div class="form-row"><label for="retake-token">Five-letter teacher code</label><input id="retake-token" class="unlock-code-input" maxlength="5" autocomplete="off" autocapitalize="characters" spellcheck="false"></div>
     <p id="retake-status" class="status" hidden></p>
-    <div class="actions"><button id="retake-button" class="btn btn-danger" type="button">Allow another attempt</button></div>
+    <div class="actions"><button id="retake-button" class="btn btn-danger" type="button">Allow another attempt</button><button id="retake-back" class="btn btn-secondary" type="button">Back</button></div>
   </div>
 </div>
 

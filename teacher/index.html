@@ -11,7 +11,20 @@
 <body>
 <header class="site-header">
   <div class="brand"><img src="../assets/logo.svg" alt=""><span>Teacher Dashboard</span></div>
-  <div class="header-meta"><a href="../">Pupil site</a><a href="../diagnostics/">Diagnostics</a><a href="../become-teacher/" data-not-teacher-nav>Teacher access</a></div>
+  <div class="header-meta">
+    <a href="../">Pupil site</a>
+    <div id="settings-menu-wrap" class="header-menu-wrap">
+      <button id="open-settings" class="header-link-button" type="button" aria-haspopup="menu" aria-expanded="false" hidden>Settings ▾</button>
+      <div id="settings-menu" class="header-dropdown" role="menu" hidden>
+        <button type="button" role="menuitem" data-settings-target="settings-backup">Backup & restore</button>
+        <button type="button" role="menuitem" data-settings-target="settings-data">Data cleanup</button>
+        <button type="button" role="menuitem" data-settings-target="settings-preflight">Test setup checks</button>
+        <a role="menuitem" href="../diagnostics/">Deployment diagnostics</a>
+        <button type="button" role="menuitem" data-settings-target="settings-access">Teacher access</button>
+      </div>
+    </div>
+    <a href="../become-teacher/" data-not-teacher-nav>Teacher access</a>
+  </div>
 </header>
 <main class="shell">
   <section id="teacher-auth" class="card narrow">
@@ -46,46 +59,88 @@
         <div>
           <p class="eyebrow">Teacher workspace</p>
           <h1>Vocabulary test dashboard</h1>
-          <p class="muted">Choose a test once, then use the tabs below for the task you are doing.</p>
+          <p class="muted">Choose the class you are teaching now, then choose the test.</p>
         </div>
-        <div class="form-row compact-select"><label for="test-select">Current test</label><select id="test-select"></select></div>
+        <div class="teacher-selects"><div class="form-row compact-select"><label for="class-select">Active class</label><select id="class-select"></select></div><div class="form-row compact-select"><label for="test-select">Current test</label><select id="test-select"></select></div></div>
       </section>
 
       <nav class="dashboard-tabs" aria-label="Teacher dashboard sections">
         <button class="dashboard-tab active" type="button" data-dashboard-tab="overview">Overview & pupils</button>
-        <button class="dashboard-tab" type="button" data-dashboard-tab="unlock">Teacher code</button>
+        <button class="dashboard-tab" type="button" data-dashboard-tab="unlock">Unlock a pupil</button>
+        <button class="dashboard-tab" type="button" data-dashboard-tab="retake-permission">Allow another attempt</button>
+        <button class="dashboard-tab" type="button" data-dashboard-tab="late-access">Late test access</button>
         <button class="dashboard-tab" type="button" data-dashboard-tab="results">Results</button>
-        <button class="dashboard-tab" type="button" data-dashboard-tab="data">Backup & checks</button>
       </nav>
 
       <div data-dashboard-view="overview">
         <section class="card">
-          <div class="actions spread"><div><p class="eyebrow">Class status</p><h2 id="selected-test-title"></h2><p id="selected-test-meta" class="muted"></p></div><button id="clear-teacher-access" class="btn btn-secondary" type="button">Remove teacher access</button></div>
-          <div class="metrics"><div class="metric"><strong id="stat-submitted"></strong><span>Submitted</span></div><div class="metric"><strong id="stat-missing"></strong><span>Missing</span></div><div class="metric"><strong id="stat-corrected"></strong><span>Corrected</span></div></div>
+          <div class="actions spread"><div><p class="eyebrow">Class status</p><h2 id="selected-test-title"></h2><p id="selected-test-meta" class="muted"></p></div></div>
+          <div class="metrics"><div class="metric"><strong id="stat-submitted"></strong><span>Submitted</span></div><div class="metric"><strong id="stat-missing"></strong><span>Missing</span></div><div class="metric"><strong id="stat-late"></strong><span>Taken later</span></div><div class="metric"><strong id="stat-corrected"></strong><span>Corrected</span></div></div>
           <div id="test-overview" class="test-overview"></div>
         </section>
         <section class="card">
           <div class="actions spread"><div><p class="eyebrow">Pupils</p><h2>Submissions and correction</h2></div><button id="correct-all" class="btn btn-success" type="button">Correct all submissions</button></div>
           <div class="table-wrap"><table><thead><tr><th>Pupil</th><th>Status</th><th>Estimate</th><th>Final</th><th>Check</th><th>Action</th></tr></thead><tbody id="pupil-table-body"></tbody></table></div>
         </section>
-      </div>
         <section id="activity-panel" class="card" hidden>
           <div class="actions spread"><div><p class="eyebrow">Submission check</p><h2 id="activity-title"></h2></div><button id="activity-close" class="btn btn-secondary" type="button">Close</button></div>
           <p id="activity-warning" class="status" hidden></p>
           <div id="activity-metrics" class="metrics"></div>
         </section>
+      </div>
 
       <div data-dashboard-view="unlock" hidden>
         <section class="card narrow">
-          <p class="eyebrow">Teacher code</p>
-          <h2>Unlock a pupil or allow another attempt</h2>
-          <p class="lead">Use this when a test is paused or when a pupil needs permission to repeat a test they have already finished. Ask for the five-letter request on the pupil screen, type it here, and give the five-letter response back.</p>
+          <p class="eyebrow">Paused / locked test</p>
+          <h2>Unlock a pupil</h2>
+          <p class="lead">Use this only for the red paused-test screen. Enter its five-letter <strong>unlock request</strong> and give the pupil the response code.</p>
           <div class="unlock-tool-grid">
-            <div class="form-row"><label for="unlock-request-input">Pupil request</label><input id="unlock-request-input" class="unlock-code-input" maxlength="5" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="ABCDE"></div>
-            <div class="form-row"><label for="unlock-response-output">Give pupil this code</label><input id="unlock-response-output" class="unlock-code-input" readonly placeholder="-----"></div>
+            <div class="form-row"><label for="unlock-request-input">Unlock request</label><input id="unlock-request-input" class="unlock-code-input" maxlength="5" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="ABCDE"></div>
+            <div class="form-row"><label for="unlock-response-output">Give pupil this unlock code</label><input id="unlock-response-output" class="unlock-code-input" readonly placeholder="-----"></div>
           </div>
-          <div class="actions"><button id="unlock-generate" class="btn btn-danger" type="button">Create teacher code</button></div>
+          <div class="actions"><button id="unlock-generate" class="btn btn-danger" type="button">Create unlock code</button></div>
           <p id="unlock-generator-status" class="status" hidden></p>
+        </section>
+        <section class="card narrow leave-approval-card">
+          <p class="eyebrow">Pupil chose Leave test</p>
+          <h2>Approve leaving an active test</h2>
+          <p class="lead">Use this only for the separate pupil exit page opened from the top corner during an active test. It creates a different kind of five-letter response from an unlock code.</p>
+          <div class="callout callout-warning"><strong>Do not use this to unlock a paused test.</strong> Leave codes and unlock codes are deliberately purpose-specific, so the wrong type will be rejected.</div>
+          <div class="unlock-tool-grid">
+            <div class="form-row"><label for="leave-request-input">Leave request</label><input id="leave-request-input" class="unlock-code-input" maxlength="5" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="ABCDE"></div>
+            <div class="form-row"><label for="leave-response-output">Give pupil this leave code</label><input id="leave-response-output" class="unlock-code-input" readonly placeholder="-----"></div>
+          </div>
+          <div class="actions"><button id="leave-generate" class="btn" type="button">Create leave code</button></div>
+          <p id="leave-generator-status" class="status" hidden></p>
+        </section>
+      </div>
+
+      <div data-dashboard-view="retake-permission" hidden>
+        <section class="card narrow">
+          <p class="eyebrow">Completed test</p>
+          <h2>Allow another attempt</h2>
+          <p class="lead">Use this only when a pupil has already submitted this test and should be allowed to take it again. Enter the five-letter request from the repeat-attempt screen.</p>
+          <div class="unlock-tool-grid">
+            <div class="form-row"><label for="retake-request-input">Pupil request</label><input id="retake-request-input" class="unlock-code-input" maxlength="5" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="ABCDE"></div>
+            <div class="form-row"><label for="retake-response-output">Give pupil this code</label><input id="retake-response-output" class="unlock-code-input" readonly placeholder="-----"></div>
+          </div>
+          <div class="actions"><button id="retake-generate" class="btn btn-danger" type="button">Create repeat-attempt code</button></div>
+          <p id="retake-generator-status" class="status" hidden></p>
+        </section>
+      </div>
+
+      <div data-dashboard-view="late-access" hidden>
+        <section class="card">
+          <p class="eyebrow">After the normal class session</p>
+          <h2>Late test access</h2>
+          <p class="lead">Use this for a pupil who missed the normal test session and is taking the test after the class’s “Count as retake after” time. The code changes each hour.</p>
+          <div class="metrics"><div class="metric"><strong id="normal-test-code" class="code-inline">-----</strong><span>Normal class code</span></div><div class="metric"><strong id="retake-cutoff-display">Not set</strong><span>Count as retake after</span></div></div>
+          <div class="unlock-tool-grid">
+            <div class="form-row"><label for="late-code-hour">Year / month / date / hour</label><input id="late-code-hour" type="datetime-local" step="3600"></div>
+            <div class="form-row"><label for="late-code-output">Late-access code</label><input id="late-code-output" class="unlock-code-input" readonly placeholder="-----"></div>
+          </div>
+          <div class="actions"><button id="late-code-generate" class="btn" type="button">Create late-access code</button></div>
+          <p id="late-code-status" class="status" hidden></p>
         </section>
       </div>
 
@@ -99,13 +154,21 @@
         </section>
       </div>
 
-      <div data-dashboard-view="data" hidden>
-        <section class="card">
-          <p class="eyebrow">Backup</p><h2>Teacher data</h2><p>Submissions and corrections live in this browser. Export a backup if you want to move to another computer or protect against browser data loss.</p>
-          <div class="actions"><button id="export-backup" class="btn" type="button">Export full backup</button><button id="export-results-only" class="btn btn-secondary" type="button">Export results only</button><label class="btn btn-secondary" for="import-backup-file">Import backup</label><input id="import-backup-file" type="file" accept="application/json,.json" hidden><button id="purge-details" class="btn btn-danger" type="button">Remove detailed corrected answers</button></div><p id="backup-status" class="status" hidden></p>
+      <div data-dashboard-view="settings" hidden>
+        <section id="settings-backup" class="card settings-section" tabindex="-1">
+          <p class="eyebrow">Settings · Backup</p><h2>Backup & restore</h2><p>Submissions and corrections live in this browser. Export a backup if you want to move to another computer or protect against browser data loss.</p>
+          <div class="actions"><button id="export-backup" class="btn" type="button">Export full backup</button><button id="export-results-only" class="btn btn-secondary" type="button">Export results only</button><label class="btn btn-secondary" for="import-backup-file">Import backup</label><input id="import-backup-file" type="file" accept="application/json,.json" hidden></div><p id="backup-status" class="status" hidden></p>
         </section>
-        <section class="card">
-          <p class="eyebrow">Setup check</p><h2>Test setup checks</h2><p id="preflight-summary"></p><ul id="preflight-list"></ul>
+        <section id="settings-data" class="card settings-section" tabindex="-1">
+          <p class="eyebrow">Settings · Data</p><h2>Data cleanup</h2><p>Remove detailed corrected answers for the currently selected class and test after you have exported anything you want to keep.</p>
+          <div class="actions"><button id="purge-details" class="btn btn-danger" type="button">Remove detailed corrected answers</button></div>
+        </section>
+        <section id="settings-preflight" class="card settings-section" tabindex="-1">
+          <p class="eyebrow">Settings · Setup check</p><h2>Test setup checks</h2><p id="preflight-summary"></p><ul id="preflight-list"></ul><div class="actions"><a class="btn btn-secondary" href="../diagnostics/">Open deployment diagnostics</a></div>
+        </section>
+        <section id="settings-access" class="card settings-section" tabindex="-1">
+          <p class="eyebrow">Settings · Access</p><h2>Teacher access on this browser</h2><p>Removing teacher access signs this browser out of the dashboard. You can enable it again from the teacher-access page.</p>
+          <div class="actions"><button id="clear-teacher-access" class="btn btn-secondary" type="button">Remove teacher access</button></div>
         </section>
       </div>
     </div>

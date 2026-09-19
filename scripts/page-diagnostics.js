@@ -1,7 +1,8 @@
 import { APP_CONFIG } from './config.js';
-import { loadAppData, buildCanonicalQuestions } from './data.js';
+import { loadAppData, buildCanonicalQuestions, getActiveClasses, resolveClassTiming } from './data.js';
 import { gradeAnswer } from './grading.js';
 import { encodeCheckedPayload, decodeCheckedPayload, verifySignedToken, encryptForPin, decryptForPin } from './cryptography.js';
+import { classTestCode, lateTestCode } from './access-codes.js';
 import { $, setStatus } from './utilities.js';
 
 const DIAGNOSTIC_SIGNED_TOKEN = 'eyJraW5kIjoiZGlhZ25vc3RpYyIsIm1lc3NhZ2UiOiJ2ZzEtdm9jYWIta2V5LWNoZWNrIiwidiI6MX0.7wyavTTjdw_NG4cZXdU9AfgA-X0kiQcc0ZziKqDNvw1IZGbjF_Sf4nlFE928uQBX2vl0LAWWJTr9XxmemXPNDQ';
@@ -21,6 +22,37 @@ async function run() {
     const test = data.tests.tests[0];
     const questions = buildCanonicalQuestions(data, test);
     addResult('Deterministic question selection', questions.length === Number(test.merge_amount ?? test.mergeAmount ?? test.questionCount ?? questions.length), `${questions.length} questions`);
+
+    const classes = getActiveClasses(data);
+    const codes = [];
+    let classCodesOk = true;
+    for (const classRecord of classes) {
+      const seen = new Set();
+      for (const configuredTest of data.tests.tests.filter(candidate => candidate.active !== false)) {
+        const code = classTestCode(configuredTest, classRecord);
+        codes.push(`${classRecord.label}: ${configuredTest.label}=${code}`);
+        if (!/^[A-Z]{5}$/.test(code) || seen.has(code)) classCodesOk = false;
+        seen.add(code);
+      }
+    }
+    addResult('Five-letter class test codes', classCodesOk, `${classes.length} active class(es); ${codes.length} active test/class code(s)`);
+
+    if (classes.length) {
+      const sampleClass = classes[0];
+      const fixedTime = new Date(2026, 8, 19, 22, 15, 0, 0);
+      const lateCodeA = lateTestCode(test, sampleClass, fixedTime);
+      const lateCodeB = lateTestCode(test, sampleClass, new Date(2026, 8, 19, 22, 59, 59, 999));
+      const lateCodeNextHour = lateTestCode(test, sampleClass, new Date(2026, 8, 19, 23, 0, 0, 0));
+      addResult('Hourly late code stability', lateCodeA === lateCodeB && lateCodeA !== lateCodeNextHour && /^[A-Z]{5}$/.test(lateCodeA), `${lateCodeA} in one hour, ${lateCodeNextHour} next hour`);
+
+      const lateQuestionsA = buildCanonicalQuestions(data, test, { attemptSeed: 1726786035123 });
+      const lateQuestionsB = buildCanonicalQuestions(data, test, { attemptSeed: 1726786035123 });
+      const same = JSON.stringify(lateQuestionsA.map(q => [q.wordId, q.direction])) === JSON.stringify(lateQuestionsB.map(q => [q.wordId, q.direction]));
+      addResult('Millisecond late-attempt seed is reproducible', same && lateQuestionsA.length === questions.length, `${lateQuestionsA.length} reconstructed questions`);
+
+      const timing = resolveClassTiming(test, sampleClass.id);
+      addResult('Per-class timing configuration resolves', ['openingTime', 'countAsRetakeAfter', 'closingTime'].every(key => key in timing), sampleClass.label);
+    }
 
     const checked = await encodeCheckedPayload({ v: 1, hello: 'world', n: 42 });
     const decoded = await decodeCheckedPayload(checked);

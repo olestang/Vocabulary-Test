@@ -32,8 +32,10 @@ async function initTeacherNavigation() {
   if (!header) return;
   const root = relativeRoot();
   if (isTeacher) {
-    addLink(header, `${root}teacher/`, 'Teacher dashboard', 'teacher-dashboard');
-    addLink(header, `${root}diagnostics/`, 'Diagnostics', 'diagnostics');
+    const onTeacherDashboard = location.pathname.includes('/teacher/');
+    if (!onTeacherDashboard) {
+      addLink(header, `${root}teacher/`, 'Teacher dashboard', 'teacher-dashboard');
+    }
   } else if (!location.pathname.includes('/become-teacher/')) {
     addLink(header, `${root}become-teacher/`, 'Teacher access', 'become-teacher');
   }

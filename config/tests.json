@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "tests": [
     {
       "id": "exit-placeholder",
@@ -8,11 +8,11 @@
       "active": true,
       "questionCount": 1,
       "seed": "placeholder-seed",
-      "configVersion": "2026-09-16a",
+      "configVersion": "2026-09-19a",
       "requireFullscreen": false,
       "focusPolicy": "none",
       "allowDefinitions": false,
-      "practiceTestId": null,
+      "practiceTestId": "test",
       "vocabularyIds": [
         0
       ],
@@ -21,7 +21,8 @@
         "uncertainSimilarity": 0.72,
         "maxHighEditDistance": 1
       },
-      "graded": true
+      "graded": false,
+      "classTimes": {}
     },
     {
       "id": "test",
@@ -34,7 +35,7 @@
       "requireFullscreen": true,
       "focusPolicy": "lockImmediately",
       "allowDefinitions": false,
-      "practiceTestId": null,
+      "practiceTestId": "body-anatomy",
       "vocabularyIds": [
         0,
         1,
@@ -62,7 +63,19 @@
         "uncertainSimilarity": 0.72,
         "maxHighEditDistance": 1
       },
-      "graded": true
+      "graded": false,
+      "classTimes": {
+        "HS1B": {
+          "openingTime": null,
+          "countAsRetakeAfter": null,
+          "closingTime": null
+        }
+      },
+      "openingTime": null,
+      "countAsRetakeAfter": null,
+      "closingTime": null,
+      "merge_test": [],
+      "merge_amount": 20
     },
     {
       "id": "body-anatomy",
@@ -71,11 +84,11 @@
       "active": false,
       "questionCount": 20,
       "seed": "w5gh0dey64mxekuykgauejp0",
-      "configVersion": "2026-09-16a",
+      "configVersion": "2026-09-19a",
       "requireFullscreen": true,
       "focusPolicy": "lockImmediately",
       "allowDefinitions": true,
-      "practiceTestId": null,
+      "practiceTestId": "symptoms-common-illness",
       "vocabularyIds": [
         0,
         1,
@@ -103,7 +116,8 @@
         "uncertainSimilarity": 0.72,
         "maxHighEditDistance": 1
       },
-      "graded": true
+      "graded": false,
+      "classTimes": {}
     },
     {
       "id": "symptoms-common-illness",
@@ -112,11 +126,11 @@
       "active": false,
       "questionCount": 20,
       "seed": "b1sb0shrerng8jmlzh7c0x1o",
-      "configVersion": "2026-09-16a",
+      "configVersion": "2026-09-19a",
       "requireFullscreen": true,
       "focusPolicy": "lockImmediately",
       "allowDefinitions": true,
-      "practiceTestId": null,
+      "practiceTestId": "injuries-health-conditions",
       "vocabularyIds": [
         20,
         21,
@@ -144,7 +158,8 @@
         "uncertainSimilarity": 0.72,
         "maxHighEditDistance": 1
       },
-      "graded": true
+      "graded": false,
+      "classTimes": {}
     },
     {
       "id": "injuries-health-conditions",
@@ -153,11 +168,11 @@
       "active": false,
       "questionCount": 20,
       "seed": "kehifllj7nj1n1rkvr15lu79",
-      "configVersion": "2026-09-16a",
+      "configVersion": "2026-09-19a",
       "requireFullscreen": true,
       "focusPolicy": "lockImmediately",
       "allowDefinitions": true,
-      "practiceTestId": null,
+      "practiceTestId": "personal-care-hygiene",
       "vocabularyIds": [
         40,
         41,
@@ -185,7 +200,8 @@
         "uncertainSimilarity": 0.72,
         "maxHighEditDistance": 1
       },
-      "graded": true
+      "graded": false,
+      "classTimes": {}
     },
     {
       "id": "personal-care-hygiene",
@@ -194,11 +210,11 @@
       "active": false,
       "questionCount": 20,
       "seed": "t55lmi2guyr4mtahzlmioh5j",
-      "configVersion": "2026-09-16a",
+      "configVersion": "2026-09-19a",
       "requireFullscreen": true,
       "focusPolicy": "lockImmediately",
       "allowDefinitions": true,
-      "practiceTestId": null,
+      "practiceTestId": "food-sleep-mobility-toileting",
       "vocabularyIds": [
         60,
         61,
@@ -226,7 +242,8 @@
         "uncertainSimilarity": 0.72,
         "maxHighEditDistance": 1
       },
-      "graded": true
+      "graded": false,
+      "classTimes": {}
     },
     {
       "id": "food-sleep-mobility-toileting",
@@ -235,11 +252,11 @@
       "active": false,
       "questionCount": 20,
       "seed": "vezaa7zpg0cs2d26hzjdb8zt",
-      "configVersion": "2026-09-16a",
+      "configVersion": "2026-09-19a",
       "requireFullscreen": true,
       "focusPolicy": "lockImmediately",
       "allowDefinitions": true,
-      "practiceTestId": null,
+      "practiceTestId": "basic-communication",
       "vocabularyIds": [
         80,
         81,
@@ -267,7 +284,8 @@
         "uncertainSimilarity": 0.72,
         "maxHighEditDistance": 1
       },
-      "graded": true
+      "graded": false,
+      "classTimes": {}
     },
     {
       "id": "basic-communication",
@@ -276,11 +294,11 @@
       "active": false,
       "questionCount": 20,
       "seed": "mc9u9lqkypwu5vzzxyo7mdqe",
-      "configVersion": "2026-09-16a",
+      "configVersion": "2026-09-19a",
       "requireFullscreen": true,
       "focusPolicy": "lockImmediately",
       "allowDefinitions": true,
-      "practiceTestId": null,
+      "practiceTestId": "asking-explaining-reassuring",
       "vocabularyIds": [
         100,
         101,
@@ -308,7 +326,8 @@
         "uncertainSimilarity": 0.72,
         "maxHighEditDistance": 1
       },
-      "graded": true
+      "graded": false,
+      "classTimes": {}
     },
     {
       "id": "asking-explaining-reassuring",
@@ -317,11 +336,11 @@
       "active": false,
       "questionCount": 20,
       "seed": "sszluzztwijwgta79yggjbgg",
-      "configVersion": "2026-09-16a",
+      "configVersion": "2026-09-19a",
       "requireFullscreen": true,
       "focusPolicy": "lockImmediately",
       "allowDefinitions": true,
-      "practiceTestId": null,
+      "practiceTestId": "childcare-development-safeguarding",
       "vocabularyIds": [
         120,
         121,
@@ -349,7 +368,8 @@
         "uncertainSimilarity": 0.72,
         "maxHighEditDistance": 1
       },
-      "graded": true
+      "graded": false,
+      "classTimes": {}
     },
     {
       "id": "childcare-development-safeguarding",
@@ -358,11 +378,11 @@
       "active": false,
       "questionCount": 20,
       "seed": "jhr4bgyvffd07vvybplucs04",
-      "configVersion": "2026-09-16a",
+      "configVersion": "2026-09-19a",
       "requireFullscreen": true,
       "focusPolicy": "lockImmediately",
       "allowDefinitions": true,
-      "practiceTestId": null,
+      "practiceTestId": "workplace-roles-equipment",
       "vocabularyIds": [
         140,
         141,
@@ -390,7 +410,8 @@
         "uncertainSimilarity": 0.72,
         "maxHighEditDistance": 1
       },
-      "graded": true
+      "graded": false,
+      "classTimes": {}
     },
     {
       "id": "workplace-roles-equipment",
@@ -399,11 +420,11 @@
       "active": false,
       "questionCount": 20,
       "seed": "66tcad0kbeq9hnbdhb6g3rma",
-      "configVersion": "2026-09-16a",
+      "configVersion": "2026-09-19a",
       "requireFullscreen": true,
       "focusPolicy": "lockImmediately",
       "allowDefinitions": true,
-      "practiceTestId": null,
+      "practiceTestId": "professional-care-ethics",
       "vocabularyIds": [
         160,
         161,
@@ -431,7 +452,8 @@
         "uncertainSimilarity": 0.72,
         "maxHighEditDistance": 1
       },
-      "graded": true
+      "graded": false,
+      "classTimes": {}
     },
     {
       "id": "professional-care-ethics",
@@ -440,11 +462,11 @@
       "active": false,
       "questionCount": 20,
       "seed": "2uuilqucv1rwempoked46670",
-      "configVersion": "2026-09-16a",
+      "configVersion": "2026-09-19a",
       "requireFullscreen": true,
       "focusPolicy": "lockImmediately",
       "allowDefinitions": true,
-      "practiceTestId": null,
+      "practiceTestId": "safety-first-aid",
       "vocabularyIds": [
         180,
         181,
@@ -472,7 +494,8 @@
         "uncertainSimilarity": 0.72,
         "maxHighEditDistance": 1
       },
-      "graded": true
+      "graded": false,
+      "classTimes": {}
     },
     {
       "id": "safety-first-aid",
@@ -481,11 +504,11 @@
       "active": false,
       "questionCount": 20,
       "seed": "d8a6mf2nxa62y6xsld5ny1jk",
-      "configVersion": "2026-09-16a",
+      "configVersion": "2026-09-19a",
       "requireFullscreen": true,
       "focusPolicy": "lockImmediately",
       "allowDefinitions": true,
-      "practiceTestId": null,
+      "practiceTestId": "observation-medication",
       "vocabularyIds": [
         200,
         201,
@@ -513,7 +536,8 @@
         "uncertainSimilarity": 0.72,
         "maxHighEditDistance": 1
       },
-      "graded": true
+      "graded": false,
+      "classTimes": {}
     },
     {
       "id": "observation-medication",
@@ -522,7 +546,7 @@
       "active": false,
       "questionCount": 20,
       "seed": "jgw3p4ji4e3vwwjnhdj2yjwx",
-      "configVersion": "2026-09-16a",
+      "configVersion": "2026-09-19a",
       "requireFullscreen": true,
       "focusPolicy": "lockImmediately",
       "allowDefinitions": true,
@@ -554,7 +578,8 @@
         "uncertainSimilarity": 0.72,
         "maxHighEditDistance": 1
       },
-      "graded": true
+      "graded": false,
+      "classTimes": {}
     }
   ]
 }

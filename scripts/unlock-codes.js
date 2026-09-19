@@ -29,12 +29,26 @@ export function makeUnlockRequest(attemptId, violationCount) {
   return lettersFromNumber(fnv1a(`${attemptId}|${violationCount}|request`), 5);
 }
 
+export function makeLeaveRequest(attemptId) {
+  return lettersFromNumber(fnv1a(`${attemptId}|leave|request`), 5);
+}
+
 export function makeUnlockCode(requestCode) {
   const request = normalizeFiveLetters(requestCode);
   if (request.length !== 5) return '';
   return lettersFromNumber(fnv1a(`${APP_CONFIG.classUnlockKey}|${request}|unlock`), 5);
 }
 
+export function makeLeaveCode(requestCode) {
+  const request = normalizeFiveLetters(requestCode);
+  if (request.length !== 5) return '';
+  return lettersFromNumber(fnv1a(`${APP_CONFIG.classUnlockKey}|${request}|leave`), 5);
+}
+
 export function verifyUnlockCode(requestCode, responseCode) {
   return normalizeFiveLetters(responseCode) === makeUnlockCode(requestCode);
+}
+
+export function verifyLeaveCode(requestCode, responseCode) {
+  return normalizeFiveLetters(responseCode) === makeLeaveCode(requestCode);
 }

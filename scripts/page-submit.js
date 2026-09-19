@@ -1,17 +1,17 @@
 import { APP_CONFIG } from './config.js';
-import { loadAppData, buildCanonicalQuestions, getPrompt, getDirectionLabel } from './data.js';
+import { loadAppData, buildCanonicalQuestions, getPrompt, getDirectionLabel, getClass, getPupil } from './data.js';
 import { gradeAttempt, gradeAnswer, acceptedAnswers } from './grading.js';
 import { storage } from './storage.js';
 import { decodeCheckedPayload, receiptFromToken, verifySignedToken } from './cryptography.js';
 import { $, setStatus } from './utilities.js';
 
-const state = { data: null, pupil: null, attempt: null, test: null, canonical: [], practice: null };
+const state = { data: null, classRecord: null, pupil: null, attempt: null, test: null, canonical: [], practice: null };
 
-function latestSubmittedAttempt(pupilId) {
+function latestSubmittedAttempt(classId, pupilId, legacyClassId) {
   const active = storage.getActiveAttempt();
-  if (active?.submitted && active.pupilId === pupilId) return active;
+  if (active?.submitted && active.pupilId === pupilId && (active.classId === classId || (!active.classId && classId === legacyClassId))) return active;
   return Object.values(storage.getCompletedAttempts())
-    .filter(a => a?.submitted && a.pupilId === pupilId)
+    .filter(a => a?.submitted && a.pupilId === pupilId && (a.classId === classId || (!a.classId && classId === legacyClassId)))
     .sort((a, b) => (b.finishTime || 0) - (a.finishTime || 0))[0] || null;
 }
 
@@ -51,11 +51,12 @@ async function copySubmissionUrl() {
 async function verifyOwnSubmissionLink() {
   try {
     const url = new URL($('#submission-url').value);
-    const params = new URLSearchParams(url.hash.slice(1));
-    const token = params.get('s');
+    const rawHash = url.hash.slice(1);
+    const params = new URLSearchParams(rawHash);
+    const token = params.get('s') || (rawHash && !rawHash.includes('=') ? decodeURIComponent(rawHash) : '');
     if (!token) throw new Error('The link has no submission data.');
     const payload = await decodeCheckedPayload(token);
-    if (payload.p !== state.pupil.id || payload.t !== state.test.id || !payload.f) throw new Error('The link does not match this pupil and test.');
+    if (payload.p !== state.pupil.id || payload.t !== state.test.id || (payload.cl && payload.cl !== state.classRecord.id) || !payload.f) throw new Error('The link does not match this pupil and test.');
     setStatus($('#copy-status'), `Verified. Receipt ${await receiptFromToken(token)} matches this submitted attempt.`, 'success');
   } catch (error) {
     setStatus($('#copy-status'), `Could not verify the link: ${error.message}`, 'error');
@@ -220,22 +221,23 @@ async function init() {
     state.data = await loadAppData();
     bindEvents();
     const identity = storage.getPupilIdentity();
-    state.pupil = identity ? state.data.pupilById.get(identity.id) : null;
-    if (!state.pupil?.active) {
+    state.classRecord = identity ? getClass(state.data, identity.classId) : null;
+    state.pupil = identity ? getPupil(state.data, state.classRecord?.id, identity.id) : null;
+    if (!state.classRecord?.active || !state.pupil?.active) {
       $('#no-submission').hidden = false;
-      $('#no-submission h1').textContent = 'Register your pupil name first';
-      $('#no-submission .lead').textContent = 'Go back to the test page and choose your name before using the submission page.';
+      $('#no-submission h1').textContent = 'Register your class and pupil name first';
+      $('#no-submission .lead').textContent = 'Go back to the test page and choose your class and name before using the submission page.';
       return;
     }
-    $('#current-pupil').textContent = state.pupil.name;
-    state.attempt = latestSubmittedAttempt(state.pupil.id);
+    $('#current-pupil').textContent = `${state.classRecord.label} · ${state.pupil.name}`;
+    state.attempt = latestSubmittedAttempt(state.classRecord.id, state.pupil.id, state.data.roster.classes[0]?.id);
     if (!state.attempt) {
       $('#no-submission').hidden = false;
       return;
     }
     state.test = state.data.testById.get(state.attempt.testId);
     if (!state.test) throw new Error('The test configuration for the last submitted attempt no longer exists.');
-    state.canonical = buildCanonicalQuestions(state.data, state.test);
+    state.canonical = buildCanonicalQuestions(state.data, state.test, { attemptSeed: state.attempt.attemptSeed ?? null });
     renderSubmission();
   } catch (error) {
     document.body.innerHTML = `<main class="fatal"><h1>Could not open the submission page</h1><p>${error.message}</p></main>`;

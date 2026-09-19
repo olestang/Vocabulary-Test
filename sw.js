@@ -1,9 +1,9 @@
-const CACHE = 'vg1-vocab-static-v12';
+const CACHE = 'vg1-vocab-static-v18';
 const ASSETS = [
   './', './index.html', './become-teacher/', './become-teacher/index.html', './submit/', './submit/index.html', './teacher/', './teacher/index.html', './results/', './results/index.html', './history/', './history/index.html', './diagnostics/', './diagnostics/index.html',
   './styles/main.css', './assets/logo.svg',
   './config/class-roster.json', './config/vocabulary.json', './config/tests.json', './config/public-security.js',
-  './scripts/config.js', './scripts/header.js', './scripts/submission-router.js', './scripts/unlock-codes.js', './scripts/page-become-teacher.js', './scripts/utilities.js', './scripts/data.js', './scripts/grading.js', './scripts/cryptography.js', './scripts/storage.js',
+  './scripts/config.js', './scripts/header.js', './scripts/submission-router.js', './scripts/unlock-codes.js', './scripts/access-codes.js', './scripts/page-become-teacher.js', './scripts/utilities.js', './scripts/data.js', './scripts/grading.js', './scripts/cryptography.js', './scripts/storage.js',
   './scripts/page-test.js', './scripts/page-submit.js', './scripts/page-teacher.js', './scripts/page-results.js', './scripts/page-history.js', './scripts/page-diagnostics.js', './scripts/register-service-worker.js'
 ];
 

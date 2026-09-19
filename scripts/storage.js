@@ -15,6 +15,10 @@ function write(suffix, value) {
   localStorage.setItem(key(suffix), JSON.stringify(value));
 }
 
+function completedLockKey(classId, pupilId, testId) {
+  return `${classId || 'default'}|${pupilId}|${testId}`;
+}
+
 export const storage = {
   getPupilIdentity() { return read('pupilIdentity'); },
   setPupilIdentity(value) { write('pupilIdentity', value); },
@@ -35,7 +39,8 @@ export const storage = {
     write('completedAttempts', all);
     if (attempt?.submitted && attempt?.pupilId != null) {
       const locks = read('completedTestLocks', {});
-      locks[`${attempt.pupilId}|${testId}`] = {
+      locks[completedLockKey(attempt.classId, attempt.pupilId, testId)] = {
+        classId: attempt.classId || null,
         pupilId: attempt.pupilId,
         testId,
         attemptId: attempt.attemptId || null,
@@ -47,15 +52,18 @@ export const storage = {
   getCompletedAttempt(testId) { return read('completedAttempts', {})[testId] || null; },
   clearCompletedAttempts() { localStorage.removeItem(key('completedAttempts')); },
 
-  hasCompletedTest(pupilId, testId) {
-    const lockKey = `${pupilId}|${testId}`;
+  hasCompletedTest(classId, pupilId, testId, legacyClassId = classId) {
     const locks = read('completedTestLocks', {});
+    const lockKey = completedLockKey(classId, pupilId, testId);
     if (locks[lockKey]) return true;
+    // Backward compatibility with the old single-class lock key.
+    if ((!legacyClassId || String(classId) === String(legacyClassId)) && locks[`${pupilId}|${testId}`]) return true;
 
-    // Backward compatibility: older versions only stored completedAttempts.
     const attempt = read('completedAttempts', {})[testId];
-    if (attempt?.submitted && String(attempt.pupilId) === String(pupilId)) {
+    const legacyAttemptMatchesClass = !attempt?.classId && (!legacyClassId || String(classId) === String(legacyClassId));
+    if (attempt?.submitted && String(attempt.pupilId) === String(pupilId) && (legacyAttemptMatchesClass || !classId || String(attempt.classId) === String(classId))) {
       locks[lockKey] = {
+        classId: classId || attempt.classId || null,
         pupilId: attempt.pupilId,
         testId,
         attemptId: attempt.attemptId || null,
@@ -66,14 +74,17 @@ export const storage = {
     }
     return false;
   },
-  preserveCompletedTestsForPupil(pupilId) {
+  preserveCompletedTestsForPupil(classId, pupilId, legacyClassId = classId) {
     const locks = read('completedTestLocks', {});
     let changed = false;
     for (const [testId, attempt] of Object.entries(read('completedAttempts', {}))) {
       if (!attempt?.submitted || String(attempt.pupilId) !== String(pupilId)) continue;
-      const lockKey = `${pupilId}|${testId}`;
+      if (attempt.classId && classId && String(attempt.classId) !== String(classId)) continue;
+      if (!attempt.classId && legacyClassId && String(classId) !== String(legacyClassId)) continue;
+      const lockKey = completedLockKey(classId || attempt.classId, pupilId, testId);
       if (!locks[lockKey]) {
         locks[lockKey] = {
+          classId: classId || attempt.classId || null,
           pupilId: attempt.pupilId,
           testId,
           attemptId: attempt.attemptId || null,
@@ -89,7 +100,11 @@ export const storage = {
   clearPupilHistory() { localStorage.removeItem(key('pupilHistory')); },
   savePupilHistoryRecord(record) {
     const items = read('pupilHistory', []);
-    const without = items.filter(item => !(item.testId === record.testId && item.pupilId === record.pupilId));
+    const without = items.filter(item => !(
+      item.testId === record.testId &&
+      item.pupilId === record.pupilId &&
+      String(item.classId || '') === String(record.classId || '')
+    ));
     without.push(record);
     without.sort((a, b) => (b.correctedAt || 0) - (a.correctedAt || 0));
     write('pupilHistory', without);
@@ -100,10 +115,13 @@ export const storage = {
   savePracticeMastery(value) { write('practiceMastery', value); },
 
   getTeacherData() {
-    return read('teacherData', { version: 1, submissions: {}, corrections: {} });
+    return read('teacherData', { version: 2, submissions: {}, corrections: {} });
   },
   saveTeacherData(value) { write('teacherData', value); },
   clearTeacherData() { localStorage.removeItem(key('teacherData')); },
+
+  getTeacherActiveClassId() { return localStorage.getItem(key('teacherActiveClassId')) || ''; },
+  setTeacherActiveClassId(value) { localStorage.setItem(key('teacherActiveClassId'), String(value || '')); },
 
   getTeacherAccessToken() { return localStorage.getItem(key('teacherAccessToken')) || ''; },
   setTeacherAccessToken(token) { localStorage.setItem(key('teacherAccessToken'), token); },

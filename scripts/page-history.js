@@ -1,14 +1,19 @@
-import { loadAppData, buildCanonicalQuestions, getPrompt, isGradedTest } from './data.js';
+import { loadAppData, buildCanonicalQuestions, getPrompt, isGradedTest, getClass, getPupil } from './data.js';
 import { acceptedAnswers } from './grading.js';
 import { storage } from './storage.js';
 import { $, formatDateTime, downloadText, setStatus } from './utilities.js';
 
-const state = { data: null, pupil: null, history: [], filter: 'graded' };
+const state = { data: null, classRecord: null, pupil: null, history: [], filter: 'graded' };
+
+function recordMatchesCurrentClass(record) {
+  if (record.classId) return record.classId === state.classRecord.id;
+  return state.classRecord.id === state.data.roster.classes[0]?.id;
+}
 
 function renderDetails(record) {
   const test = state.data.testById.get(record.testId);
   if (!test) return;
-  const canonical = buildCanonicalQuestions(state.data, test);
+  const canonical = buildCanonicalQuestions(state.data, test, { attemptSeed: record.attemptSeed ?? null });
   $('#history-detail-title').textContent = `${test.label} — ${record.score}/${record.total}`;
   const list = $('#history-detail-list');
   list.replaceChildren();
@@ -53,25 +58,26 @@ function renderHistory() {
 
 
 function exportHistory() {
-  const payload = { v: 1, pupilId: state.pupil.id, exportedAt: Date.now(), history: state.history };
+  const payload = { v: 2, classId: state.classRecord.id, pupilId: state.pupil.id, exportedAt: Date.now(), history: state.history };
   downloadText(`vocabulary-history-pupil-${state.pupil.id}.json`, JSON.stringify(payload, null, 2));
 }
 
 async function importHistory(file) {
   try {
     const parsed = JSON.parse(await file.text());
-    if (parsed.v !== 1 || parsed.pupilId !== state.pupil.id || !Array.isArray(parsed.history)) {
+    if (![1, 2].includes(parsed.v) || parsed.pupilId !== state.pupil.id || (parsed.classId && parsed.classId !== state.classRecord.id) || !Array.isArray(parsed.history)) {
       throw new Error('This history file does not match the pupil registered on this browser.');
     }
     let imported = 0;
     for (const record of parsed.history) {
-      if (record.pupilId !== state.pupil.id || !state.data.testById.has(record.testId) || !Array.isArray(record.bits)) continue;
+      if (record.pupilId !== state.pupil.id || !recordMatchesCurrentClass(record) || !state.data.testById.has(record.testId) || !Array.isArray(record.bits)) continue;
       const test = state.data.testById.get(record.testId);
-      if (record.bits.length !== buildCanonicalQuestions(state.data, test).length) continue;
+      if (record.bits.length !== buildCanonicalQuestions(state.data, test, { attemptSeed: record.attemptSeed ?? null }).length) continue;
+      record.classId ||= state.classRecord.id;
       storage.savePupilHistoryRecord(record);
       imported += 1;
     }
-    state.history = storage.getPupilHistory().filter(r => r.pupilId === state.pupil.id);
+    state.history = storage.getPupilHistory().filter(r => r.pupilId === state.pupil.id && recordMatchesCurrentClass(r));
     renderHistory();
     setStatus($('#history-status'), `Imported ${imported} valid history record(s).`, 'success');
   } catch (error) {
@@ -82,14 +88,15 @@ async function importHistory(file) {
 async function init() {
   state.data = await loadAppData();
   const saved = storage.getPupilIdentity();
-  state.pupil = saved ? state.data.pupilById.get(saved.id) : null;
-  if (!state.pupil?.active) {
+  state.classRecord = saved ? getClass(state.data, saved.classId) : null;
+  state.pupil = saved ? getPupil(state.data, state.classRecord?.id, saved.id) : null;
+  if (!state.classRecord?.active || !state.pupil?.active) {
     $('#pupil-dashboard-main').hidden = true;
     $('#pupil-dashboard-warning').hidden = false;
     return;
   }
-  $('#pupil-dashboard-name').textContent = state.pupil.name;
-  state.history = storage.getPupilHistory().filter(r => r.pupilId === state.pupil.id);
+  $('#pupil-dashboard-name').textContent = `${state.classRecord.label} · ${state.pupil.name}`;
+  state.history = storage.getPupilHistory().filter(r => r.pupilId === state.pupil.id && recordMatchesCurrentClass(r));
   renderHistory();
   $('#filter-graded')?.addEventListener('click', () => { state.filter = 'graded'; $('#filter-graded').classList.remove('btn-secondary'); $('#filter-all').classList.add('btn-secondary'); renderHistory(); });
   $('#filter-all')?.addEventListener('click', () => { state.filter = 'all'; $('#filter-all').classList.remove('btn-secondary'); $('#filter-graded').classList.add('btn-secondary'); renderHistory(); });

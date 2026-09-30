@@ -291,20 +291,25 @@
       ],
       "definition": "a change in the body or mind that may show illness or injury"
     },
-    {
+   {
       "id": 21,
-      "en": "illness",
-      "no": "sykdom",
+      "en": "loss of appetite",
+      "no": "nedsatt matlyst / appetittløshet",
       "synonymsEn": [
-        "disease",
-        "sickness"
+        "reduced appetite",
+        "decreased appetite",
+        "poor appetite",
+        "lack of appetite"
       ],
       "synonymsNo": [
-        "sykdommen",
-        "lidelse"
+        "nedsatt matlyst",
+        "dårlig matlyst",
+        "manglende matlyst",
+        "appetittløshet",
+        "nedsatt appetitt",
+        "manglende appetitt"
       ],
-      "definition": "a condition that makes a person unwell",
-      "showOnlyEnglish": false
+      "definition": "having less desire to eat than usual"
     },
     {
       "id": 22,
@@ -795,18 +800,22 @@
     },
     {
       "id": 51,
-      "en": "allergy",
-      "no": "allergi",
+      "en": "pressure sore",
+      "no": "trykksår",
       "synonymsEn": [
-        "allergies",
-        "an allergy"
+        "pressure ulcer",
+        "pressure injury",
+        "bed sore",
+        "bedsore",
+        "decubitus ulcer"
       ],
       "synonymsNo": [
-        "allergien",
-        "allergier"
+        "trykksåret",
+        "liggesår",
+        "liggesåret",
+        "trykkskade"
       ],
-      "definition": "an immune reaction to a substance that is usually harmless",
-      "showOnlyEnglish": false
+      "definition": "an area of damaged skin and tissue caused by prolonged pressure on the body"
     },
     {
       "id": 52,
@@ -906,17 +915,20 @@
     },
     {
       "id": 59,
-      "en": "depression",
-      "no": "depresjon",
+      "en": "dislocation",
+      "no": "ute av ledd",
       "synonymsEn": [
-        "depressive illness"
+        "joint dislocation",
+        "dislocated joint",
+        "a dislocation"
       ],
       "synonymsNo": [
-        "depresjonen",
-        "nedstemthet"
+        "ledd ute av stilling",
+        "luksasjon",
+        "luksasjonen",
+        "ute av ledd"
       ],
-      "definition": "a mental health condition involving persistent low mood and loss of interest",
-      "showOnlyEnglish": false
+      "definition": "an injury in which the bones in a joint are forced out of their normal position"
     },
     {
       "id": 60,

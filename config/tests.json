@@ -24,6 +24,43 @@
       "graded": false,
       "classTimes": {}
     },
+    
+    {
+      "id": "glossary-test-1-week-42",
+      "code": "GLOSE142",
+      "label": "Gloseprøve 1 – uke 42",
+      "active": true,
+      "questionCount": 40,
+      "seed": "gloseproeve1week42",
+      "configVersion": "2026-09-30a",
+      "requireFullscreen": true,
+      "focusPolicy": "lockImmediately",
+      "allowDefinitions": false,
+      "practiceTestId": null,
+      "vocabularyIds": [],
+      "grading": {
+        "highSimilarity": 0.9,
+        "uncertainSimilarity": 0.72,
+        "maxHighEditDistance": 1
+      },
+      "graded": true,
+      "classTimes": {
+        "HS1B": {
+          "openingTime": "2026-10-16T09:30:00+02:00",
+          "countAsRetakeAfter": "2026-10-16T10:30:00+02:00",
+          "closingTime": null
+        }
+      },
+      "openingTime": "2026-10-16T09:30:00+02:00",
+      "countAsRetakeAfter": "2026-10-16T10:30:00+02:00",
+      "closingTime": null,
+      "merge_test": [
+        "symptoms-common-illness",
+        "injuries-health-conditions"
+      ],
+      "merge_amount": 40
+    },
+
     {
       "id": "test",
       "code": "TEST",

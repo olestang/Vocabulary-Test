@@ -91,6 +91,15 @@
 
       <div data-dashboard-view="unlock" hidden>
         <section class="card narrow">
+          <p class="eyebrow">Before the test has started</p>
+          <h2>End pre-test sessions</h2>
+          <p class="lead">Use this when pupils have clicked <strong>Start my session</strong> but have not yet clicked <strong>Start test</strong>. One code can be given to the whole class.</p>
+          <div class="callout callout-warning"><strong>This code does not work inside an active test.</strong> Active tests still require the normal pupil-specific unlock or leave code below.</div>
+          <div class="form-row"><label for="pretest-exit-output">Current pre-test exit code</label><input id="pretest-exit-output" class="unlock-code-input" readonly placeholder="-----"></div>
+          <div class="actions"><button id="pretest-exit-generate" class="btn" type="button">Create pre-test exit code</button></div>
+          <p id="pretest-exit-status" class="status" hidden></p>
+        </section>
+        <section class="card narrow">
           <p class="eyebrow">Paused / locked test</p>
           <h2>Unlock a pupil</h2>
           <p class="lead">Use this only for the red paused-test screen. Enter its five-letter <strong>unlock request</strong> and give the pupil the response code.</p>
@@ -176,6 +185,7 @@
 </main>
 <footer class="footer">Teacher data stays in this browser unless exported.</footer>
 <script type="module" src="../scripts/page-teacher.js"></script>
+<script type="module" src="../scripts/page-pretest-exit-teacher.js"></script>
 <script type="module" src="../scripts/header.js"></script>
 <script type="module" src="../scripts/register-service-worker.js"></script>
 </body>

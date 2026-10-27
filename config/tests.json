@@ -46,19 +46,19 @@
       "graded": true,
       "classTimes": {
         "HS1B": {
-          "openingTime": "2026-10-16T09:30:00+02:00",
-          "countAsRetakeAfter": "2026-10-16T10:30:00+02:00",
+          "openingTime": "2026-10-30T09:55:00+01:00",
+          "countAsRetakeAfter": "2026-10-30T10:20:00+01:00",
           "closingTime": null
         }
       },
-      "openingTime": "2026-10-16T09:30:00+02:00",
-      "countAsRetakeAfter": "2026-10-16T10:30:00+02:00",
+      "openingTime": "2026-10-30T09:55:00+01:00",
+      "countAsRetakeAfter": "2026-10-30T10:20:00+01:00",
       "closingTime": null,
       "merge_test": [
         "symptoms-common-illness",
         "injuries-health-conditions"
       ],
-      "merge_amount": 30
+      "merge_amount": 25
     },
 
     {

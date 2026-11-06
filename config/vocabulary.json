@@ -3349,5 +3349,370 @@
       "definition": "damage to skin and underlying tissue caused by prolonged pressure or pressure combined with friction",
       "showOnlyEnglish": false
     }
+    ,
+    {
+      "id": 240,
+      "en": "worried",
+      "no": "bekymret",
+      "synonymsEn": ["anxious", "concerned", "uneasy", "feeling worried", "feeling concerned", "feeling anxious"],
+      "synonymsNo": ["urolig", "engstelig", "å være bekymret", "føle seg bekymret", "bekymra"],
+      "definition": "feeling nervous or concerned because something bad might happen",
+      "showOnlyEnglish": false
+    },
+    {
+      "id": 241,
+      "en": "disappointed",
+      "no": "skuffet",
+      "synonymsEn": ["let down", "feeling let down", "feeling disappointed", "disheartened"],
+      "synonymsNo": ["skuffa", "føle seg skuffet", "å være skuffet", "nedslått"],
+      "definition": "feeling unhappy because something did not happen as you hoped",
+      "showOnlyEnglish": false
+    },
+    {
+      "id": 242,
+      "en": "shy",
+      "no": "sjenert",
+      "synonymsEn": ["bashful", "timid", "reserved around strangers", "feeling shy"],
+      "synonymsNo": ["blyg", "beskjeden", "tilbakeholden overfor fremmede", "sjenert av seg"],
+      "definition": "feeling nervous or uncomfortable around people you do not know well",
+      "showOnlyEnglish": false
+    },
+    {
+      "id": 243,
+      "en": "embarrassed",
+      "no": "flau",
+      "synonymsEn": ["feeling embarrassed", "self-conscious", "ashamed of an awkward moment", "feeling awkward"],
+      "synonymsNo": ["forlegen", "brydd", "pinlig berørt", "føle seg flau", "føle seg brydd"],
+      "definition": "feeling uncomfortable because you think others may judge or notice you",
+      "showOnlyEnglish": false
+    },
+    {
+      "id": 244,
+      "en": "overwhelmed",
+      "no": "overveldet",
+      "synonymsEn": ["feeling overwhelmed", "overloaded", "emotionally overwhelmed", "having too much to deal with"],
+      "synonymsNo": ["overvelda", "overmannet", "føle seg overveldet", "helt overveldet", "få for mye på en gang"],
+      "definition": "feeling unable to manage because there is too much happening at once",
+      "showOnlyEnglish": false
+    },
+    {
+      "id": 245,
+      "en": "upset",
+      "no": "opprørt",
+      "synonymsEn": ["distressed", "very upset", "emotionally upset", "feeling distressed", "feeling upset"],
+      "synonymsNo": ["lei seg", "fortvilet", "opprørt og lei seg", "ute av seg", "føle seg opprørt"],
+      "definition": "feeling unhappy, distressed or emotionally disturbed by something",
+      "showOnlyEnglish": false
+    },
+    {
+      "id": 246,
+      "en": "insecure",
+      "no": "usikker",
+      "synonymsEn": ["unsure of oneself", "lacking confidence", "self-doubting", "feeling insecure", "not confident"],
+      "synonymsNo": ["utrygg", "lite selvsikker", "føle seg usikker", "mangle selvtillit", "usikker på seg selv"],
+      "definition": "not feeling confident, safe or certain about yourself or your situation",
+      "showOnlyEnglish": false
+    },
+    {
+      "id": 247,
+      "en": "restless",
+      "no": "rastløs",
+      "synonymsEn": ["fidgety", "unable to sit still", "feeling restless", "agitated", "unable to settle"],
+      "synonymsNo": ["urolig", "full av uro", "klarer ikke sitte stille", "rastlaus", "rastløs og urolig"],
+      "definition": "having trouble staying still or feeling calm",
+      "showOnlyEnglish": false
+    },
+    {
+      "id": 248,
+      "en": "reluctant",
+      "no": "motvillig",
+      "synonymsEn": ["unwilling", "hesitant", "not willing", "feeling reluctant", "unenthusiastic about doing something"],
+      "synonymsNo": ["uvillig", "nølende", "lite villig", "motvillig til å gjøre noe", "vegrende"],
+      "definition": "not wanting to do something or being slow to agree to it",
+      "showOnlyEnglish": false
+    },
+    {
+      "id": 249,
+      "en": "withdrawn",
+      "no": "tilbaketrukket",
+      "synonymsEn": ["socially withdrawn", "distant", "keeping to oneself", "quiet and withdrawn", "isolating oneself"],
+      "synonymsNo": ["innesluttet", "tilbakeholden", "holder seg for seg selv", "sosialt tilbaketrukket", "innadvendt og tilbaketrukket"],
+      "definition": "avoiding social contact or speaking less than usual",
+      "showOnlyEnglish": false
+    },
+    {
+      "id": 250,
+      "en": "left out",
+      "no": "holdt utenfor",
+      "synonymsEn": ["excluded", "feeling excluded", "not included", "left out of the group", "being left out"],
+      "synonymsNo": ["utenfor", "utestengt", "ekskludert", "ikke inkludert", "føler seg utenfor", "å være holdt utenfor"],
+      "definition": "not included in an activity or a social group",
+      "showOnlyEnglish": false
+    },
+    {
+      "id": 251,
+      "en": "to comfort",
+      "no": "å trøste",
+      "synonymsEn": ["comfort", "to console", "console", "to soothe", "soothe", "offer comfort"],
+      "synonymsNo": ["trøste", "gi trøst", "å gi trøst", "berolige en som er lei seg", "trøste noen"],
+      "definition": "to help someone feel better when they are sad or upset",
+      "showOnlyEnglish": false
+    },
+    {
+      "id": 252,
+      "en": "to reassure",
+      "no": "å berolige",
+      "synonymsEn": ["reassure", "to put someone at ease", "put someone at ease", "to ease someone’s worries", "ease someone’s worries"],
+      "synonymsNo": ["berolige", "gjøre trygg", "å gjøre noen trygg", "forsikre om at det går bra", "skape trygghet", "trygge noen"],
+      "definition": "to help someone feel less worried by giving support or confidence",
+      "showOnlyEnglish": false
+    },
+    {
+      "id": 253,
+      "en": "to encourage",
+      "no": "å oppmuntre",
+      "synonymsEn": ["encourage", "to motivate", "motivate", "to cheer on", "cheer on", "give encouragement"],
+      "synonymsNo": ["oppmuntre", "heie på", "å heie på", "gi oppmuntring", "motivere"],
+      "definition": "to give someone confidence or support to try or keep going",
+      "showOnlyEnglish": false
+    },
+    {
+      "id": 254,
+      "en": "to praise",
+      "no": "å rose",
+      "synonymsEn": ["praise", "to compliment", "compliment", "to commend", "commend", "give praise", "give positive feedback"],
+      "synonymsNo": ["rose", "gi ros", "å gi ros", "gi skryt", "å skryte av", "anerkjenne en innsats"],
+      "definition": "to say that someone has done something well or made a good effort",
+      "showOnlyEnglish": false
+    },
+    {
+      "id": 255,
+      "en": "to cope",
+      "no": "å mestre",
+      "synonymsEn": ["cope", "to manage", "manage", "to deal with", "deal with", "to handle", "handle", "to get through"],
+      "synonymsNo": ["mestre", "takle", "å takle", "håndtere", "å håndtere", "klare seg", "å klare seg"],
+      "definition": "to manage a difficult situation or strong feeling successfully",
+      "showOnlyEnglish": false
+    },
+    {
+      "id": 256,
+      "en": "to calm down",
+      "no": "å roe seg ned",
+      "synonymsEn": ["calm down", "to settle down", "settle down", "to regain calm", "regain calm", "to cool off", "cool off"],
+      "synonymsNo": ["roe seg ned", "å roe ned", "roe ned", "falle til ro", "å falle til ro", "bli rolig igjen"],
+      "definition": "to become calmer after being upset, worried or excited",
+      "showOnlyEnglish": false
+    },
+    {
+      "id": 257,
+      "en": "to fit in",
+      "no": "å passe inn",
+      "synonymsEn": ["fit in", "to feel accepted", "feel accepted", "to belong in a group", "belong in a group", "to be part of the group"],
+      "synonymsNo": ["passe inn", "finne sin plass", "å finne sin plass", "føle tilhørighet", "å føle seg inkludert", "høre til i gruppa"],
+      "definition": "to feel accepted as part of a group",
+      "showOnlyEnglish": false
+    },
+    {
+      "id": 258,
+      "en": "to take turns",
+      "no": "å vente på tur",
+      "synonymsEn": ["take turns", "to take it in turns", "take it in turns", "take turns with others", "to alternate turns", "alternate turns"],
+      "synonymsNo": ["vente på tur", "bytte på", "å bytte på", "ta hver sin tur", "å ta hver sin tur", "veksle på"],
+      "definition": "to do something one person at a time, so everyone gets a chance",
+      "showOnlyEnglish": false
+    },
+    {
+      "id": 259,
+      "en": "to resolve a conflict",
+      "no": "å løse en konflikt",
+      "synonymsEn": ["resolve a conflict", "to resolve a disagreement", "resolve a disagreement", "to settle a dispute", "settle a dispute", "to solve a conflict", "solve a conflict", "to work out a disagreement"],
+      "synonymsNo": ["løse en konflikt", "løse konflikter", "å løse konflikter", "ordne opp i en konflikt", "å ordne opp i en konflikt", "løse en uenighet", "å løse en uenighet"],
+      "definition": "to help end a disagreement in a fair and peaceful way",
+      "showOnlyEnglish": false
+    },
+    {
+      "id": 260,
+      "en": "guardian",
+      "no": "foresatt",
+      "synonymsEn": ["a guardian", "legal guardian", "parent or guardian", "child’s guardian", "the guardian"],
+      "synonymsNo": ["foresatte", "den foresatte", "verge", "vergen", "forelder eller foresatt", "barnets foresatte"],
+      "definition": "an adult who is legally responsible for a child",
+      "showOnlyEnglish": false
+    },
+    {
+      "id": 261,
+      "en": "drop-off",
+      "no": "levering",
+      "synonymsEn": ["drop off", "dropping off", "child drop-off", "morning drop-off", "school drop-off", "daycare drop-off"],
+      "synonymsNo": ["å levere", "levere barnet", "levering av barn", "morgenlevering", "barnehagelevering", "skolelevering"],
+      "definition": "the time or act of bringing a child to kindergarten or school",
+      "showOnlyEnglish": false
+    },
+    {
+      "id": 262,
+      "en": "pick-up",
+      "no": "henting",
+      "synonymsEn": ["pickup", "pick up", "picking up", "child pick-up", "school pick-up", "daycare pick-up", "collecting a child"],
+      "synonymsNo": ["å hente", "hente barnet", "henting av barn", "skolehenting", "barnehagehenting"],
+      "definition": "the time or act of collecting a child from kindergarten or school",
+      "showOnlyEnglish": false
+    },
+    {
+      "id": 263,
+      "en": "settling-in period",
+      "no": "tilvenningsperiode",
+      "synonymsEn": ["settling in period", "adjustment period", "familiarisation period", "familiarization period", "transition period", "settling-in time"],
+      "synonymsNo": ["tilvenningstid", "tilvenningsfasen", "tilvenning", "oppstartsperiode", "innkjøringsperiode", "periode med tilvenning"],
+      "definition": "a period when a child gets used to a new kindergarten, school or group",
+      "showOnlyEnglish": false
+    },
+    {
+      "id": 264,
+      "en": "to cooperate",
+      "no": "å samarbeide",
+      "synonymsEn": ["cooperate", "to collaborate", "collaborate", "to work together", "work together", "to cooperate with others", "work as a team"],
+      "synonymsNo": ["samarbeide", "jobbe sammen", "å jobbe sammen", "arbeide sammen", "å arbeide sammen", "samarbeide med andre"],
+      "definition": "to work together with others towards a shared goal",
+      "showOnlyEnglish": false
+    },
+    {
+      "id": 265,
+      "en": "well-being",
+      "no": "trivsel",
+      "synonymsEn": ["wellbeing", "well being", "a sense of well-being", "emotional well-being", "feeling well and safe"],
+      "synonymsNo": ["velvære", "god trivsel", "å ha det bra", "det å trives", "trivselen"],
+      "definition": "the state of feeling healthy, safe, comfortable and happy in daily life",
+      "showOnlyEnglish": false
+    },
+    {
+      "id": 266,
+      "en": "behaviour",
+      "no": "atferd",
+      "synonymsEn": ["behavior", "conduct", "a child’s behaviour", "a child’s behavior", "behavioural conduct"],
+      "synonymsNo": ["oppførsel", "adferd", "måte å oppføre seg på", "barnets atferd", "barnets oppførsel"],
+      "definition": "the way a person acts or responds in different situations",
+      "showOnlyEnglish": false
+    },
+    {
+      "id": 267,
+      "en": "development",
+      "no": "utvikling",
+      "synonymsEn": ["child development", "children’s development", "developmental growth", "personal development", "developmental progress"],
+      "synonymsNo": ["utviklingen", "barns utvikling", "barnets utvikling", "modning og utvikling"],
+      "definition": "the process of growing and gaining new abilities over time",
+      "showOnlyEnglish": false
+    },
+    {
+      "id": 268,
+      "en": "progress",
+      "no": "framgang",
+      "synonymsEn": ["improvement", "making progress", "headway", "advancement", "positive progress", "learning progress"],
+      "synonymsNo": ["fremgang", "framskritt", "fremskritt", "positiv utvikling", "forbedring", "framgangen"],
+      "definition": "improvement or movement towards a goal over time",
+      "showOnlyEnglish": false
+    },
+    {
+      "id": 269,
+      "en": "learning difficulties",
+      "no": "lærevansker",
+      "synonymsEn": ["learning challenges", "difficulties with learning", "learning problems", "difficulty learning", "learning difficulties at school"],
+      "synonymsNo": ["læringsvansker", "læringsutfordringer", "vansker med å lære", "utfordringer med læring", "lærevanskene"],
+      "definition": "problems that make certain kinds of learning harder than usual",
+      "showOnlyEnglish": false
+    },
+    {
+      "id": 270,
+      "en": "additional support",
+      "no": "ekstra støtte",
+      "synonymsEn": ["extra support", "additional help", "extra help", "further support", "added assistance", "additional assistance"],
+      "synonymsNo": ["ekstra hjelp", "mer støtte", "økt støtte", "tilleggsstøtte", "ytterligere støtte", "ekstra bistand"],
+      "definition": "help provided beyond what is normally offered",
+      "showOnlyEnglish": false
+    },
+    {
+      "id": 271,
+      "en": "concern",
+      "no": "bekymring",
+      "synonymsEn": ["a concern", "worry", "a worry", "cause for concern", "something to worry about", "an area of concern"],
+      "synonymsNo": ["bekymringen", "uro", "grunn til bekymring", "noe man er bekymret for", "bekymringer"],
+      "definition": "a feeling or reason to think that something may be wrong",
+      "showOnlyEnglish": false
+    },
+    {
+      "id": 272,
+      "en": "feedback",
+      "no": "tilbakemelding",
+      "synonymsEn": ["comments", "constructive feedback", "verbal feedback", "written feedback", "response to someone’s work"],
+      "synonymsNo": ["tilbakemeldinger", "respons", "kommentarer til arbeidet", "konstruktiv tilbakemelding", "respons på arbeidet"],
+      "definition": "information given to someone about what went well or could improve",
+      "showOnlyEnglish": false
+    },
+    {
+      "id": 273,
+      "en": "follow-up",
+      "no": "oppfølging",
+      "synonymsEn": ["follow up", "further follow-up", "ongoing follow-up", "a follow-up", "follow-up action", "subsequent check-in"],
+      "synonymsNo": ["videre oppfølging", "oppfølgning", "oppfølgingen", "å følge opp", "følge opp", "oppfølgingstiltak"],
+      "definition": "checking what happens later and taking further action when needed",
+      "showOnlyEnglish": false
+    },
+    {
+      "id": 274,
+      "en": "parent-teacher meeting",
+      "no": "foreldresamtale",
+      "synonymsEn": ["parent teacher meeting", "parent–teacher meeting", "parent-teacher conference", "parent teacher conference", "parents’ conference", "meeting with parents or guardians"],
+      "synonymsNo": ["utviklingssamtale", "samtale med foresatte", "foreldrekonferanse", "møte med foresatte", "samtale mellom skole og foresatte"],
+      "definition": "a scheduled conversation between school staff and a pupil’s parent or guardian",
+      "showOnlyEnglish": false
+    },
+    {
+      "id": 275,
+      "en": "to raise a concern",
+      "no": "å ta opp en bekymring",
+      "synonymsEn": ["raise a concern", "to express concern", "express concern", "to voice a concern", "voice a concern", "to bring up a concern", "bring up a concern", "to share a concern"],
+      "synonymsNo": ["ta opp en bekymring", "uttrykke bekymring", "å uttrykke bekymring", "melde fra om en bekymring", "si fra om noe som bekymrer", "ta opp noe man er bekymret for"],
+      "definition": "to tell someone that you are worried about a possible problem",
+      "showOnlyEnglish": false
+    },
+    {
+      "id": 276,
+      "en": "to set boundaries",
+      "no": "å sette grenser",
+      "synonymsEn": ["set boundaries", "to set limits", "set limits", "to establish boundaries", "establish boundaries", "to establish limits", "establish limits", "to lay down ground rules"],
+      "synonymsNo": ["sette grenser", "sette tydelige grenser", "å sette tydelige grenser", "trekke grenser", "fastsette grenser", "markere grenser"],
+      "definition": "to make clear what behaviour is and is not acceptable",
+      "showOnlyEnglish": false
+    },
+    {
+      "id": 277,
+      "en": "to notice",
+      "no": "å legge merke til",
+      "synonymsEn": ["notice", "to spot", "spot", "to become aware of", "become aware of", "to pick up on", "pick up on", "to observe a change"],
+      "synonymsNo": ["legge merke til", "oppdage", "å oppdage", "få øye på", "registrere", "observere en endring"],
+      "definition": "to become aware of something by seeing, hearing or sensing it",
+      "showOnlyEnglish": false
+    },
+    {
+      "id": 278,
+      "en": "to accommodate",
+      "no": "å legge til rette for",
+      "synonymsEn": ["accommodate", "to make allowances for", "make allowances for", "to meet someone’s needs", "meet someone’s needs", "to make adjustments for", "make adjustments for", "to provide suitable arrangements"],
+      "synonymsNo": ["legge til rette for", "tilrettelegge", "å tilrettelegge", "imøtekomme behov", "å imøtekomme behov", "ta hensyn til behov", "tilpasse forholdene"],
+      "definition": "to make suitable changes so that someone’s needs can be met",
+      "showOnlyEnglish": false
+    },
+    {
+      "id": 279,
+      "en": "to supervise",
+      "no": "å føre tilsyn med",
+      "synonymsEn": ["supervise", "to oversee", "oversee", "to watch over", "watch over", "to keep an eye on", "keep an eye on", "to monitor children", "monitor children"],
+      "synonymsNo": ["føre tilsyn med", "ha tilsyn med", "å ha tilsyn med", "passe på", "å passe på", "holde oppsyn med", "å holde oppsyn med"],
+      "definition": "to watch over people or activities to make sure they are safe and properly managed",
+      "showOnlyEnglish": false
+    }
+
+
+
+
   ]
 }

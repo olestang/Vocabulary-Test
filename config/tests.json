@@ -185,6 +185,87 @@
       },
       "graded": false,
       "classTimes": {}
+    },
+    {
+      "id": "emotions-social-support-week-47",
+      "code": "EMOTW47A",
+      "label": "Emotions, Behaviour and Social Skills",
+      "active": true,
+      "questionCount": 20,
+      "seed": "vg1-2026w47-emotions",
+      "configVersion": "2026-11-06a",
+      "requireFullscreen": true,
+      "focusPolicy": "lockImmediately",
+      "allowDefinitions": true,
+      "practiceTestId": "childcare-parent-dialogue-week-47",
+      "vocabularyIds": [
+        240, 241, 242, 243, 244,
+        245, 246, 247, 248, 249,
+        250, 251, 252, 253, 254,
+        255, 256, 257, 258, 259
+      ],
+      "grading": {
+        "highSimilarity": 0.9,
+        "uncertainSimilarity": 0.72,
+        "maxHighEditDistance": 1
+      },
+      "graded": false,
+      "classTimes": {}
+    },
+    {
+      "id": "childcare-parent-dialogue-week-47",
+      "code": "CHLDW47A",
+      "label": "Childcare, Development and Parent Communication",
+      "active": true,
+      "questionCount": 20,
+      "seed": "vg1-2026w47-childcare",
+      "configVersion": "2026-11-06a",
+      "requireFullscreen": true,
+      "focusPolicy": "lockImmediately",
+      "allowDefinitions": true,
+      "practiceTestId": null,
+      "vocabularyIds": [
+        260, 261, 262, 263, 264,
+        265, 266, 267, 268, 269,
+        270, 271, 272, 273, 274,
+        275, 276, 277, 278, 279
+      ],
+      "grading": {
+        "highSimilarity": 0.9,
+        "uncertainSimilarity": 0.72,
+        "maxHighEditDistance": 1
+      },
+      "graded": false,
+      "classTimes": {}
+    },
+    {
+      "id": "glossary-test-week-47-2026",
+      "code": "GLOSEW47",
+      "label": "Gloseprøve – uke 47",
+      "active": true,
+      "questionCount": 40,
+      "seed": "vg1-2026w47-glossary",
+      "configVersion": "2026-11-06a",
+      "requireFullscreen": true,
+      "focusPolicy": "lockImmediately",
+      "allowDefinitions": false,
+      "practiceTestId": null,
+      "vocabularyIds": [],
+      "grading": {
+        "highSimilarity": 0.9,
+        "uncertainSimilarity": 0.72,
+        "maxHighEditDistance": 1
+      },
+      "graded": true,
+      "classTimes": {},
+      "merge_test": [
+        "emotions-social-support-week-47",
+        "childcare-parent-dialogue-week-47"
+      ],
+      "merge_amount": 40
     }
+
+
+
   ]
 }

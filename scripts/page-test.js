@@ -5,6 +5,7 @@ import { gradeAttempt, gradeAnswer, acceptedAnswers } from './grading.js';
 import { storage } from './storage.js';
 import { encodeCheckedPayload, decodeCheckedPayload, receiptFromToken, verifySignedToken } from './cryptography.js';
 import { makeUnlockRequest, makeLeaveRequest, verifyUnlockCode, verifyLeaveCode, normalizeFiveLetters } from './unlock-codes.js';
+import { verifyPreTestExitCode, verifyUniversalUnlockCode } from './pretest-exit-codes.js';
 import {
   $, $$, setHidden, normalizeAnswer, randomId, formatDuration, formatDateTime, setStatus, sha256Hex
 } from './utilities.js';
@@ -21,6 +22,8 @@ const state = {
   entrySession: null,
   monitorActive: false,
   countdownTimer: null,
+  codeRetryTimer: null,
+  codeRetryUntil: 0,
   nextEnabledAt: 0,
   practice: null,
   guardTimer: null,
@@ -118,14 +121,38 @@ async function beginSecureSession() {
 }
 
 function showCodeScreen(message = '') {
+  clearCodeRetry();
+  $('#request-retake').hidden = true;
   showScreen('code');
   $('#current-pupil').textContent = state.pupil ? `${state.classRecord?.label || ''} · ${state.pupil.name}` : '';
   setStatus($('#code-status'), message, message ? 'info' : '');
   $('#test-code').focus();
 }
 
+function clearCodeRetry() {
+  clearInterval(state.codeRetryTimer);
+  state.codeRetryTimer = null;
+  state.codeRetryUntil = 0;
+  $('#code-continue').disabled = false;
+}
+
+function showCompletedCodeNotice(test) {
+  state.codeRetryUntil = Date.now() + 5000;
+  $('#code-continue').disabled = true;
+  $('#request-retake').hidden = false;
+  const updateRetry = () => {
+    const seconds = Math.max(0, Math.ceil((state.codeRetryUntil - Date.now()) / 1000));
+    setStatus($('#code-status'), `${test.label} has already been completed. ${seconds ? `Try another test code in ${seconds} seconds.` : 'Enter another test code, or request teacher permission for another attempt.'}`, 'warning');
+    if (!seconds) clearCodeRetry();
+  };
+  clearInterval(state.codeRetryTimer);
+  updateRetry();
+  state.codeRetryTimer = setInterval(updateRetry, 250);
+}
+
 function showRetakeGate(test) {
   if (!state.entrySession) return;
+  clearCodeRetry();
 
   // This is a teacher-permission waiting screen, not an active test stage.
   // Pupils may need to switch to the teacher's window/device to obtain the code,
@@ -175,6 +202,12 @@ function cancelRetakeGate() {
 async function authorizeRetake() {
   const request = state.entrySession?.retakeRequest;
   const code = normalizeFiveLetters($('#retake-token').value);
+  // Shared codes end this pre-test session; they never grant repeat permission.
+  if (state.entrySession?.stage === 'retake' && !state.attempt &&
+      (verifyPreTestExitCode(code) || verifyUniversalUnlockCode(code))) {
+    cancelRetakeGate();
+    return;
+  }
   if (!request || !verifyUnlockCode(request, code)) {
     setStatus($('#retake-status'), 'That five-letter teacher code is not valid for this request.', 'error');
     return;
@@ -189,7 +222,7 @@ async function authorizeRetake() {
   if (!restored) {
     setStatus(
       $('#retake-status'),
-      'The teacher code is correct, but full-screen could not be restored. Click “Allow another attempt” again and allow full-screen if the browser asks.',
+      'The teacher code is correct, but full-screen could not be restored. Click “Apply teacher code” again and allow full-screen if the browser asks.',
       'error'
     );
     return;
@@ -507,8 +540,8 @@ async function abandonCurrentSession(eventType, message) {
 async function authorizePupilLeave() {
   const attempt = state.attempt;
   const code = normalizeFiveLetters($('#leave-token').value);
-  if (!attempt?.leaveRequest || !verifyLeaveCode(attempt.leaveRequest, code)) {
-    setStatus($('#leave-status'), 'That five-letter code is not a valid leave code for this request. Ask the teacher to use “Approve leaving a test,” not “Unlock a pupil.”', 'error');
+  if (!attempt?.leaveRequest || !(verifyLeaveCode(attempt.leaveRequest, code) || verifyUniversalUnlockCode(code))) {
+    setStatus($('#leave-status'), 'That five-letter code is not valid. Ask the teacher for an “Approve leaving a test” code or a current two-minute unlock code.', 'error');
     return;
   }
   await abandonCurrentSession('teacher-authorized-pupil-leave', 'Your teacher approved leaving the unfinished test. You can start a new session when ready.');
@@ -595,7 +628,7 @@ async function enterProtectedFullscreen() {
 async function unlockAttempt() {
   const record = currentGuardRecord();
   const code = normalizeFiveLetters($('#unlock-token').value);
-  if (!record?.unlockRequest || !verifyUnlockCode(record.unlockRequest, code)) {
+  if (!record?.unlockRequest || !(verifyUnlockCode(record.unlockRequest, code) || verifyUniversalUnlockCode(code))) {
     setStatus($('#unlock-status'), 'That five-letter code is not valid for this request.', 'error');
     return;
   }
@@ -1092,6 +1125,9 @@ function bindEvents() {
   $('#request-session-exit').addEventListener('click', () => addViolation('teacher-exit-request', true));
   $('#code-form').addEventListener('submit', event => {
     event.preventDefault();
+    if (Date.now() < state.codeRetryUntil) return;
+    clearCodeRetry();
+    $('#request-retake').hidden = true;
     const access = findTestByCode(state.data, $('#test-code').value, state.classRecord.id);
     if (!access) {
       setStatus($('#code-status'), 'That five-letter code is not active for this class and time.', 'error');
@@ -1106,12 +1142,15 @@ function bindEvents() {
     const alreadyFinished = storage.hasCompletedTest(state.classRecord.id, state.pupil.id, test.id, state.data.roster.classes[0]?.id);
     const authorizedForRetake = state.entrySession?.retakeAuthorizedTestId === test.id;
     if (alreadyFinished && !authorizedForRetake) {
-      showRetakeGate(test);
+      showCompletedCodeNotice(test);
       return;
     }
 
     if (state.entrySession) { state.entrySession.stage = 'rules'; state.entrySession.testId = test.id; state.entrySession.accessMode = state.accessMode; state.entrySession.accessHour = state.accessHour; persistEntrySession(); }
     configureRules(test);
+  });
+  $('#request-retake').addEventListener('click', () => {
+    if (state.test && state.entrySession?.stage === 'code' && !state.attempt) showRetakeGate(state.test);
   });
   $('#start-test').addEventListener('click', startTest);
   $('#answer-input').addEventListener('input', recordAnswerFromInput);

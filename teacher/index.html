@@ -94,10 +94,20 @@
           <p class="eyebrow">Before the test has started</p>
           <h2>End pre-test sessions</h2>
           <p class="lead">Use this when pupils have clicked <strong>Start my session</strong> but have not yet clicked <strong>Start test</strong>. One code can be given to the whole class.</p>
-          <div class="callout callout-warning"><strong>This code does not work inside an active test.</strong> Active tests still require the normal pupil-specific unlock or leave code below.</div>
+          <p>This also exits the “You have already finished this test” screen without allowing another attempt.</p>
+          <div class="callout callout-warning"><strong>This code does not work inside an active test.</strong> Use a pupil-specific code or the two-minute unlock code below.</div>
           <div class="form-row"><label for="pretest-exit-output">Current pre-test exit code</label><input id="pretest-exit-output" class="unlock-code-input" readonly placeholder="-----"></div>
           <div class="actions"><button id="pretest-exit-generate" class="btn" type="button">Create pre-test exit code</button></div>
           <p id="pretest-exit-status" class="status" hidden></p>
+        </section>
+        <section class="card narrow">
+          <p class="eyebrow">Paused / locked test</p>
+          <h2>Unlock all locked screens — two-minute code</h2>
+          <p class="lead">Give one code to all affected pupils. It resumes paused active tests, ends pre-test and completed-test permission sessions, and approves leaving from the leave-test screen. It never allows another attempt at a completed test.</p>
+          <p>Pupils enter it in the teacher-code field on their screen. The code expires two minutes after creation; teacher and pupil device clocks must agree.</p>
+          <div class="form-row"><label for="universal-unlock-output">Two-minute unlock code</label><input id="universal-unlock-output" class="unlock-code-input" readonly placeholder="-----"></div>
+          <div class="actions"><button id="universal-unlock-generate" class="btn btn-danger" type="button">Create two-minute unlock code</button></div>
+          <p id="universal-unlock-status" class="status" hidden></p>
         </section>
         <section class="card narrow">
           <p class="eyebrow">Paused / locked test</p>
@@ -114,7 +124,7 @@
           <p class="eyebrow">Pupil chose Leave test</p>
           <h2>Approve leaving an active test</h2>
           <p class="lead">Use this only for the separate pupil exit page opened from the top corner during an active test. It creates a different kind of five-letter response from an unlock code.</p>
-          <div class="callout callout-warning"><strong>Do not use this to unlock a paused test.</strong> Leave codes and unlock codes are deliberately purpose-specific, so the wrong type will be rejected.</div>
+          <div class="callout callout-warning"><strong>Do not use this to unlock a paused test.</strong> Pupil-specific leave and unlock codes are purpose-specific. The two-minute code above works on both screens.</div>
           <div class="unlock-tool-grid">
             <div class="form-row"><label for="leave-request-input">Leave request</label><input id="leave-request-input" class="unlock-code-input" maxlength="5" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="ABCDE"></div>
             <div class="form-row"><label for="leave-response-output">Give pupil this leave code</label><input id="leave-response-output" class="unlock-code-input" readonly placeholder="-----"></div>

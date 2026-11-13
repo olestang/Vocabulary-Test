@@ -64,3 +64,24 @@ export function verifyPreTestExitCode(responseCode, value = Date.now()) {
     return response === makePreTestExitCode(candidate);
   });
 }
+
+// Second-level issuance avoids shortening the window at a minute boundary.
+export function makeUniversalUnlockCode(value = Date.now()) {
+  const time = new Date(value).getTime();
+  if (!Number.isFinite(time)) return '';
+  const second = Math.floor(time / 1000);
+  return lettersFromNumber(fnv1a(`${APP_CONFIG.classUnlockKey}|${second}|universal-unlock`), 5);
+}
+
+export function verifyUniversalUnlockCode(responseCode, value = Date.now()) {
+  const response = normalizeFiveLetters(responseCode);
+  const time = new Date(value).getTime();
+  if (response.length !== 5 || !Number.isFinite(time)) return false;
+
+  const second = Math.floor(time / 1000);
+  // Accept only codes issued during the last 120 seconds, never future codes.
+  for (let age = 0; age < 120; age += 1) {
+    if (response === makeUniversalUnlockCode((second - age) * 1000)) return true;
+  }
+  return false;
+}

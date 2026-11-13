@@ -41,7 +41,7 @@
     <form id="code-form">
       <div class="form-row"><label for="test-code">Test code</label><input id="test-code" class="input-large" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="20" required></div>
       <p id="code-status" class="status" hidden></p>
-      <div class="actions"><button class="btn" type="submit">Continue</button><button id="request-session-exit" class="btn btn-link" type="button">I need to stop — ask teacher</button></div>
+      <div class="actions"><button id="code-continue" class="btn" type="submit">Continue</button><button id="request-retake" class="btn btn-secondary" type="button" hidden>Request another attempt</button><button id="request-session-exit" class="btn btn-link" type="button">I need to stop — ask teacher</button></div>
     </form>
   </section>
 
@@ -135,7 +135,7 @@
     <div class="form-row"><label for="leave-token">Five-letter teacher leave code</label><input id="leave-token" class="unlock-code-input" maxlength="5" autocomplete="off" autocapitalize="characters" spellcheck="false"></div>
     <p id="leave-status" class="status" hidden></p>
     <div class="actions"><button id="leave-cancel" class="btn btn-secondary" type="button">Return to test</button><button id="leave-confirm" class="btn btn-danger" type="button">Leave test</button></div>
-    <p class="muted">The teacher must use the “Approve leaving a test” tool. An unlock code for a paused test will not work here.</p>
+    <p class="muted">Ask the teacher for an “Approve leaving a test” code or the two-minute unlock code. A pupil-specific unlock code for a paused test will not work here.</p>
   </div>
 </div>
 
@@ -148,11 +148,11 @@
     <p class="eyebrow">Teacher permission needed</p>
     <h2 id="retake-title">You have already finished this test</h2>
     <p><strong id="retake-test-label"></strong> has already been submitted by this pupil. You cannot start it again unless your teacher allows another attempt.</p>
-    <p>Tell your teacher this five-letter request:</p>
+    <p>To exit without another attempt, enter the teacher's general “End pre-test sessions” code or two-minute unlock code. To repeat the test, tell your teacher this five-letter request:</p>
     <p id="retake-request" class="unlock-big-code"></p>
     <div class="form-row"><label for="retake-token">Five-letter teacher code</label><input id="retake-token" class="unlock-code-input" maxlength="5" autocomplete="off" autocapitalize="characters" spellcheck="false"></div>
     <p id="retake-status" class="status" hidden></p>
-    <div class="actions"><button id="retake-button" class="btn btn-danger" type="button">Allow another attempt</button><button id="retake-back" class="btn btn-secondary" type="button">Back</button></div>
+    <div class="actions"><button id="retake-button" class="btn btn-danger" type="button">Apply teacher code</button><button id="retake-back" class="btn btn-secondary" type="button">Back</button></div>
   </div>
 </div>
 

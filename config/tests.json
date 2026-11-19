@@ -257,7 +257,13 @@
         "maxHighEditDistance": 1
       },
       "graded": true,
-      "classTimes": {},
+      "classTimes": {
+        "HS1B": {
+          "openingTime": "2026-10-30T09:55:00+01:00",
+          "countAsRetakeAfter": "2026-10-30T10:20:00+01:00",
+          "closingTime": null
+        }
+      },
       "merge_test": [
         "emotions-social-support-week-47",
         "childcare-parent-dialogue-week-47"
